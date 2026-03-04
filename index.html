@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>룸핏 마케팅 대시보드 — 기획안 v0.1</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #232733;
+    --border: #2d3140;
+    --text: #e1e4ed;
+    --text2: #8b90a0;
+    --accent: #6c5ce7;
+    --accent2: #a29bfe;
+    --green: #00b894;
+    --yellow: #fdcb6e;
+    --red: #e17055;
+    --blue: #74b9ff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: -apple-system, 'Pretendard', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 60px 0 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+  .hero h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, var(--accent2), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero .meta {
+    color: var(--text2);
+    font-size: 0.9rem;
+  }
+  .hero .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    margin-top: 12px;
+  }
+
+  /* Section */
+  section { margin-bottom: 56px; }
+  section > h2 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+  }
+  section > p, section > ul { margin-bottom: 16px; }
+  ul { padding-left: 20px; }
+  li { margin-bottom: 6px; }
+  li::marker { color: var(--accent2); }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .card h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: var(--accent2);
+  }
+  .card p { font-size: 0.9rem; color: var(--text2); }
+
+  /* Tag */
+  .tag {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 4px;
+    margin-bottom: 4px;
+  }
+  .tag-green { background: rgba(0,184,148,0.15); color: var(--green); }
+  .tag-yellow { background: rgba(253,203,110,0.15); color: var(--yellow); }
+  .tag-red { background: rgba(225,112,85,0.15); color: var(--red); }
+  .tag-blue { background: rgba(116,185,255,0.15); color: var(--blue); }
+  .tag-purple { background: rgba(162,155,254,0.15); color: var(--accent2); }
+
+  /* Mermaid */
+  .mermaid-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+    overflow-x: auto;
+  }
+  .mermaid { display: flex; justify-content: center; }
+  .mermaid svg { max-width: 100%; }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 24px;
+    border-left: 2px solid var(--border);
+    margin: 20px 0;
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 24px;
+    padding-left: 20px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -30px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .timeline-item .date { font-size: 0.8rem; color: var(--accent2); font-weight: 600; }
+  .timeline-item .title { font-weight: 600; margin: 4px 0; }
+  .timeline-item .desc { font-size: 0.88rem; color: var(--text2); }
+
+  /* Table-like */
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+  }
+  .info-table th, .info-table td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .info-table th {
+    color: var(--text2);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+  }
+  .info-table tr:hover td { background: var(--surface2); }
+
+  /* Highlight box */
+  .highlight {
+    background: var(--surface);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .highlight.warn { border-left-color: var(--yellow); }
+  .highlight.ok { border-left-color: var(--green); }
+
+  /* Open questions */
+  .question {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 12px 0;
+    display: flex;
+    gap: 12px;
+  }
+  .question .num {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 1.1rem;
+    min-width: 28px;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--text2);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <h1>🦍 룸핏 마케팅 할 일 현황 대시보드</h1>
+  <p class="meta">기획안 v0.1 · 2026-03-05 · 작성: 황고릴</p>
+  <span class="badge">📋 기획 협의 중</span>
+</div>
+
+<!-- 1. 왜 만드는가 -->
+<section>
+  <h2>1. 왜 만드는가</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3>😵 현재 문제</h3>
+      <p>슬랙 메시지 88개를 처음부터 읽어야 현황 파악. 노션 트래커는 2/13에 멈춤. 누가 뭘 하는지 물어봐야 앎.</p>
+    </div>
+    <div class="card">
+      <h3>🎯 목표 상태</h3>
+      <p>대시보드 한 번 열면 전체 업무 현황 즉시 파악. 우선순위·마감·담당 한눈에. AI가 자동 수집·알림.</p>
+    </div>
+    <div class="card">
+      <h3>👥 사용자</h3>
+      <p><strong>황성우</strong> (총괄/의사결정)<br><strong>형은님</strong> (마케팅 실행)<br><strong>AI</strong> (수집/분석/알림)</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 시스템 구조 -->
+<section>
+  <h2>2. 시스템 구조</h2>
+  <div class="mermaid-wrap">
+    <pre class="mermaid">
+graph LR
+    subgraph 입력["📥 입력 채널"]
+        TG["💬 텔레그램<br/>마케팅 2026 토픽"]
+        SL["💼 슬랙<br/>룸핏마케팅2026"]
+        MAN["✏️ 수동 입력<br/>대시보드 UI"]
+    end
+
+    subgraph 처리["🤖 AI 처리 (고릴)"]
+        DETECT["업무 감지<br/>& 분류"]
+        DB["태스크 DB<br/>(JSON/Supabase)"]
+        ALERT["알림 엔진"]
+    end
+
+    subgraph 출력["📊 출력"]
+        DASH["웹 대시보드<br/>(Cloudflare Pages)"]
+        NOTI["텔레그램 알림<br/>일일 요약 / 마감 임박"]
+    end
+
+    TG --> DETECT
+    SL --> DETECT
+    MAN --> DB
+    DETECT --> DB
+    DB --> DASH
+    DB --> ALERT
+    ALERT --> NOTI
+
+    style 입력 fill:#1a1d27,stroke:#6c5ce7,color:#e1e4ed
+    style 처리 fill:#1a1d27,stroke:#00b894,color:#e1e4ed
+    style 출력 fill:#1a1d27,stroke:#74b9ff,color:#e1e4ed
+    </pre>
+  </div>
+
+  <div class="highlight">
+    <strong>핵심 원칙:</strong> 별도 앱이나 노션 들어갈 필요 없이, 텔레그램에서 자연어로 업무 등록·업데이트. AI가 자동 감지 + 대시보드 반영.
+  </div>
+</section>
+
+<!-- 3. 데이터 파이프라인 -->
+<section>
+  <h2>3. 데이터 파이프라인</h2>
+  <div class="mermaid-wrap">
+    <pre class="mermaid">
+flowchart TB
+    subgraph collect["수집"]
+        A1["슬랙 메시지<br/>(30분 자동 sync)"]
+        A2["텔레그램 메시지<br/>(실시간)"]
+        A3["수동 등록"]
+    end
+
+    subgraph process["처리"]
+        B1["메시지 파싱<br/>백틱 패턴 감지<br/>`블로그 초안` `완료`"]
+        B2["AI 분류<br/>카테고리 · 담당자 · 우선순위"]
+        B3["중복 검사<br/>기존 태스크와 매칭"]
+    end
+
+    subgraph store["저장"]
+        C1["태스크 DB"]
+        C2["히스토리 로그<br/>(상태 변경 이력)"]
+    end
+
+    subgraph output["출력"]
+        D1["대시보드 렌더링"]
+        D2["텔레그램 알림"]
+        D3["주간 리포트 연동"]
+    end
+
+    A1 --> B1
+    A2 --> B1
+    A3 --> C1
+    B1 --> B2
+    B2 --> B3
+    B3 --> C1
+    C1 --> C2
+    C1 --> D1
+    C1 --> D2
+    C1 --> D3
+
+    style collect fill:#1a1d27,stroke:#a29bfe,color:#e1e4ed
+    style process fill:#1a1d27,stroke:#fdcb6e,color:#e1e4ed
+    style store fill:#1a1d27,stroke:#00b894,color:#e1e4ed
+    style output fill:#1a1d27,stroke:#74b9ff,color:#e1e4ed
+    </pre>
+  </div>
+
+  <div class="highlight ok">
+    <strong>💡 형은님·대표님이 바꿀 건 하나도 없습니다.</strong><br/>
+    지금처럼 슬랙/텔레그램에 메시지 쓰시면 됩니다. 백틱(<code>`블로그 초안`</code>)으로 감싸주시면 감지율 100%. 안 감싸셔도 AI가 맥락으로 감지합니다.
+  </div>
+</section>
+
+<!-- 4. 업무 관리 플로우 -->
+<section>
+  <h2>4. 업무 관리 플로우</h2>
+  <div class="mermaid-wrap">
+    <pre class="mermaid">
+stateDiagram-v2
+    [*] --> 등록: 메시지 감지 / 수동 추가
+
+    등록 --> 예정: 시작 전
+    예정 --> 진행중: 착수
+    진행중 --> 피드백대기: 산출물 전달
+    피드백대기 --> 진행중: 수정 요청
+    피드백대기 --> 완료: 승인
+    진행중 --> 완료: 직접 완료
+    진행중 --> 보류: 블로커 발생
+    보류 --> 진행중: 블로커 해소
+
+    완료 --> [*]
+    </pre>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>📝 등록 방식</h3>
+      <p>
+        <span class="tag tag-purple">자동</span> 슬랙/텔레그램 메시지 감지<br>
+        <span class="tag tag-blue">수동</span> 대시보드에서 직접 추가<br>
+        <span class="tag tag-green">명령</span> "고릴아 태스크 추가: OOO"
+      </p>
+    </div>
+    <div class="card">
+      <h3>🔄 상태 업데이트</h3>
+      <p>
+        <span class="tag tag-purple">자동</span> "OOO 완료" 메시지 감지<br>
+        <span class="tag tag-blue">수동</span> 대시보드에서 드래그<br>
+        <span class="tag tag-yellow">확인</span> 주 2회 고릴이 확인 요청
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. 태스크 카드 구조 -->
+<section>
+  <h2>5. 태스크 카드 구조</h2>
+  <div class="mermaid-wrap">
+    <pre class="mermaid">
+classDiagram
+    class Task {
+        +String id
+        +String title
+        +Category category
+        +Priority priority
+        +Status status
+        +String assignee
+        +Date dueDate
+        +Date createdAt
+        +Date updatedAt
+        +String[] relatedLinks
+        +String source
+        +HistoryLog[] history
+    }
+
+    class Category {
+        콘텐츠
+        광고
+        웹_랜딩
+        이벤트
+        전략
+    }
+
+    class Priority {
+        P1_긴급
+        P2_중요
+        P3_일반
+    }
+
+    class Status {
+        예정
+        진행중
+        피드백대기
+        완료
+        보류
+    }
+
+    Task --> Category
+    Task --> Priority
+    Task --> Status
+    </pre>
+  </div>
+
+  <!-- 예시 카드 UI -->
+  <p style="color:var(--text2); margin-bottom:12px;">대시보드에서 이런 식으로 보입니다 (예시):</p>
+  <div class="card-grid">
+    <div class="card" style="border-left: 3px solid var(--red);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span class="tag tag-red">P1 긴급</span>
+        <span style="font-size:0.8rem; color:var(--text2);">D-14</span>
+      </div>
+      <h3 style="color:var(--text);">스포엑스 부스 준비</h3>
+      <p>
+        <span class="tag tag-blue">이벤트</span>
+        <span class="tag tag-green">👤 성우</span>
+      </p>
+      <p style="margin-top:8px;">부스 위치 확정 · 현장 마케팅 기획 필요</p>
+      <p style="font-size:0.78rem; color:var(--text2); margin-top:8px;">🔗 슬랙 2/27 · 최종 업데이트 3/4</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--yellow);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span class="tag tag-yellow">P2 중요</span>
+        <span style="font-size:0.8rem; color:var(--text2);">매주</span>
+      </div>
+      <h3 style="color:var(--text);">3/4 블로그 초안</h3>
+      <p>
+        <span class="tag tag-purple">콘텐츠</span>
+        <span class="tag tag-green">👤 형은</span>
+      </p>
+      <p style="margin-top:8px;">초안 슬랙 전달 · 피드백 대기중</p>
+      <p style="font-size:0.78rem; color:var(--text2); margin-top:8px;">🔗 슬랙 3/4 · 피드백대기</p>
+    </div>
+    <div class="card" style="border-left: 3px solid var(--green);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <span class="tag tag-green">✅ 완료</span>
+        <span style="font-size:0.8rem; color:var(--text2);">3/3</span>
+      </div>
+      <h3 style="color:var(--text);">Meta UTM 설정 수정</h3>
+      <p>
+        <span class="tag tag-blue">광고</span>
+        <span class="tag tag-green">👤 독술</span>
+      </p>
+      <p style="margin-top:8px;">ASC 캠페인 UTM 파라미터 정상화</p>
+      <p style="font-size:0.78rem; color:var(--text2); margin-top:8px;">🔗 노션 리포트 · 완료</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6. 현재 업무 현황 -->
+<section>
+  <h2>6. 현재 마케팅 업무 현황 (3/5 기준)</h2>
+  <table class="info-table">
+    <thead>
+      <tr><th>업무</th><th>카테고리</th><th>담당</th><th>상태</th><th>비고</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Meta 광고 운영 (ASC)</td><td><span class="tag tag-blue">광고</span></td><td>형은</td><td><span class="tag tag-yellow">진행중</span></td><td>주 53만원, 예산 확대중</td></tr>
+      <tr><td>네이버 검색광고</td><td><span class="tag tag-blue">광고</span></td><td>형은</td><td><span class="tag tag-yellow">진행중</span></td><td>브랜드 키워드 상시 운영 검토</td></tr>
+      <tr><td>블로그 정기 발행</td><td><span class="tag tag-purple">콘텐츠</span></td><td>형은</td><td><span class="tag tag-yellow">진행중</span></td><td>주 2회, 3/4 초안 전달</td></tr>
+      <tr><td>인스타/유튜브 숏폼</td><td><span class="tag tag-purple">콘텐츠</span></td><td>형은</td><td><span class="tag tag-yellow">진행중</span></td><td>3/5 업로드 예정</td></tr>
+      <tr><td>스포엑스 부스 준비</td><td><span class="tag tag-red">이벤트</span></td><td>성우</td><td><span class="tag tag-yellow">진행중</span></td><td>부스 위치 확정</td></tr>
+      <tr><td>프리오더 구조 설계</td><td><span class="tag tag-green">전략</span></td><td>성우</td><td><span class="tag tag-yellow">진행중</span></td><td>3/4 착수</td></tr>
+      <tr><td>상품 상세페이지 리뉴얼</td><td><span class="tag tag-blue">웹</span></td><td>성우+AI</td><td><span class="tag tag-yellow">피드백대기</span></td><td>/buy 피드백 요청중</td></tr>
+      <tr><td>카카오 채널 가격 노출</td><td><span class="tag tag-green">전략</span></td><td>성우</td><td><span class="tag tag-yellow">피드백대기</span></td><td>이탈 원인 추정</td></tr>
+      <tr><td>체험 신청 폼 개선</td><td><span class="tag tag-blue">웹</span></td><td>성우</td><td><span class="tag tag-yellow">진행중</span></td><td>유입경로 추가, 날짜 범위</td></tr>
+      <tr><td>형은님 오픈클로 설치</td><td><span class="tag tag-green">전략</span></td><td>성우</td><td><span class="tag tag-yellow">진행중</span></td><td>3/3 착수</td></tr>
+      <tr><td>주간 마케팅 리포트</td><td><span class="tag tag-blue">광고</span></td><td>AI</td><td><span class="tag tag-green">루틴</span></td><td>매주 자동 발행</td></tr>
+      <tr><td>GA4/Meta 데이터 수집</td><td><span class="tag tag-blue">광고</span></td><td>AI</td><td><span class="tag tag-green">루틴</span></td><td>일일 자동</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 7. 진행 타임라인 -->
+<section>
+  <h2>7. 지금까지의 진행 타임라인</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="date">1/21 — 온보딩</div>
+      <div class="title">형은님 합류 · 채널 개설</div>
+      <div class="desc">세부업무범위서 작성, 기존 자료 공유, 1차 미팅</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">2/4 — 기반 세팅</div>
+      <div class="title">리뉴얼 페이지 임베드 · Meta 캠페인 세팅</div>
+      <div class="desc">아임웹 임베드 성공, 블로그 정기 발행 시작, 전환추적 심각한 이슈 발견</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">2/14 — AI 파이프라인</div>
+      <div class="title">퍼포먼스 데이터 자동 수집 구축</div>
+      <div class="desc">GA4/Meta/네이버 일일 수집, 주간 리포트 자동화, 전환이벤트 점검 리포트</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">2/18 — 콘텐츠 분석</div>
+      <div class="title">231개 소재 크리에이티브 스키마 분석</div>
+      <div class="desc">콘텐츠 통계보고서, 상세페이지 개편안, 크리에이티브 빌더 출시</div>
+    </div>
+    <div class="timeline-item">
+      <div class="date">3/1 — 확장</div>
+      <div class="title">광고비 확대 · 프리오더 설계 착수</div>
+      <div class="desc">주 53만원 (46%↑), 스포엑스 준비, 프리오더 구조 설계</div>
+    </div>
+    <div class="timeline-item" style="opacity:0.6;">
+      <div class="date">3/5 — NOW</div>
+      <div class="title">마케팅 대시보드 기획 시작</div>
+      <div class="desc">← 지금 여기</div>
+    </div>
+  </div>
+</section>
+
+<!-- 8. 알림 체계 -->
+<section>
+  <h2>8. 텔레그램 알림 체계</h2>
+  <div class="mermaid-wrap">
+    <pre class="mermaid">
+graph TB
+    subgraph daily["☀️ 매일 아침 (09:00)"]
+        D1["오늘의 할 일 요약"]
+        D2["마감 D-2 이내 알림"]
+        D3["어제 완료된 항목"]
+    end
+
+    subgraph weekly["📅 매주 월요일"]
+        W1["주간 태스크 리뷰"]
+        W2["완료 / 진행 / 신규 카운트"]
+        W3["주간 마케팅 리포트 연동"]
+    end
+
+    subgraph realtime["⚡ 실시간"]
+        R1["새 태스크 감지 → 확인 요청"]
+        R2["상태 변경 알림"]
+        R3["블로커 발생 시 즉시 알림"]
+    end
+
+    daily -->|텔레그램 토픽| USER["👤 대표님 · 형은님"]
+    weekly -->|텔레그램 토픽| USER
+    realtime -->|텔레그램 토픽| USER
+
+    style daily fill:#1a1d27,stroke:#fdcb6e,color:#e1e4ed
+    style weekly fill:#1a1d27,stroke:#74b9ff,color:#e1e4ed
+    style realtime fill:#1a1d27,stroke:#e17055,color:#e1e4ed
+    </pre>
+  </div>
+</section>
+
+<!-- 9. 기술 스택 -->
+<section>
+  <h2>9. 기술 스택</h2>
+  <div class="card-grid">
+    <div class="card">
+      <h3>프론트엔드</h3>
+      <p>HTML/CSS/JS (프레임워크 최소화)<br>Cloudflare Pages 배포<br>반응형 (모바일 우선)</p>
+    </div>
+    <div class="card">
+      <h3>백엔드/데이터</h3>
+      <p>Supabase or JSON + Cloudflare Worker<br>기존 슬랙 sync 파이프라인 활용<br>텔레그램 세션 연동</p>
+    </div>
+    <div class="card">
+      <h3>AI 처리</h3>
+      <p>메시지 → 태스크 감지 (고릴)<br>자연어 상태 업데이트<br>정기 알림 (launchd)</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10. 열린 질문 -->
+<section>
+  <h2>10. 협의가 필요한 부분</h2>
+  <div class="question">
+    <div class="num">①</div>
+    <div>
+      <strong>태스크 DB 위치</strong><br>
+      <span style="color:var(--text2);">Supabase (기존 인프라, 실시간) vs JSON+Worker (단순, 빠른 구현). 규모 감안하면 JSON도 충분할 수 있음.</span>
+    </div>
+  </div>
+  <div class="question">
+    <div class="num">②</div>
+    <div>
+      <strong>3월 한정 vs 상시 도구</strong><br>
+      <span style="color:var(--text2);">3월 집중관리 목적이면 가볍게, 장기 운영이면 DB/확장성 고려 필요.</span>
+    </div>
+  </div>
+  <div class="question">
+    <div class="num">③</div>
+    <div>
+      <strong>형은님 직접 수정 권한</strong><br>
+      <span style="color:var(--text2);">대시보드에서 상태 변경 가능하게 할지, 텔레그램/슬랙 메시지로만 할지.</span>
+    </div>
+  </div>
+  <div class="question">
+    <div class="num">④</div>
+    <div>
+      <strong>자동 감지 오탐 처리</strong><br>
+      <span style="color:var(--text2);">AI가 태스크 후보 감지 시 → 바로 등록 vs "이거 태스크 맞나요?" 확인 후 등록.</span>
+    </div>
+  </div>
+  <div class="question">
+    <div class="num">⑤</div>
+    <div>
+      <strong>범위</strong><br>
+      <span style="color:var(--text2);">마케팅만 vs 전사 업무 확장 가능한 구조로 설계.</span>
+    </div>
+  </div>
+</section>
+
+<!-- 11. 일정 -->
+<section>
+  <h2>11. 예상 일정</h2>
+  <div class="mermaid-wrap">
+    <pre class="mermaid">
+gantt
+    title 마케팅 대시보드 개발 일정
+    dateFormat YYYY-MM-DD
+    axisFormat %m/%d
+
+    section 기획
+    PRD 작성 & 협의       :done, prd, 2026-03-05, 2d
+    와이어프레임 확정       :wf, after prd, 1d
+
+    section 개발
+    MVP (칸반 + 수동입력)  :mvp, after wf, 3d
+    데이터 연동 (슬랙/텔레그램) :data, after mvp, 2d
+    알림 체계 구현         :alert, after data, 1d
+
+    section 운영
+    실사용 & 개선          :active, op, after alert, 14d
+    </pre>
+  </div>
+</section>
+
+<footer>
+  🦍 황고릴 · WESPION · 룸핏 마케팅 대시보드 기획안 v0.1
+</footer>
+
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      primaryColor: '#6c5ce7',
+      primaryTextColor: '#e1e4ed',
+      primaryBorderColor: '#2d3140',
+      lineColor: '#8b90a0',
+      secondaryColor: '#232733',
+      tertiaryColor: '#1a1d27',
+      fontFamily: '-apple-system, Pretendard, sans-serif'
+    }
+  });
+</script>
+</body>
+</html>
