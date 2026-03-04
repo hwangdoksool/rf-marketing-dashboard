@@ -185,7 +185,7 @@
   },
   {
     "id":"t703","group":"전략/프로모션","title":"인스타 프로필 리틀리 링크 수정",
-    "category":"전략","priority":"P3","status":"피드백대기","assignee":"성우","dueDate":null,
+    "category":"전략","priority":"P2","status":"피드백대기","assignee":"성우","dueDate":null,
     "createdAt":"2026-02-24","updatedAt":"2026-02-24",
     "memo":"'지금 무료 체험 진행중' 또는 '최대 65만원 혜택' 문구 추가 제안.",
     "blocker":null,

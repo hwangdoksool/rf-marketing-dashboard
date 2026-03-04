@@ -50,9 +50,17 @@
   .tag-보류{background:rgba(255,255,255,.05);color:var(--t2);}
 
   /* Kanban */
-  .kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;min-height:300px;}
-  .k-col{padding:10px;border-right:1px solid var(--b);}
+  .kanban{background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;min-height:300px;}
+  .kanban-header{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--b);}
+  .kanban-header .k-col-title{padding:10px;text-align:center;font-size:0.73rem;font-weight:700;border-right:1px solid var(--b);}
+  .kanban-header .k-col-title:last-child{border-right:none;}
+  .priority-section{border-bottom:1px solid var(--b);}
+  .priority-section:last-child{border-bottom:none;}
+  .priority-label{padding:6px 12px;font-size:0.7rem;font-weight:700;background:var(--s2);border-bottom:1px solid var(--b);display:flex;align-items:center;gap:6px;}
+  .priority-row{display:grid;grid-template-columns:repeat(3,1fr);}
+  .k-col{padding:8px;border-right:1px solid var(--b);min-height:40px;}
   .k-col:last-child{border-right:none;}
+  .k-col.empty{opacity:.3;}
   .done-section{margin-top:12px;background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;}
   .done-header{padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--t2);font-size:0.82rem;font-weight:600;}
   .done-header:hover{background:var(--s2);}
@@ -126,7 +134,9 @@
   @media(max-width:768px){
     .app{padding:10px;}
     .hdr h1{font-size:1rem;}
-    .kanban{grid-template-columns:1fr;}
+    .kanban-header{grid-template-columns:repeat(3,1fr);font-size:0.68rem;}
+    .priority-row{grid-template-columns:repeat(3,1fr);}
+    .k-col{padding:5px;}
     .done-body.expanded{grid-template-columns:1fr;}
     .k-col{border-right:none;border-bottom:1px solid var(--b);padding:8px;}
     .k-col:last-child{border-bottom:none;}
@@ -379,25 +389,43 @@ function cardHTML(t){
 
 function renderKanban(ft){
   const activeStatuses=['예정','진행중','피드백대기'];
-  const colors={예정:'var(--ac2)',진행중:'var(--y)',피드백대기:'var(--bl)',완료:'var(--g)'};
-  const icons={예정:'⏳',진행중:'🔄',피드백대기:'💬',완료:'✅'};
-  
-  let sorted=ft;
-  if(currentSort==='recent') sorted=[...ft].sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));
+  const priorities=['P1','P2','P3'];
+  const colors={예정:'var(--ac2)',진행중:'var(--y)',피드백대기:'var(--bl)'};
+  const icons={예정:'⏳',진행중:'🔄',피드백대기:'💬'};
+  const pLabels={P1:'🔴 긴급',P2:'🟡 중요',P3:'🔵 일반'};
+  const pColors={P1:'var(--r)',P2:'var(--y)',P3:'var(--bl)'};
 
+  let sorted=ft.filter(t=>t.status!=='완료');
+  if(currentSort==='recent') sorted.sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));
+
+  // Header
   let html='<div class="kanban">';
+  html+='<div class="kanban-header">';
   activeStatuses.forEach(s=>{
-    const items=currentSort==='recent'?sorted.filter(t=>t.status===s):sorted.filter(t=>t.status===s).sort((a,b)=>{
-      const po={P1:0,P2:1,P3:2};return (po[a.priority]||9)-(po[b.priority]||9);
+    const cnt=sorted.filter(t=>t.status===s).length;
+    html+=`<div class="k-col-title" style="color:${colors[s]}">${icons[s]} ${s} <span style="color:var(--t2)">${cnt}</span></div>`;
+  });
+  html+='</div>';
+
+  // Priority rows
+  priorities.forEach(p=>{
+    const pTasks=sorted.filter(t=>t.priority===p);
+    if(!pTasks.length) return;
+    html+=`<div class="priority-section">`;
+    html+=`<div class="priority-label"><span style="color:${pColors[p]}">${pLabels[p]}</span><span style="color:var(--t2);font-size:0.65rem;">${pTasks.length}건</span></div>`;
+    html+=`<div class="priority-row">`;
+    activeStatuses.forEach(s=>{
+      const items=pTasks.filter(t=>t.status===s);
+      html+=`<div class="k-col${items.length?'':' empty'}">`;
+      items.forEach(t=>html+=cardHTML(t));
+      html+='</div>';
     });
-    html+=`<div class="k-col"><div class="k-col-title" style="color:${colors[s]}">${icons[s]} ${s} <span style="color:var(--t2)">${items.length}</span></div>`;
-    items.forEach(t=>html+=cardHTML(t));
-    html+='</div>';
+    html+='</div></div>';
   });
   html+='</div>';
 
   // 완료 섹션 (접힘)
-  const doneItems=sorted.filter(t=>t.status==='완료');
+  const doneItems=ft.filter(t=>t.status==='완료');
   if(doneItems.length){
     html+=`<div class="done-section">
       <div class="done-header" onclick="this.nextElementSibling.classList.toggle('expanded');this.nextElementSibling.classList.toggle('collapsed');this.querySelector('.arrow').textContent=this.nextElementSibling.classList.contains('expanded')?'▼':'▶'">
