@@ -50,9 +50,15 @@
   .tag-보류{background:rgba(255,255,255,.05);color:var(--t2);}
 
   /* Kanban */
-  .kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;min-height:300px;}
+  .kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:0;background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;min-height:300px;}
   .k-col{padding:10px;border-right:1px solid var(--b);}
   .k-col:last-child{border-right:none;}
+  .done-section{margin-top:12px;background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;}
+  .done-header{padding:10px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:var(--t2);font-size:0.82rem;font-weight:600;}
+  .done-header:hover{background:var(--s2);}
+  .done-body{display:none;padding:0 14px 14px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:8px;}
+  .done-body.collapsed{display:none;}
+  .done-body.expanded{display:grid;}
   .k-col-title{font-size:0.73rem;font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;}
   .k-card{background:var(--s2);border-radius:7px;padding:9px;margin-bottom:7px;cursor:pointer;transition:all .12s;position:relative;}
   .k-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.2);transform:translateY(-1px);}
@@ -121,6 +127,7 @@
     .app{padding:10px;}
     .hdr h1{font-size:1rem;}
     .kanban{grid-template-columns:1fr;}
+    .done-body.expanded{grid-template-columns:1fr;}
     .k-col{border-right:none;border-bottom:1px solid var(--b);padding:8px;}
     .k-col:last-child{border-bottom:none;}
     .list-view{overflow-x:auto;-webkit-overflow-scrolling:touch;}
@@ -371,7 +378,7 @@ function cardHTML(t){
 }
 
 function renderKanban(ft){
-  const statuses=['예정','진행중','피드백대기','완료'];
+  const activeStatuses=['예정','진행중','피드백대기'];
   const colors={예정:'var(--ac2)',진행중:'var(--y)',피드백대기:'var(--bl)',완료:'var(--g)'};
   const icons={예정:'⏳',진행중:'🔄',피드백대기:'💬',완료:'✅'};
   
@@ -379,7 +386,7 @@ function renderKanban(ft){
   if(currentSort==='recent') sorted=[...ft].sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));
 
   let html='<div class="kanban">';
-  statuses.forEach(s=>{
+  activeStatuses.forEach(s=>{
     const items=currentSort==='recent'?sorted.filter(t=>t.status===s):sorted.filter(t=>t.status===s).sort((a,b)=>{
       const po={P1:0,P2:1,P3:2};return (po[a.priority]||9)-(po[b.priority]||9);
     });
@@ -388,6 +395,20 @@ function renderKanban(ft){
     html+='</div>';
   });
   html+='</div>';
+
+  // 완료 섹션 (접힘)
+  const doneItems=sorted.filter(t=>t.status==='완료');
+  if(doneItems.length){
+    html+=`<div class="done-section">
+      <div class="done-header" onclick="this.nextElementSibling.classList.toggle('expanded');this.nextElementSibling.classList.toggle('collapsed');this.querySelector('.arrow').textContent=this.nextElementSibling.classList.contains('expanded')?'▼':'▶'">
+        <span>✅ 완료 <span style="color:var(--g)">${doneItems.length}</span></span>
+        <span class="arrow" style="font-size:0.7rem;">▶</span>
+      </div>
+      <div class="done-body collapsed">`;
+    doneItems.forEach(t=>html+=cardHTML(t));
+    html+='</div></div>';
+  }
+
   document.getElementById('board').innerHTML=html;
 }
 

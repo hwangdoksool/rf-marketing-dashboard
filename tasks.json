@@ -1,532 +1,245 @@
 [
+  {"id":"g01","type":"group","title":"Meta 광고 운영","category":"광고"},
   {
-    "id": "g01",
-    "type": "group",
-    "title": "Meta 광고 운영",
-    "category": "광고"
-  },
-  {
-    "id": "t101",
-    "group": "Meta 광고 운영",
-    "title": "ASC 캠페인 운영 · 예산 관리",
-    "category": "광고",
-    "priority": "P1",
-    "status": "진행중",
-    "assignee": "형은",
-    "dueDate": null,
-    "createdAt": "2026-02-11",
-    "updatedAt": "2026-03-03",
-    "memo": "ASC 2개 운영 중. ① 전환-메인페이지 일예산 4만원 ② 리드-체험하기 일예산 3만원. 총 지출 84.6만원/21일. 구매 37건, CPA ₩22,871.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-03", "summary": "5차 미팅: 기제작 영상을 광고 소재로 추가 예정. ASC 특성상 소재 추가 시 자동 최적화, 2~3일 학습 필요.", "refs": [{"type": "notion", "url": "https://www.notion.so/5-318478cb1fa58065ba58e4596058a075", "label": "5차 미팅 기록"}]},
-      {"date": "2026-03-02", "summary": "주간 리포트: 광고비 53.2만원/주 (46%↑). 노출 76K, 클릭 4.5K.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772424159179749", "label": "독술 주간리포트 3/2"}]},
-      {"date": "2026-02-11", "summary": "형은님 ASC 캠페인 세팅 완료, 광고 집행 시작.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771394400", "label": "형은님 세팅 완료 보고"}]}
+    "id":"t101","group":"Meta 광고 운영","title":"ASC 캠페인 운영 · 예산 관리",
+    "category":"광고","priority":"P1","status":"진행중","assignee":"형은","dueDate":null,
+    "createdAt":"2026-02-11","updatedAt":"2026-03-03",
+    "memo":"ASC 2개 운영 중. ① 전환-메인페이지 일예산 4만원 ② 리드-체험하기 일예산 3만원. 총 지출 84.6만원/21일. 구매 37건, CPA ₩22,871.",
+    "blocker":null,
+    "history":[
+      {"date":"2026-03-03","summary":"5차 미팅: 기제작 영상을 광고 소재로 추가 예정. ASC 특성상 소재 추가 시 자동 최적화, 2~3일 학습 필요.","refs":[{"type":"notion","url":"https://www.notion.so/5-318478cb1fa58065ba58e4596058a075","label":"5차 미팅 기록"}]},
+      {"date":"2026-03-02","summary":"주간 리포트: 광고비 53.2만원/주 (46%↑). 노출 76K, 클릭 4.5K.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772424159179749","label":"독술 주간리포트 3/2"}]},
+      {"date":"2026-02-11","summary":"형은님 ASC 캠페인 세팅 완료, 광고 집행 시작.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771394400","label":"형은님 세팅 완료 보고"}]}
     ]
   },
   {
-    "id": "t102",
-    "group": "Meta 광고 운영",
-    "title": "기제작 영상 광고 소재 추가",
-    "category": "광고",
-    "priority": "P2",
-    "status": "예정",
-    "assignee": "형은",
-    "dueDate": null,
-    "createdAt": "2026-03-03",
-    "updatedAt": "2026-03-03",
-    "memo": "기존 제작 영상들을 ASC 캠페인에 소재로 추가. 추가 후 2~3일 학습 기간.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-03", "summary": "5차 미팅에서 형은님 기제작 영상 소재 추가 예정 논의.", "refs": [{"type": "notion", "url": "https://www.notion.so/5-318478cb1fa58065ba58e4596058a075", "label": "5차 미팅 기록"}]}
+    "id":"t102","group":"Meta 광고 운영","title":"기제작 영상 광고 소재 추가",
+    "category":"광고","priority":"P2","status":"예정","assignee":"형은","dueDate":null,
+    "createdAt":"2026-03-03","updatedAt":"2026-03-03",
+    "memo":"기존 제작 영상들을 ASC 캠페인에 소재로 추가. 추가 후 2~3일 학습 기간.",
+    "blocker":null,
+    "history":[{"date":"2026-03-03","summary":"5차 미팅에서 논의. 형은님 진행 예정.","refs":[{"type":"notion","url":"https://www.notion.so/5-318478cb1fa58065ba58e4596058a075","label":"5차 미팅 기록"}]}]
+  },
+  {
+    "id":"t103","group":"Meta 광고 운영","title":"UTM 설정 수정",
+    "category":"광고","priority":"P2","status":"완료","assignee":"AI","dueDate":null,
+    "createdAt":"2026-02-24","updatedAt":"2026-03-03",
+    "memo":"ASC 캠페인 UTM 파라미터 정상화 완료.",
+    "blocker":null,
+    "history":[
+      {"date":"2026-03-03","summary":"UTM 설정 수정 완료 확인.","refs":[]},
+      {"date":"2026-02-24","summary":"UTM 미설정 이슈 발견, 수정 요청.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771934890304009","label":"대표님→형은님 UTM 확인 요청"}]}
     ]
   },
   {
-    "id": "t103",
-    "group": "Meta 광고 운영",
-    "title": "UTM 설정 수정",
-    "category": "광고",
-    "priority": "P2",
-    "status": "완료",
-    "assignee": "AI",
-    "dueDate": null,
-    "createdAt": "2026-02-24",
-    "updatedAt": "2026-03-03",
-    "memo": "ASC 캠페인 UTM 파라미터 정상화 완료.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-03", "summary": "UTM 설정 수정 완료 확인.", "refs": []},
-      {"date": "2026-02-24", "summary": "대표님이 UTM 미설정 이슈를 형은님에게 전달, 수정 요청.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771934890304009", "label": "대표님→형은님 UTM 확인 요청"}]}
-    ]
-  },
-  {
-    "id": "t104",
-    "group": "Meta 광고 운영",
-    "title": "픽셀 정상화",
-    "category": "광고",
-    "priority": "P2",
-    "status": "완료",
-    "assignee": "AI",
-    "dueDate": null,
-    "createdAt": "2026-02-14",
-    "updatedAt": "2026-02-25",
-    "memo": "Purchase 정상 발화 확인. 회원가입 오발화 이슈는 별도.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-25", "summary": "픽셀 정상화 확인 완료.", "refs": []},
-      {"date": "2026-02-20", "summary": "대표님이 형은님에게 회원가입 오발화 해결 가능 여부 문의.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771565672316449", "label": "대표님→형은님 픽셀 문의"}]},
-      {"date": "2026-02-14", "summary": "독술 전환이벤트 전수 점검 → 심각한 이슈 보고.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771099200", "label": "독술 점검 리포트"}]}
+    "id":"t104","group":"Meta 광고 운영","title":"픽셀 정상화",
+    "category":"광고","priority":"P2","status":"완료","assignee":"AI","dueDate":null,
+    "createdAt":"2026-02-14","updatedAt":"2026-02-25",
+    "memo":"Purchase 정상 발화 확인. 회원가입 오발화 이슈는 별도.",
+    "blocker":null,
+    "history":[
+      {"date":"2026-02-25","summary":"픽셀 정상화 확인 완료.","refs":[]},
+      {"date":"2026-02-14","summary":"독술 전환이벤트 전수 점검 → 심각한 이슈 보고.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771099200","label":"독술 점검 리포트"}]}
     ]
   },
 
+  {"id":"g02","type":"group","title":"네이버 검색광고","category":"광고"},
   {
-    "id": "g02",
-    "type": "group",
-    "title": "네이버 검색광고",
-    "category": "광고"
-  },
-  {
-    "id": "t201",
-    "group": "네이버 검색광고",
-    "title": "브랜드 키워드 상시 운영 결정",
-    "category": "광고",
-    "priority": "P2",
-    "status": "피드백대기",
-    "assignee": "성우",
-    "dueDate": null,
-    "createdAt": "2026-02-20",
-    "updatedAt": "2026-02-20",
-    "memo": "파워링크 끊김 확인. 브랜드·스마트홈짐 키워드 상시 운영 제안. 가구 '룸핏' 검색 겹침 이슈.",
-    "blocker": "상시 운영 여부 미결정",
-    "history": [
-      {"date": "2026-03-03", "summary": "5차 미팅 메모: '네이버는 아직 노출이 잘되는 상태. 가구 룸핏 때문에' — 키워드 겹침 인지.", "refs": [{"type": "notion", "url": "https://www.notion.so/5-318478cb1fa58065ba58e4596058a075", "label": "5차 미팅 기록"}]},
-      {"date": "2026-02-20", "summary": "형은님이 파워링크 끊김 확인, 브랜드 키워드 상시 운영 제안.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771549800", "label": "형은님 상시 운영 제안"}]},
-      {"date": "2026-02-11", "summary": "대표님이 '스마트홈짐' 키워드가 홈짐 연관 상위권인 걸 발견.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771437600", "label": "대표님 키워드 발견"}]}
+    "id":"t201","group":"네이버 검색광고","title":"브랜드 키워드 상시 운영 결정",
+    "category":"광고","priority":"P2","status":"피드백대기","assignee":"성우","dueDate":null,
+    "createdAt":"2026-02-20","updatedAt":"2026-03-03",
+    "memo":"파워링크 끊김 확인. 브랜드·스마트홈짐 키워드 상시 운영 제안. 가구 '룸핏' 검색 겹침.",
+    "blocker":"상시 운영 여부 미결정",
+    "history":[
+      {"date":"2026-03-03","summary":"5차 미팅: '네이버는 아직 노출이 잘되는 상태. 가구 룸핏 때문에' — 겹침 인지.","refs":[{"type":"notion","url":"https://www.notion.so/5-318478cb1fa58065ba58e4596058a075","label":"5차 미팅 기록"}]},
+      {"date":"2026-02-20","summary":"형은님 파워링크 끊김 확인, 상시 운영 제안.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771549800","label":"형은님 상시 운영 제안"}]}
     ]
   },
 
+  {"id":"g03","type":"group","title":"블로그 정기 발행","category":"콘텐츠"},
   {
-    "id": "g03",
-    "type": "group",
-    "title": "블로그 정기 발행",
-    "category": "콘텐츠"
+    "id":"t301","group":"블로그 정기 발행","title":"3/4 블로그 초안",
+    "category":"콘텐츠","priority":"P2","status":"피드백대기","assignee":"형은","dueDate":null,
+    "createdAt":"2026-03-04","updatedAt":"2026-03-04",
+    "memo":"슬랙 전달 완료, 승인 대기.",
+    "blocker":null,
+    "history":[{"date":"2026-03-04","summary":"형은님 3/4 블로그 초안 슬랙 전달.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772634628333419","label":"형은님 블로그 초안"}]}]
   },
   {
-    "id": "t301",
-    "group": "블로그 정기 발행",
-    "title": "3/4 블로그 초안",
-    "category": "콘텐츠",
-    "priority": "P2",
-    "status": "피드백대기",
-    "assignee": "형은",
-    "dueDate": null,
-    "createdAt": "2026-03-04",
-    "updatedAt": "2026-03-04",
-    "memo": "슬랙 전달 완료, 승인 대기.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-04", "summary": "형은님 3/4 블로그 초안 슬랙 전달.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772634628333419", "label": "형은님 블로그 초안"}]}
+    "id":"t302","group":"블로그 정기 발행","title":"3/2 블로그 발행",
+    "category":"콘텐츠","priority":"P2","status":"완료","assignee":"형은","dueDate":null,
+    "createdAt":"2026-03-02","updatedAt":"2026-03-02","memo":"","blocker":null,
+    "history":[{"date":"2026-03-02","summary":"형은님 3/2 블로그 초안 전달 → 발행 완료.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772439699068999","label":"형은님 블로그 초안"}]}]
+  },
+  {
+    "id":"t303","group":"블로그 정기 발행","title":"2/26 블로그 발행",
+    "category":"콘텐츠","priority":"P2","status":"완료","assignee":"형은","dueDate":null,
+    "createdAt":"2026-02-25","updatedAt":"2026-02-25","memo":"","blocker":null,
+    "history":[{"date":"2026-02-25","summary":"형은님 2/26 블로그 초안 전달 → 발행 완료.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771991683294719","label":"형은님 블로그 초안"}]}]
+  },
+
+  {"id":"g04","type":"group","title":"인스타/유튜브 숏폼","category":"콘텐츠"},
+  {
+    "id":"t401","group":"인스타/유튜브 숏폼","title":"홈짐계의 테슬라 영상",
+    "category":"콘텐츠","priority":"P2","status":"진행중","assignee":"형은","dueDate":"2026-03-05",
+    "createdAt":"2026-02-23","updatedAt":"2026-03-04",
+    "memo":"캡컷 제작 → 피드백 → 3/5 인스타·유튜브 업로드 예정.",
+    "blocker":null,
+    "history":[
+      {"date":"2026-03-04","summary":"3/5 인스타·유튜브 업로드 예정.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772634189462769","label":"형은님 업로드 예정"}]},
+      {"date":"2026-02-26","summary":"캡컷 업로드 완료, 대표님 피드백 요청. 미디어 분실 이슈 있음.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772081789257219","label":"형은님 영상 업로드+피드백 요청"}]},
+      {"date":"2026-02-23","summary":"영상 초안 제작 완료 전달.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771828167883889","label":"형은님 영상 3건 전달"}]}
     ]
   },
   {
-    "id": "t302",
-    "group": "블로그 정기 발행",
-    "title": "3/2 블로그 초안",
-    "category": "콘텐츠",
-    "priority": "P2",
-    "status": "완료",
-    "assignee": "형은",
-    "dueDate": null,
-    "createdAt": "2026-03-02",
-    "updatedAt": "2026-03-02",
-    "memo": "",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-02", "summary": "형은님 3/2 블로그 초안 전달.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772439699068999", "label": "형은님 블로그 초안"}]}
+    "id":"t403","group":"인스타/유튜브 숏폼","title":"앱 데모 비디오 기획",
+    "category":"콘텐츠","priority":"P2","status":"피드백대기","assignee":"형은","dueDate":null,
+    "createdAt":"2026-02-26","updatedAt":"2026-02-26",
+    "memo":"앱→제품 사용까지 하나의 플로우 영상. 아마존 파워랙 레퍼런스.",
+    "blocker":null,
+    "history":[{"date":"2026-02-26","summary":"형은님 앱 데모 비디오 방향 제안, 대표님 피드백 요청.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772070815093109","label":"형은님 앱 데모 제안"}]}]
+  },
+  {
+    "id":"t404","group":"인스타/유튜브 숏폼","title":"3/2 인스타·유튜브 업로드",
+    "category":"콘텐츠","priority":"P2","status":"완료","assignee":"형은","dueDate":null,
+    "createdAt":"2026-02-23","updatedAt":"2026-03-02","memo":"","blocker":null,
+    "history":[
+      {"date":"2026-03-02","summary":"인스타/유튜브 업로드 완료.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772440085890639","label":"형은님 업로드"}]},
+      {"date":"2026-02-23","summary":"영상 제작 완료.","refs":[]}
     ]
   },
   {
-    "id": "t303",
-    "group": "블로그 정기 발행",
-    "title": "2/26 블로그 초안",
-    "category": "콘텐츠",
-    "priority": "P2",
-    "status": "완료",
-    "assignee": "형은",
-    "dueDate": null,
-    "createdAt": "2026-02-25",
-    "updatedAt": "2026-02-25",
-    "memo": "",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-25", "summary": "형은님 2/26 블로그 초안 전달.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771991683294719", "label": "형은님 블로그 초안"}]}
+    "id":"t405","group":"인스타/유튜브 숏폼","title":"캡컷 계정 공유 · Pro 업그레이드",
+    "category":"콘텐츠","priority":"P2","status":"진행중","assignee":"성우","dueDate":null,
+    "createdAt":"2026-02-20","updatedAt":"2026-02-26",
+    "memo":"형은님 Pro 업그레이드 + 계정 공유 요청. 매번 다운로드 요청이 번거로움.",
+    "blocker":null,
+    "history":[
+      {"date":"2026-02-26","summary":"캡컷 계정 공유 가능 여부 문의.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772068128750159","label":"형은님 계정 공유 요청"}]},
+      {"date":"2026-02-20","summary":"형은님 캡컷 Pro 업그레이드 요청.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771567446625269","label":"형은님 Pro 요청"}]}
     ]
   },
 
+  {"id":"g05","type":"group","title":"스포엑스 2026","category":"이벤트"},
   {
-    "id": "g04",
-    "type": "group",
-    "title": "인스타/유튜브 숏폼",
-    "category": "콘텐츠"
-  },
-  {
-    "id": "t401",
-    "group": "인스타/유튜브 숏폼",
-    "title": "3/5 인스타 유튜브 업로드",
-    "category": "콘텐츠",
-    "priority": "P2",
-    "status": "진행중",
-    "assignee": "형은",
-    "dueDate": "2026-03-05",
-    "createdAt": "2026-03-04",
-    "updatedAt": "2026-03-04",
-    "memo": "",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-04", "summary": "형은님 3/5 업로드 예정 공유.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772634189462769", "label": "형은님 업로드 예정"}]}
-    ]
-  },
-  {
-    "id": "t402",
-    "group": "인스타/유튜브 숏폼",
-    "title": "홈짐계의 테슬라 영상 피드백",
-    "category": "콘텐츠",
-    "priority": "P2",
-    "status": "피드백대기",
-    "assignee": "형은",
-    "dueDate": null,
-    "createdAt": "2026-02-26",
-    "updatedAt": "2026-02-26",
-    "memo": "캡컷 업로드 완료. 미디어 분실 이슈 → 계정 공유 후 해결 예정. 전체 흐름/내용 피드백 요청.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-26", "summary": "형은님 캡컷 업로드 완료, 대표님 피드백 요청.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772081789257219", "label": "형은님 영상 업로드+피드백 요청"}]}
-    ]
-  },
-  {
-    "id": "t403",
-    "group": "인스타/유튜브 숏폼",
-    "title": "앱 데모 비디오 제작",
-    "category": "콘텐츠",
-    "priority": "P2",
-    "status": "피드백대기",
-    "assignee": "형은",
-    "dueDate": null,
-    "createdAt": "2026-02-26",
-    "updatedAt": "2026-02-26",
-    "memo": "앱→제품 사용까지 하나의 플로우 영상. 아마존 파워랙 레퍼런스.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-26", "summary": "형은님 앱 데모 비디오 방향 제안 + 대표님 피드백 요청.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772070815093109", "label": "형은님 앱 데모 제안"}]}
-    ]
-  },
-  {
-    "id": "t404",
-    "group": "인스타/유튜브 숏폼",
-    "title": "3/2 인스타 유튜브 업로드",
-    "category": "콘텐츠",
-    "priority": "P2",
-    "status": "완료",
-    "assignee": "형은",
-    "dueDate": null,
-    "createdAt": "2026-03-02",
-    "updatedAt": "2026-03-02",
-    "memo": "",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-02", "summary": "형은님 3/2 인스타/유튜브 업로드.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772440085890639", "label": "형은님 업로드"}]}
-    ]
-  },
-  {
-    "id": "t405",
-    "group": "인스타/유튜브 숏폼",
-    "title": "캡컷 계정 공유/Pro 업그레이드",
-    "category": "콘텐츠",
-    "priority": "P2",
-    "status": "진행중",
-    "assignee": "성우",
-    "dueDate": null,
-    "createdAt": "2026-02-20",
-    "updatedAt": "2026-02-26",
-    "memo": "형은님 Pro 업그레이드 요청 + 계정 공유 요청. 매번 다운로드 요청이 번거로움.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-26", "summary": "형은님 캡컷 계정 공유 가능 여부 문의.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772068128750159", "label": "형은님 계정 공유 요청"}]},
-      {"date": "2026-02-20", "summary": "형은님 캡컷 Pro 업그레이드 요청.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771567446625269", "label": "형은님 Pro 요청"}]}
-    ]
+    "id":"t501","group":"스포엑스 2026","title":"부스 준비 · 현장 마케팅 기획",
+    "category":"이벤트","priority":"P1","status":"진행중","assignee":"성우","dueDate":"2026-03-19",
+    "createdAt":"2026-02-27","updatedAt":"2026-02-27",
+    "memo":"부스 위치 확정 (재작년과 비슷). 현장 마케팅 전략, 배포물 기획 필요.",
+    "blocker":null,
+    "history":[{"date":"2026-02-27","summary":"대표님 스포엑스 부스 위치 공유.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772160241830539","label":"대표님 부스 위치 공유"}]}]
   },
 
+  {"id":"g06","type":"group","title":"웹/랜딩페이지","category":"웹"},
   {
-    "id": "g05",
-    "type": "group",
-    "title": "스포엑스 2026",
-    "category": "이벤트"
+    "id":"t601","group":"웹/랜딩페이지","title":"상품 상세페이지 리뉴얼 (/buy)",
+    "category":"웹","priority":"P2","status":"피드백대기","assignee":"성우+AI","dueDate":null,
+    "createdAt":"2026-02-18","updatedAt":"2026-02-27",
+    "memo":"roomfit-renewal-2026.pages.dev/buy 형은님 피드백 대기.",
+    "blocker":null,
+    "history":[
+      {"date":"2026-02-27","summary":"대표님이 형은님에게 상세페이지 리뉴얼 피드백 요청.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772167106508759","label":"대표님→형은님 피드백 요청"}]},
+      {"date":"2026-02-18","summary":"독술 상품 상세페이지 전면 개편 기획안 공유.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771385754984669","label":"독술 개편 기획안"}]}
+    ]
   },
   {
-    "id": "t501",
-    "group": "스포엑스 2026",
-    "title": "부스 준비 · 현장 마케팅 기획",
-    "category": "이벤트",
-    "priority": "P1",
-    "status": "진행중",
-    "assignee": "성우",
-    "dueDate": "2026-03-19",
-    "createdAt": "2026-02-27",
-    "updatedAt": "2026-02-27",
-    "memo": "부스 위치 확정 (재작년과 비슷). 현장 마케팅 전략, 배포물 기획 필요.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-27", "summary": "대표님 스포엑스 부스 위치 공유.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772160241830539", "label": "대표님 부스 위치 공유"}]}
-    ]
+    "id":"t602","group":"웹/랜딩페이지","title":"체험 신청 폼 개선",
+    "category":"웹","priority":"P2","status":"진행중","assignee":"성우","dueDate":null,
+    "createdAt":"2026-02-19","updatedAt":"2026-02-19",
+    "memo":"유입경로에 광고 항목 추가, 날짜 범위 확대, 완료 페이지 URL 분리.",
+    "blocker":null,
+    "history":[{"date":"2026-02-19","summary":"형은님 유입경로 광고 누락 + 날짜 1주 제한 + 완료 URL 변경 요청.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771486028869679","label":"형은님 폼 개선 요청"}]}]
+  },
+  {
+    "id":"t603","group":"웹/랜딩페이지","title":"GA4 이벤트 트래킹 설정",
+    "category":"웹","priority":"P2","status":"완료","assignee":"AI","dueDate":null,
+    "createdAt":"2026-02-19","updatedAt":"2026-02-19","memo":"리뉴얼 페이지 임베드 GA4 트래킹 설정 완료.",
+    "blocker":null,
+    "history":[{"date":"2026-02-19","summary":"독술 GA4 이벤트 트래킹 설정 완료.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771505828947839","label":"독술 GA4 트래킹 안내"}]}]
+  },
+  {
+    "id":"t604","group":"웹/랜딩페이지","title":"모바일 렌더링 이슈",
+    "category":"웹","priority":"P3","status":"진행중","assignee":"성우+AI","dueDate":null,
+    "createdAt":"2026-02-25","updatedAt":"2026-02-25",
+    "memo":"모바일에서 일부 콘텐츠 안 뜨는 현상.",
+    "blocker":null,
+    "history":[{"date":"2026-02-25","summary":"형은님 모바일 렌더링 이슈 보고.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771995257498939","label":"형은님 모바일 이슈 보고"}]}]
   },
 
+  {"id":"g07","type":"group","title":"전략/프로모션","category":"전략"},
   {
-    "id": "g06",
-    "type": "group",
-    "title": "웹/랜딩페이지",
-    "category": "웹"
+    "id":"t701","group":"전략/프로모션","title":"프리오더 구조 설계",
+    "category":"전략","priority":"P2","status":"진행중","assignee":"성우","dueDate":null,
+    "createdAt":"2026-03-04","updatedAt":"2026-03-04",
+    "memo":"사전주문 프로세스 설계.",
+    "blocker":null,
+    "history":[{"date":"2026-03-04","summary":"대표님 프리오더 구조 설계 착수.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772591097779859","label":"대표님 프리오더 설계"}]}]
   },
   {
-    "id": "t601",
-    "group": "웹/랜딩페이지",
-    "title": "상품 상세페이지 리뉴얼 (/buy)",
-    "category": "웹",
-    "priority": "P2",
-    "status": "피드백대기",
-    "assignee": "성우+AI",
-    "dueDate": null,
-    "createdAt": "2026-02-18",
-    "updatedAt": "2026-02-27",
-    "memo": "roomfit-renewal-2026.pages.dev/buy 형은님 피드백 대기.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-27", "summary": "대표님이 형은님에게 상세페이지 리뉴얼 피드백 요청.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772167106508759", "label": "대표님→형은님 피드백 요청"}]},
-      {"date": "2026-02-18", "summary": "독술 상품 상세페이지 전면 개편 기획안 공유.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771385754984669", "label": "독술 개편 기획안"}]}
-    ]
+    "id":"t702","group":"전략/프로모션","title":"카카오 채널 가격노출 이슈",
+    "category":"전략","priority":"P2","status":"피드백대기","assignee":"성우","dueDate":null,
+    "createdAt":"2026-03-03","updatedAt":"2026-03-03",
+    "memo":"카카오에서 가격 노출 → 이탈 추정. 카카오 제거 or 버튼 색상/문구 변경.",
+    "blocker":null,
+    "history":[{"date":"2026-03-03","summary":"대표님이 카카오 가격노출 이탈 원인 추정, 제거 or 버튼 변경 제안.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772497663116529","label":"대표님 카카오 이슈"}]}]
   },
   {
-    "id": "t602",
-    "group": "웹/랜딩페이지",
-    "title": "체험 신청 폼 개선",
-    "category": "웹",
-    "priority": "P2",
-    "status": "진행중",
-    "assignee": "성우",
-    "dueDate": null,
-    "createdAt": "2026-02-19",
-    "updatedAt": "2026-02-19",
-    "memo": "유입경로에 광고 항목 추가, 날짜 범위 확대, 완료 페이지 URL 분리.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-19", "summary": "형은님이 유입경로 광고 누락 + 날짜 1주 제한 + 완료 URL 변경 요청.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771486028869679", "label": "형은님 폼 개선 요청"}]}
-    ]
+    "id":"t703","group":"전략/프로모션","title":"인스타 프로필 리틀리 링크 수정",
+    "category":"전략","priority":"P3","status":"피드백대기","assignee":"성우","dueDate":null,
+    "createdAt":"2026-02-24","updatedAt":"2026-02-24",
+    "memo":"'지금 무료 체험 진행중' 또는 '최대 65만원 혜택' 문구 추가 제안.",
+    "blocker":null,
+    "history":[{"date":"2026-02-24","summary":"형은님 인스타 프로필 리틀리 링크 문구 추가 제안.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1771929074449909","label":"형은님 리틀리 제안"}]}]
   },
   {
-    "id": "t603",
-    "group": "웹/랜딩페이지",
-    "title": "GA4 이벤트 트래킹 설정",
-    "category": "웹",
-    "priority": "P2",
-    "status": "완료",
-    "assignee": "AI",
-    "dueDate": null,
-    "createdAt": "2026-02-19",
-    "updatedAt": "2026-02-19",
-    "memo": "리뉴얼 페이지 임베드 GA4 트래킹 설정 완료.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-19", "summary": "독술 GA4 이벤트 트래킹 설정 완료 안내.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771505828947839", "label": "독술 GA4 트래킹 안내"}, {"type": "notion", "url": "https://www.notion.so/roomfit/GA4-30c478cb1fa58134b858cf6db8ad8880", "label": "GA4 이벤트 트래킹 문서"}]}
-    ]
+    "id":"t704","group":"전략/프로모션","title":"이벤트 기획 (페이백/앱인증)",
+    "category":"전략","priority":"P2","status":"예정","assignee":"성우","dueDate":null,
+    "createdAt":"2026-02-25","updatedAt":"2026-02-25",
+    "memo":"여름까지 몸 만들기 동기부여. 앱 인증(잔디 등) 추첨, 50% 페이백.",
+    "blocker":null,
+    "history":[{"date":"2026-02-25","summary":"4차 미팅: 페이백 이벤트 아이디어 논의.","refs":[{"type":"notion","url":"https://www.notion.so/4-318478cb1fa58065ba58e4596058a075","label":"4차 미팅 기록"}]}]
   },
   {
-    "id": "t604",
-    "group": "웹/랜딩페이지",
-    "title": "모바일 렌더링 이슈 확인",
-    "category": "웹",
-    "priority": "P3",
-    "status": "진행중",
-    "assignee": "성우+AI",
-    "dueDate": null,
-    "createdAt": "2026-02-25",
-    "updatedAt": "2026-02-25",
-    "memo": "모바일에서 일부 콘텐츠 안 뜨는 현상.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-25", "summary": "형은님 모바일 렌더링 이슈 보고.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771995257498939", "label": "형은님 모바일 이슈 보고"}]}
-    ]
+    "id":"t705","group":"전략/프로모션","title":"체험→계약 전환 추적 DB 구축",
+    "category":"전략","priority":"P2","status":"예정","assignee":"성우+AI","dueDate":null,
+    "createdAt":"2026-03-03","updatedAt":"2026-03-03",
+    "memo":"체험 신청은 아임웹 주문 DB에 포함되나 '계약 전환' 추적 필드 없음.",
+    "blocker":null,
+    "history":[{"date":"2026-03-03","summary":"5차 미팅: 체험→계약 전환 추적 DB 필요성 논의.","refs":[{"type":"notion","url":"https://www.notion.so/5-318478cb1fa58065ba58e4596058a075","label":"5차 미팅 기록"}]}]
+  },
+  {
+    "id":"t706","group":"전략/프로모션","title":"슬랙 구매 알림 봇",
+    "category":"전략","priority":"P3","status":"예정","assignee":"AI","dueDate":null,
+    "createdAt":"2026-03-03","updatedAt":"2026-03-03",
+    "memo":"체험 알림과 동일 구조로 구매 알림 추가.",
+    "blocker":null,
+    "history":[{"date":"2026-03-03","summary":"5차 미팅: 구매 발생 알림 슬랙 연동 논의.","refs":[{"type":"notion","url":"https://www.notion.so/5-318478cb1fa58065ba58e4596058a075","label":"5차 미팅 기록"}]}]
   },
 
+  {"id":"g08","type":"group","title":"도구/인프라","category":"전략"},
   {
-    "id": "g07",
-    "type": "group",
-    "title": "전략/프로모션",
-    "category": "전략"
+    "id":"t801","group":"도구/인프라","title":"형은님 맥북 오픈클로 설치",
+    "category":"전략","priority":"P2","status":"진행중","assignee":"성우","dueDate":null,
+    "createdAt":"2026-03-03","updatedAt":"2026-03-03","memo":"",
+    "blocker":null,
+    "history":[{"date":"2026-03-03","summary":"형은님 맥북에 오픈클로 설치 착수.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772536720839519","label":"슬랙 설치 스레드"}]}]
   },
   {
-    "id": "t701",
-    "group": "전략/프로모션",
-    "title": "프리오더 구조 설계",
-    "category": "전략",
-    "priority": "P2",
-    "status": "진행중",
-    "assignee": "성우",
-    "dueDate": null,
-    "createdAt": "2026-03-04",
-    "updatedAt": "2026-03-04",
-    "memo": "사전주문 프로세스 설계.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-04", "summary": "대표님 프리오더 구조 설계 착수.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772591097779859", "label": "대표님 프리오더 설계"}]}
-    ]
-  },
-  {
-    "id": "t702",
-    "group": "전략/프로모션",
-    "title": "카카오 채널 가격노출 이슈",
-    "category": "전략",
-    "priority": "P2",
-    "status": "피드백대기",
-    "assignee": "성우",
-    "dueDate": null,
-    "createdAt": "2026-03-03",
-    "updatedAt": "2026-03-03",
-    "memo": "카카오에서 가격 노출 → 이탈 추정. 카카오 제거 or 버튼 색상/문구 변경.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-03", "summary": "대표님이 카카오 가격노출 이탈 원인 추정, 제거 or 버튼 변경 제안.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772497663116529", "label": "대표님 카카오 이슈"}]}
-    ]
-  },
-  {
-    "id": "t703",
-    "group": "전략/프로모션",
-    "title": "인스타 프로필 리틀리 링크 수정",
-    "category": "전략",
-    "priority": "P3",
-    "status": "피드백대기",
-    "assignee": "성우",
-    "dueDate": null,
-    "createdAt": "2026-02-24",
-    "updatedAt": "2026-02-24",
-    "memo": "'지금 무료 체험 진행중' 또는 '최대 65만원 혜택' 문구 추가 제안.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-24", "summary": "형은님 인스타 프로필 리틀리 링크 문구 추가 제안.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1771929074449909", "label": "형은님 리틀리 제안"}]}
-    ]
-  },
-  {
-    "id": "t704",
-    "group": "전략/프로모션",
-    "title": "이벤트 기획 (페이백/앱인증)",
-    "category": "전략",
-    "priority": "P2",
-    "status": "예정",
-    "assignee": "성우",
-    "dueDate": null,
-    "createdAt": "2026-02-25",
-    "updatedAt": "2026-02-25",
-    "memo": "여름까지 몸 만들기 동기부여. 앱 인증(잔디 등) 추첨, 50% 페이백. 인스타 활성화 + 구매 허들 낮추기.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-25", "summary": "4차 미팅: 페이백 이벤트 아이디어 논의. 여름 목표 동기부여, 앱 인증 추첨 페이백.", "refs": [{"type": "notion", "url": "https://www.notion.so/4-318478cb1fa58065ba58e4596058a075", "label": "4차 미팅 기록"}]}
-    ]
-  },
-  {
-    "id": "t705",
-    "group": "전략/프로모션",
-    "title": "체험→계약 전환 추적 DB 구축",
-    "category": "전략",
-    "priority": "P2",
-    "status": "예정",
-    "assignee": "성우+AI",
-    "dueDate": null,
-    "createdAt": "2026-03-03",
-    "updatedAt": "2026-03-03",
-    "memo": "현재 체험 신청은 아임웹 주문 DB에 포함되나 '계약 전환' 추적 필드 없음. Notion DB 또는 아임웹 커스텀 필드 신설 필요.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-03", "summary": "5차 미팅: 체험→계약 전환 추적 DB 필요성 논의. 현재 추적 불가.", "refs": [{"type": "notion", "url": "https://www.notion.so/5-318478cb1fa58065ba58e4596058a075", "label": "5차 미팅 기록"}]}
-    ]
-  },
-  {
-    "id": "t706",
-    "group": "전략/프로모션",
-    "title": "슬랙 구매 알림 봇",
-    "category": "전략",
-    "priority": "P3",
-    "status": "예정",
-    "assignee": "AI",
-    "dueDate": null,
-    "createdAt": "2026-03-03",
-    "updatedAt": "2026-03-03",
-    "memo": "체험 알림과 동일 구조로 구매 알림 추가. Webhook 또는 기존 크롤 활용.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-03", "summary": "5차 미팅: 구매 발생 알림 슬랙 연동 가능 여부 논의.", "refs": [{"type": "notion", "url": "https://www.notion.so/5-318478cb1fa58065ba58e4596058a075", "label": "5차 미팅 기록"}]}
-    ]
+    "id":"t802","group":"도구/인프라","title":"마케팅 계정 공유/권한 부여",
+    "category":"전략","priority":"P2","status":"진행중","assignee":"성우","dueDate":null,
+    "createdAt":"2026-02-10","updatedAt":"2026-02-10",
+    "memo":"형은님에게 필요한 마케팅 툴 계정 공유.",
+    "blocker":null,
+    "history":[{"date":"2026-02-10","summary":"3차 미팅: 작업 툴 계정 공유 논의.","refs":[{"type":"notion","url":"https://www.notion.so/3-318478cb1fa58065ba58e4596058a075","label":"3차 미팅 기록"}]}]
   },
 
+  {"id":"g09","type":"group","title":"주간 마케팅 리포트","category":"광고"},
   {
-    "id": "g08",
-    "type": "group",
-    "title": "도구/인프라",
-    "category": "전략"
-  },
-  {
-    "id": "t801",
-    "group": "도구/인프라",
-    "title": "형은님 맥북 오픈클로 설치",
-    "category": "전략",
-    "priority": "P2",
-    "status": "진행중",
-    "assignee": "성우",
-    "dueDate": null,
-    "createdAt": "2026-03-03",
-    "updatedAt": "2026-03-03",
-    "memo": "",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-03", "summary": "형은님 맥북에 오픈클로 설치 착수.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772536720839519", "label": "슬랙 설치 스레드"}]}
-    ]
-  },
-  {
-    "id": "t802",
-    "group": "도구/인프라",
-    "title": "마케팅 계정 공유/권한 부여",
-    "category": "전략",
-    "priority": "P2",
-    "status": "진행중",
-    "assignee": "성우",
-    "dueDate": null,
-    "createdAt": "2026-02-10",
-    "updatedAt": "2026-02-10",
-    "memo": "형은님에게 필요한 마케팅 툴 계정 공유.",
-    "blocker": null,
-    "history": [
-      {"date": "2026-02-10", "summary": "3차 미팅: 작업 툴 계정 공유 논의.", "refs": [{"type": "notion", "url": "https://www.notion.so/3-318478cb1fa58065ba58e4596058a075", "label": "3차 미팅 기록"}]}
-    ]
-  },
-
-  {
-    "id": "g09",
-    "type": "group",
-    "title": "주간 마케팅 리포트",
-    "category": "광고"
-  },
-  {
-    "id": "t901",
-    "group": "주간 마케팅 리포트",
-    "title": "3월 1주차 리포트",
-    "category": "광고",
-    "priority": "P2",
-    "status": "완료",
-    "assignee": "AI",
-    "dueDate": null,
-    "createdAt": "2026-03-02",
-    "updatedAt": "2026-03-02",
-    "memo": "광고비 53.2만원 (▲46%). 세션 5,328 (▲31%). 신규 4,406 (▲38%).",
-    "blocker": null,
-    "history": [
-      {"date": "2026-03-02", "summary": "독술 주간 마케팅 리포트 자동 발행.", "refs": [{"type": "slack", "url": "https://wespion.slack.com/archives/C0AA41A91HS/p1772424159179749", "label": "슬랙 주간리포트 3/2"}]}
-    ]
+    "id":"t901","group":"주간 마케팅 리포트","title":"3월 1주차 리포트",
+    "category":"광고","priority":"P2","status":"완료","assignee":"AI","dueDate":null,
+    "createdAt":"2026-03-02","updatedAt":"2026-03-02",
+    "memo":"광고비 53.2만원 (▲46%). 세션 5,328 (▲31%). 신규 4,406 (▲38%).",
+    "blocker":null,
+    "history":[{"date":"2026-03-02","summary":"독술 주간 마케팅 리포트 자동 발행.","refs":[{"type":"slack","url":"https://wespion.slack.com/archives/C0AA41A91HS/p1772424159179749","label":"슬랙 주간리포트 3/2"}]}]
   }
 ]
