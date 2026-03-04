@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>룸핏 마케팅 대시보드 — 기획안 v0.1</title>
+<title>룸핏 마케팅 대시보드 — 기획안 v0.2</title>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <style>
   :root {
@@ -210,8 +210,8 @@
 <!-- HERO -->
 <div class="hero">
   <h1>🦍 룸핏 마케팅 할 일 현황 대시보드</h1>
-  <p class="meta">기획안 v0.1 · 2026-03-05 · 작성: 황고릴</p>
-  <span class="badge">📋 기획 협의 중</span>
+  <p class="meta">기획안 v0.2 · 2026-03-05 · 작성: 황고릴</p>
+  <span class="badge" style="background:var(--green);">✅ PRD 확정</span>
 </div>
 
 <!-- 1. 왜 만드는가 -->
@@ -578,42 +578,365 @@ graph TB
   </div>
 </section>
 
-<!-- 10. 열린 질문 -->
+<!-- 10. 확정 사항 -->
 <section>
-  <h2>10. 협의가 필요한 부분</h2>
-  <div class="question">
-    <div class="num">①</div>
-    <div>
-      <strong>태스크 DB 위치</strong><br>
-      <span style="color:var(--text2);">Supabase (기존 인프라, 실시간) vs JSON+Worker (단순, 빠른 구현). 규모 감안하면 JSON도 충분할 수 있음.</span>
+  <h2>10. 확정된 결정사항</h2>
+  <div class="question" style="border-left:3px solid var(--green);">
+    <div class="num" style="color:var(--green);">✅</div>
+    <div><strong>태스크 DB → JSON</strong><br><span style="color:var(--text2);">가볍게. Worker 또는 로컬 저장.</span></div>
+  </div>
+  <div class="question" style="border-left:3px solid var(--green);">
+    <div class="num" style="color:var(--green);">✅</div>
+    <div><strong>당장 돌아가는 업무 확인용</strong><br><span style="color:var(--text2);">무겁게 X. 실용적으로.</span></div>
+  </div>
+  <div class="question" style="border-left:3px solid var(--green);">
+    <div class="num" style="color:var(--green);">✅</div>
+    <div><strong>텔레그램 자연어 기본 + 대시보드 직접 수정 가능</strong><br><span style="color:var(--text2);">형은님도 직접 수정 권한 있음.</span></div>
+  </div>
+  <div class="question" style="border-left:3px solid var(--green);">
+    <div class="num" style="color:var(--green);">✅</div>
+    <div><strong>감지 → 담당자 컨펌 → 등록</strong><br><span style="color:var(--text2);">AI 자동 확정 안 함. 귀찮으면 나중에 재검토.</span></div>
+  </div>
+  <div class="question" style="border-left:3px solid var(--green);">
+    <div class="num" style="color:var(--green);">✅</div>
+    <div><strong>마케팅만. 다른 업무 절대 섞지 않음.</strong><br><span style="color:var(--text2);">헷갈려서 더 안 좋아짐.</span></div>
+  </div>
+</section>
+
+<!-- 와이어프레임 -->
+<section>
+  <h2>📐 와이어프레임</h2>
+  <p style="color:var(--text2); margin-bottom:20px;">실제 대시보드가 이렇게 보입니다. 아래는 인터랙티브 목업입니다.</p>
+
+  <!-- 와이어프레임: 헤더 -->
+  <div style="background:var(--surface); border:1px solid var(--border); border-radius:16px; overflow:hidden; margin-bottom:24px;">
+
+    <!-- Top Bar -->
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:16px 24px; border-bottom:1px solid var(--border);">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span style="font-size:1.3rem;">🦍</span>
+        <span style="font-weight:700; font-size:1.1rem;">룸핏 마케팅 보드</span>
+      </div>
+      <div style="display:flex; gap:8px;">
+        <span class="tag tag-purple" style="cursor:pointer;">전체</span>
+        <span class="tag" style="background:rgba(255,255,255,0.05); color:var(--text2); cursor:pointer;">👤 성우</span>
+        <span class="tag" style="background:rgba(255,255,255,0.05); color:var(--text2); cursor:pointer;">👤 형은</span>
+        <span class="tag" style="background:rgba(255,255,255,0.05); color:var(--text2); cursor:pointer;">🤖 AI</span>
+      </div>
+    </div>
+
+    <!-- Summary Bar -->
+    <div style="display:flex; gap:16px; padding:12px 24px; border-bottom:1px solid var(--border); flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--yellow);display:inline-block;"></span>
+        <span style="font-size:0.85rem; color:var(--text2);">진행중 <strong style="color:var(--text);">7</strong></span>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--blue);display:inline-block;"></span>
+        <span style="font-size:0.85rem; color:var(--text2);">피드백대기 <strong style="color:var(--text);">3</strong></span>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--accent2);display:inline-block;"></span>
+        <span style="font-size:0.85rem; color:var(--text2);">예정 <strong style="color:var(--text);">2</strong></span>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+        <span style="font-size:0.85rem; color:var(--text2);">완료 <strong style="color:var(--text);">5</strong></span>
+      </div>
+      <div style="margin-left:auto; display:flex; gap:8px;">
+        <span class="tag" style="background:rgba(255,255,255,0.05); color:var(--text2); cursor:pointer; font-size:0.75rem;">📋 리스트</span>
+        <span class="tag tag-purple" style="cursor:pointer; font-size:0.75rem;">▦ 칸반</span>
+      </div>
+    </div>
+
+    <!-- Kanban Board -->
+    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:0; min-height:400px;">
+
+      <!-- 예정 -->
+      <div style="padding:16px; border-right:1px solid var(--border);">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--accent2); margin-bottom:12px; display:flex; justify-content:space-between;">
+          <span>⏳ 예정</span><span style="color:var(--text2);">2</span>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; border-left:3px solid var(--red);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span class="tag tag-red" style="font-size:0.65rem;">P1</span>
+            <span style="font-size:0.7rem; color:var(--red);">D-14</span>
+          </div>
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">스포엑스 현장 마케팅 기획</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-blue" style="font-size:0.6rem;">이벤트</span>
+            👤 성우
+          </div>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; border-left:3px solid var(--yellow);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span class="tag tag-yellow" style="font-size:0.65rem;">P2</span>
+          </div>
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">프리오더 페이지 제작</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-blue" style="font-size:0.6rem;">웹</span>
+            👤 성우+AI
+          </div>
+        </div>
+        <!-- Add button -->
+        <div style="border:1px dashed var(--border); border-radius:10px; padding:10px; text-align:center; color:var(--text2); font-size:0.8rem; cursor:pointer;">+ 추가</div>
+      </div>
+
+      <!-- 진행중 -->
+      <div style="padding:16px; border-right:1px solid var(--border);">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--yellow); margin-bottom:12px; display:flex; justify-content:space-between;">
+          <span>🔄 진행중</span><span style="color:var(--text2);">4</span>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; border-left:3px solid var(--red);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span class="tag tag-red" style="font-size:0.65rem;">P1</span>
+            <span style="font-size:0.7rem; color:var(--text2);">상시</span>
+          </div>
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">Meta 광고 운영 (ASC)</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-blue" style="font-size:0.6rem;">광고</span>
+            👤 형은
+          </div>
+          <div style="font-size:0.7rem; color:var(--text2); margin-top:4px;">주 53만원 · 예산 확대중</div>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; border-left:3px solid var(--yellow);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span class="tag tag-yellow" style="font-size:0.65rem;">P2</span>
+            <span style="font-size:0.7rem; color:var(--text2);">매주</span>
+          </div>
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">인스타/유튜브 숏폼 제작</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-purple" style="font-size:0.6rem;">콘텐츠</span>
+            👤 형은
+          </div>
+          <div style="font-size:0.7rem; color:var(--text2); margin-top:4px;">3/5 업로드 예정</div>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; border-left:3px solid var(--yellow);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span class="tag tag-yellow" style="font-size:0.65rem;">P2</span>
+            <span style="font-size:0.7rem; color:var(--text2);">주2회</span>
+          </div>
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">블로그 정기 발행</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-purple" style="font-size:0.6rem;">콘텐츠</span>
+            👤 형은
+          </div>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; border-left:3px solid var(--yellow);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span class="tag tag-yellow" style="font-size:0.65rem;">P2</span>
+          </div>
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">네이버 검색광고 상시 운영</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-blue" style="font-size:0.6rem;">광고</span>
+            👤 형은
+          </div>
+        </div>
+      </div>
+
+      <!-- 피드백대기 -->
+      <div style="padding:16px; border-right:1px solid var(--border);">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--blue); margin-bottom:12px; display:flex; justify-content:space-between;">
+          <span>💬 피드백대기</span><span style="color:var(--text2);">3</span>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; border-left:3px solid var(--yellow);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span class="tag tag-yellow" style="font-size:0.65rem;">P2</span>
+          </div>
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">상품 상세페이지 리뉴얼</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-blue" style="font-size:0.6rem;">웹</span>
+            👤 성우+AI
+          </div>
+          <div style="font-size:0.7rem; color:var(--text2); margin-top:4px;">형은님 피드백 대기</div>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; border-left:3px solid var(--yellow);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span class="tag tag-yellow" style="font-size:0.65rem;">P2</span>
+          </div>
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">카카오 채널 가격노출 이슈</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-green" style="font-size:0.6rem;">전략</span>
+            👤 성우
+          </div>
+          <div style="font-size:0.7rem; color:var(--text2); margin-top:4px;">카카오 빼기 or 버튼 색상 변경</div>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; border-left:3px solid var(--yellow);">
+          <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+            <span class="tag tag-yellow" style="font-size:0.65rem;">P2</span>
+          </div>
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">3/4 블로그 초안</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-purple" style="font-size:0.6rem;">콘텐츠</span>
+            👤 형은
+          </div>
+          <div style="font-size:0.7rem; color:var(--text2); margin-top:4px;">슬랙 전달 · 승인 대기</div>
+        </div>
+      </div>
+
+      <!-- 완료 -->
+      <div style="padding:16px;">
+        <div style="font-size:0.8rem; font-weight:700; color:var(--green); margin-bottom:12px; display:flex; justify-content:space-between;">
+          <span>✅ 완료</span><span style="color:var(--text2);">3</span>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; opacity:0.7; border-left:3px solid var(--green);">
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">Meta UTM 설정 수정</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-blue" style="font-size:0.6rem;">광고</span>
+            🤖 독술 · 3/3
+          </div>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; opacity:0.7; border-left:3px solid var(--green);">
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">Meta 픽셀 정상화</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-blue" style="font-size:0.6rem;">광고</span>
+            🤖 독술 · 2/25
+          </div>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:10px; opacity:0.7; border-left:3px solid var(--green);">
+          <div style="font-size:0.85rem; font-weight:600; margin-bottom:4px;">GA4 이벤트 트래킹 설정</div>
+          <div style="font-size:0.75rem; color:var(--text2);">
+            <span class="tag tag-blue" style="font-size:0.6rem;">웹</span>
+            🤖 독술 · 2/19
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="question">
-    <div class="num">②</div>
-    <div>
-      <strong>3월 한정 vs 상시 도구</strong><br>
-      <span style="color:var(--text2);">3월 집중관리 목적이면 가볍게, 장기 운영이면 DB/확장성 고려 필요.</span>
+
+  <!-- 와이어프레임: 태스크 상세 모달 -->
+  <p style="color:var(--text2); margin:20px 0 12px;">카드 클릭 시 상세 패널:</p>
+  <div style="background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px; max-width:480px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <h3 style="font-size:1.1rem; margin:0;">Meta 광고 운영 (ASC)</h3>
+      <span style="color:var(--text2); cursor:pointer;">✕</span>
+    </div>
+    <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+      <span class="tag tag-red">P1 긴급</span>
+      <span class="tag tag-blue">광고</span>
+      <span class="tag tag-yellow">🔄 진행중</span>
+    </div>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:0.8rem; color:var(--text2); margin-bottom:4px;">담당</div>
+      <div style="font-size:0.9rem;">👤 형은</div>
+    </div>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:0.8rem; color:var(--text2); margin-bottom:4px;">메모</div>
+      <div style="font-size:0.9rem; background:var(--surface2); padding:10px; border-radius:8px;">주 53만원 예산. ASC 캠페인 중심. 픽셀 정상화 이후 전환 추적 가능.</div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div style="font-size:0.8rem; color:var(--text2); margin-bottom:4px;">변경 이력</div>
+      <div style="font-size:0.8rem; color:var(--text2); line-height:1.8;">
+        3/2 — 예산 53만원으로 확대 (고릴)<br>
+        2/25 — 픽셀 정상화 확인 (독술)<br>
+        2/11 — 캠페인 세팅 완료 (형은)
+      </div>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button style="background:var(--accent); color:#fff; border:none; padding:8px 16px; border-radius:8px; cursor:pointer; font-size:0.85rem;">상태 변경</button>
+      <button style="background:var(--surface2); color:var(--text); border:1px solid var(--border); padding:8px 16px; border-radius:8px; cursor:pointer; font-size:0.85rem;">수정</button>
     </div>
   </div>
-  <div class="question">
-    <div class="num">③</div>
-    <div>
-      <strong>형은님 직접 수정 권한</strong><br>
-      <span style="color:var(--text2);">대시보드에서 상태 변경 가능하게 할지, 텔레그램/슬랙 메시지로만 할지.</span>
-    </div>
+
+  <!-- 와이어프레임: 리스트 뷰 -->
+  <p style="color:var(--text2); margin:24px 0 12px;">리스트 뷰 (칸반 대안):</p>
+  <div style="background:var(--surface); border:1px solid var(--border); border-radius:16px; overflow:hidden;">
+    <table class="info-table" style="margin:0;">
+      <thead>
+        <tr><th>우선순위</th><th>업무</th><th>카테고리</th><th>담당</th><th>상태</th><th>마감</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tag tag-red">P1</span></td>
+          <td style="font-weight:600;">스포엑스 현장 마케팅</td>
+          <td><span class="tag tag-blue">이벤트</span></td>
+          <td>성우</td>
+          <td><span class="tag tag-yellow">진행중</span></td>
+          <td style="color:var(--red);">D-14</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-red">P1</span></td>
+          <td style="font-weight:600;">Meta 광고 운영</td>
+          <td><span class="tag tag-blue">광고</span></td>
+          <td>형은</td>
+          <td><span class="tag tag-yellow">진행중</span></td>
+          <td>상시</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-yellow">P2</span></td>
+          <td style="font-weight:600;">인스타/유튜브 숏폼</td>
+          <td><span class="tag tag-purple">콘텐츠</span></td>
+          <td>형은</td>
+          <td><span class="tag tag-yellow">진행중</span></td>
+          <td>매주</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-yellow">P2</span></td>
+          <td style="font-weight:600;">블로그 정기 발행</td>
+          <td><span class="tag tag-purple">콘텐츠</span></td>
+          <td>형은</td>
+          <td><span class="tag tag-yellow">진행중</span></td>
+          <td>주2회</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-yellow">P2</span></td>
+          <td style="font-weight:600;">상품 상세페이지 리뉴얼</td>
+          <td><span class="tag tag-blue">웹</span></td>
+          <td>성우+AI</td>
+          <td><span class="tag tag-blue">피드백대기</span></td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-yellow">P2</span></td>
+          <td style="font-weight:600;">프리오더 구조 설계</td>
+          <td><span class="tag tag-green">전략</span></td>
+          <td>성우</td>
+          <td><span class="tag tag-purple">예정</span></td>
+          <td>-</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <div class="question">
-    <div class="num">④</div>
-    <div>
-      <strong>자동 감지 오탐 처리</strong><br>
-      <span style="color:var(--text2);">AI가 태스크 후보 감지 시 → 바로 등록 vs "이거 태스크 맞나요?" 확인 후 등록.</span>
+
+  <!-- 와이어프레임: 모바일 -->
+  <p style="color:var(--text2); margin:24px 0 12px;">모바일에서는 리스트 뷰가 기본:</p>
+  <div style="max-width:360px; background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:16px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <span style="font-weight:700;">🦍 마케팅 보드</span>
+      <span class="tag tag-purple" style="font-size:0.7rem;">필터</span>
     </div>
-  </div>
-  <div class="question">
-    <div class="num">⑤</div>
-    <div>
-      <strong>범위</strong><br>
-      <span style="color:var(--text2);">마케팅만 vs 전사 업무 확장 가능한 구조로 설계.</span>
+    <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:8px; border-left:3px solid var(--red);">
+      <div style="display:flex; justify-content:space-between;">
+        <span style="font-size:0.85rem; font-weight:600;">스포엑스 부스 준비</span>
+        <span style="font-size:0.7rem; color:var(--red);">D-14</span>
+      </div>
+      <div style="font-size:0.75rem; color:var(--text2); margin-top:4px;">
+        <span class="tag tag-red" style="font-size:0.6rem;">P1</span>
+        <span class="tag tag-blue" style="font-size:0.6rem;">이벤트</span>
+        👤 성우 · 진행중
+      </div>
+    </div>
+    <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:8px; border-left:3px solid var(--yellow);">
+      <div style="display:flex; justify-content:space-between;">
+        <span style="font-size:0.85rem; font-weight:600;">Meta 광고 운영</span>
+        <span style="font-size:0.7rem; color:var(--text2);">상시</span>
+      </div>
+      <div style="font-size:0.75rem; color:var(--text2); margin-top:4px;">
+        <span class="tag tag-yellow" style="font-size:0.6rem;">P2</span>
+        <span class="tag tag-blue" style="font-size:0.6rem;">광고</span>
+        👤 형은 · 진행중
+      </div>
+    </div>
+    <div style="background:var(--surface2); border-radius:10px; padding:12px; margin-bottom:8px; border-left:3px solid var(--yellow);">
+      <div style="display:flex; justify-content:space-between;">
+        <span style="font-size:0.85rem; font-weight:600;">3/4 블로그 초안</span>
+        <span style="font-size:0.7rem; color:var(--blue);">피드백대기</span>
+      </div>
+      <div style="font-size:0.75rem; color:var(--text2); margin-top:4px;">
+        <span class="tag tag-yellow" style="font-size:0.6rem;">P2</span>
+        <span class="tag tag-purple" style="font-size:0.6rem;">콘텐츠</span>
+        👤 형은
+      </div>
     </div>
   </div>
 </section>
@@ -644,7 +967,7 @@ gantt
 </section>
 
 <footer>
-  🦍 황고릴 · WESPION · 룸핏 마케팅 대시보드 기획안 v0.1
+  🦍 황고릴 · WESPION · 룸핏 마케팅 대시보드 기획안 v0.2
 </footer>
 
 </div>
