@@ -99,6 +99,11 @@
   .kanban-card { background:var(--surface2); border-radius:8px; padding:10px; margin-bottom:8px; font-size:0.82rem; }
   .kanban-card .kc-title { font-weight:600; margin-bottom:4px; }
   .kanban-card .kc-meta { font-size:0.72rem; color:var(--text2); }
+  .kanban-card .kc-age { font-size:0.65rem; color:var(--text2); margin-top:3px; }
+  .kanban-card .kc-age.stale { color:var(--yellow); }
+  .kanban-card .kc-age.very-stale { color:var(--red); }
+  .kanban-card.stale-card { opacity:0.6; }
+  .kanban-card .blocker { display:inline-block; background:rgba(225,112,85,0.15); color:var(--red); font-size:0.65rem; padding:1px 6px; border-radius:4px; margin-top:3px; }
 
   /* ===== Gantt placeholder ===== */
   .gantt-wrap { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:20px; margin:16px 0; overflow-x:auto; }
@@ -187,7 +192,9 @@
       <span style="color:var(--text2);">피드백대기 <strong style="color:var(--text);">3</strong></span>
       <span style="color:var(--text2);">예정 <strong style="color:var(--text);">2</strong></span>
       <span style="color:var(--text2);">완료 <strong style="color:var(--text);">5</strong></span>
+      <span style="color:var(--red);">🚫 블로커 <strong>1</strong></span>
       <span style="margin-left:auto; display:flex; gap:6px;">
+        <span class="tag" style="background:rgba(255,255,255,0.05); color:var(--text2); font-size:0.65rem;">🕐 최근순</span>
         <span class="tag" style="background:rgba(255,255,255,0.05); color:var(--text2); font-size:0.65rem;">📋 리스트</span>
         <span class="tag tag-purple" style="font-size:0.65rem;">▦ 칸반</span>
       </span>
@@ -202,11 +209,13 @@
           <div style="display:flex; justify-content:space-between;"><span class="tag tag-red">P1</span><span style="font-size:0.68rem; color:var(--red);">D-14</span></div>
           <div class="kc-title">스포엑스 현장 마케팅</div>
           <div class="kc-meta"><span class="tag tag-blue">이벤트</span> 👤 성우</div>
+          <div class="kc-age">업데이트 6일 전</div>
         </div>
         <div class="kanban-card" style="border-left:3px solid var(--yellow);">
           <span class="tag tag-yellow">P2</span>
           <div class="kc-title">프리오더 페이지 제작</div>
           <div class="kc-meta"><span class="tag tag-blue">웹</span> 👤 성우+AI</div>
+          <div class="kc-age">업데이트 1일 전</div>
         </div>
       </div>
 
@@ -218,42 +227,50 @@
           <div class="kc-title">Meta 광고 운영 (ASC)</div>
           <div class="kc-meta"><span class="tag tag-blue">광고</span> 👤 형은</div>
           <div class="kc-meta" style="margin-top:2px;">주 53만원 · 예산 확대중</div>
+          <div class="kc-age">업데이트 3일 전</div>
         </div>
         <div class="kanban-card" style="border-left:3px solid var(--yellow);">
           <span class="tag tag-yellow">P2</span>
           <div class="kc-title">인스타/유튜브 숏폼</div>
           <div class="kc-meta"><span class="tag tag-purple">콘텐츠</span> 👤 형은</div>
+          <div class="kc-age">업데이트 오늘</div>
         </div>
         <div class="kanban-card" style="border-left:3px solid var(--yellow);">
           <span class="tag tag-yellow">P2</span>
           <div class="kc-title">블로그 정기 발행</div>
           <div class="kc-meta"><span class="tag tag-purple">콘텐츠</span> 👤 형은 · 주2회</div>
+          <div class="kc-age">업데이트 1일 전</div>
         </div>
-        <div class="kanban-card" style="border-left:3px solid var(--yellow);">
+        <div class="kanban-card stale-card" style="border-left:3px solid var(--yellow);">
           <span class="tag tag-yellow">P2</span>
           <div class="kc-title">네이버 검색광고</div>
           <div class="kc-meta"><span class="tag tag-blue">광고</span> 👤 형은</div>
+          <div class="blocker">🚫 브랜드 키워드 상시 운영 여부 미결정</div>
+          <div class="kc-age stale">업데이트 13일 전</div>
         </div>
       </div>
 
       <!-- 피드백대기 -->
       <div class="kanban-col">
         <div class="kanban-col-title" style="color:var(--blue);">💬 피드백대기 <span style="color:var(--text2);">3</span></div>
-        <div class="kanban-card" style="border-left:3px solid var(--yellow);">
+        <div class="kanban-card stale-card" style="border-left:3px solid var(--yellow);">
           <span class="tag tag-yellow">P2</span>
           <div class="kc-title">상품 상세페이지 리뉴얼</div>
           <div class="kc-meta"><span class="tag tag-blue">웹</span> 👤 성우+AI</div>
           <div class="kc-meta">형은님 피드백 대기</div>
+          <div class="kc-age stale">업데이트 6일 전</div>
         </div>
         <div class="kanban-card" style="border-left:3px solid var(--yellow);">
           <span class="tag tag-yellow">P2</span>
           <div class="kc-title">카카오 채널 가격노출</div>
           <div class="kc-meta"><span class="tag tag-green">전략</span> 👤 성우</div>
+          <div class="kc-age">업데이트 2일 전</div>
         </div>
         <div class="kanban-card" style="border-left:3px solid var(--yellow);">
           <span class="tag tag-yellow">P2</span>
           <div class="kc-title">3/4 블로그 초안</div>
           <div class="kc-meta"><span class="tag tag-purple">콘텐츠</span> 👤 형은</div>
+          <div class="kc-age">업데이트 1일 전</div>
         </div>
       </div>
 
