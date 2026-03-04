@@ -138,8 +138,57 @@
   <div class="hdr">
     <h1>🦍 룸핏 마케팅 보드</h1>
     <div class="hdr-r">
+      <button class="btn" onclick="toggleGuide()">❓ 사용법</button>
       <button class="btn" id="prd-btn" onclick="togglePRD()">📄 기획안</button>
       <button class="btn" onclick="toggleTheme()">🌓</button>
+    </div>
+  </div>
+
+  <!-- Guide Panel -->
+  <div id="guide-panel" style="display:none;margin-bottom:20px;background:var(--s);border:1px solid var(--b);border-radius:12px;padding:20px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+      <h3 style="font-size:1rem;color:var(--ac2);">❓ 사용 가이드</h3>
+      <span style="color:var(--t2);cursor:pointer;" onclick="toggleGuide()">✕</span>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <h4 style="font-size:0.88rem;margin-bottom:6px;">📊 대시보드 보기</h4>
+      <ul style="font-size:0.84rem;color:var(--t2);padding-left:16px;">
+        <li><strong>▦ 칸반 / 📋 리스트</strong> — 뷰 전환</li>
+        <li><strong>상태별 / 🕐 최근순</strong> — 정렬 변경</li>
+        <li><strong>담당자·카테고리 필터</strong> — 원하는 범위만 보기</li>
+        <li><strong>카드 클릭</strong> → 상세 패널 → 📜 히스토리 → 참조 링크 (4층 구조)</li>
+      </ul>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <h4 style="font-size:0.88rem;margin-bottom:6px;">💬 업무 등록/업데이트 (텔레그램)</h4>
+      <ul style="font-size:0.84rem;color:var(--t2);padding-left:16px;">
+        <li>텔레그램 마케팅 토픽에서 자연어로 요청하면 고릴이 반영</li>
+        <li>예: <code style="background:var(--s2);padding:1px 6px;border-radius:3px;">"고릴아 블로그 3/5 초안 완료"</code></li>
+        <li>예: <code style="background:var(--s2);padding:1px 6px;border-radius:3px;">"네이버 광고 상시 운영으로 결정"</code> → 블로커 해소</li>
+        <li>슬랙에서 <code style="background:var(--s2);padding:1px 6px;border-radius:3px;">`백틱으로 감싼 업무`</code> → 자동 감지 (컨펌 후 등록)</li>
+      </ul>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <h4 style="font-size:0.88rem;margin-bottom:6px;">🔍 읽는 법</h4>
+      <ul style="font-size:0.84rem;color:var(--t2);padding-left:16px;">
+        <li><span class="tag tag-P1">P1</span> 긴급 · <span class="tag tag-P2">P2</span> 중요 · <span class="tag tag-P3">P3</span> 일반</li>
+        <li><span style="color:var(--r);font-size:0.82rem;">D-14</span> — 마감까지 남은 일수</li>
+        <li><span style="opacity:.55;font-size:0.82rem;">흐린 카드</span> — 5일+ 업데이트 없음 (방치 주의)</li>
+        <li><span style="color:var(--r);font-size:0.82rem;">🚫</span> — 블로커 (진행 불가 사유 있음)</li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 style="font-size:0.88rem;margin-bottom:6px;">📅 알림 (자동)</h4>
+      <ul style="font-size:0.84rem;color:var(--t2);padding-left:16px;">
+        <li>매일 아침 — 오늘의 할 일 요약 (텔레그램)</li>
+        <li>마감 D-2 — 임박 알림</li>
+        <li>매주 월 — 주간 태스크 리뷰</li>
+        <li>새 태스크 감지 시 — 담당자 컨펌 요청</li>
+      </ul>
     </div>
   </div>
 
@@ -423,6 +472,13 @@ document.querySelectorAll('.filter-btn[data-cat]').forEach(b=>{
     render();
   });
 });
+
+// Guide panel
+function toggleGuide(){
+  const g=document.getElementById('guide-panel');
+  g.style.display=g.style.display==='none'?'block':'none';
+  if(g.style.display==='block') document.getElementById('prd-panel').style.display='none';
+}
 
 // PRD panel
 function togglePRD(){
