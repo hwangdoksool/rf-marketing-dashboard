@@ -192,7 +192,7 @@
     <div style="margin-bottom:16px;">
       <h4 style="font-size:0.88rem;margin-bottom:6px;">🔍 읽는 법</h4>
       <ul style="font-size:0.84rem;color:var(--t2);padding-left:16px;">
-        <li><span class="tag tag-P1">P1</span> 긴급 · <span class="tag tag-P2">P2</span> 중요 · <span class="tag tag-P3">P3</span> 일반</li>
+        <li><span class="tag tag-P1">P1 긴급</span> 마감 D-7 이내 / 블로커 / 바로 해치울 quick win · <span class="tag tag-P2">P2 중요</span> 2주 내 진전 필요 · <span class="tag tag-P3">P3 일반</span> 시급하지 않음, 상시 운영</li>
         <li><span style="color:var(--r);font-size:0.82rem;">D-14</span> — 마감까지 남은 일수</li>
         <li><span style="opacity:.55;font-size:0.82rem;">흐린 카드</span> — 5일+ 업데이트 없음 (방치 주의)</li>
         <li><span style="color:var(--r);font-size:0.82rem;">🚫</span> — 블로커 (진행 불가 사유 있음)</li>
@@ -392,7 +392,7 @@ function renderKanban(ft){
   const priorities=['P1','P2','P3'];
   const colors={예정:'var(--ac2)',진행중:'var(--y)',피드백대기:'var(--bl)'};
   const icons={예정:'⏳',진행중:'🔄',피드백대기:'💬'};
-  const pLabels={P1:'🔴 긴급',P2:'🟡 중요',P3:'🔵 일반'};
+  const pLabels={P1:'🔴 긴급 (D-day/블로커/quick win)',P2:'🟡 중요 (2주 내)',P3:'🔵 일반'};
   const pColors={P1:'var(--r)',P2:'var(--y)',P3:'var(--bl)'};
 
   let sorted=ft.filter(t=>t.status!=='완료');
