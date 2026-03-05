@@ -68,18 +68,15 @@
   .done-body.collapsed{display:none;}
   .done-body.expanded{display:grid;}
   .k-col-title{font-size:0.73rem;font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;}
-  .k-card{background:var(--s2);border-radius:6px;padding:6px 8px;margin-bottom:5px;cursor:pointer;transition:all .12s;position:relative;}
+  .k-card{background:var(--s2);border-radius:6px;padding:5px 7px;margin-bottom:4px;cursor:pointer;transition:all .12s;position:relative;}
   .k-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.2);transform:translateY(-1px);}
-  .k-card .title{font-size:0.78rem;font-weight:600;margin:1px 0;}
-  .k-card .meta{font-size:0.67rem;color:var(--t2);}
-  .k-card .status-note{font-size:0.65rem;color:var(--g);margin-top:1px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .k-card .age{font-size:0.6rem;color:var(--t2);margin-top:1px;}
-  .k-card .age.stale{color:var(--y);}
-  .k-card .age.very-stale{color:var(--r);}
+  .k-card .card-top{display:flex;justify-content:space-between;align-items:center;font-size:0.6rem;color:var(--t2);gap:4px;flex-wrap:nowrap;}
+  .k-card .card-top-left{display:flex;align-items:center;gap:3px;min-width:0;overflow:hidden;}
+  .k-card .title{font-size:0.78rem;font-weight:600;margin:2px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .k-card .status-note{font-size:0.63rem;color:var(--g);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .k-card.stale{opacity:.55;}
-  .k-card .group-label{font-size:0.6rem;color:var(--ac2);margin-top:1px;opacity:.7;}
-  .k-card .blocker-tag{display:inline-block;background:rgba(225,112,85,.15);color:var(--r);font-size:0.6rem;padding:1px 5px;border-radius:3px;margin-top:1px;}
-  .k-card .dday{font-size:0.63rem;color:var(--r);font-weight:600;}
+  .k-card .blocker-tag{display:inline-block;background:rgba(225,112,85,.15);color:var(--r);font-size:0.6rem;padding:1px 5px;border-radius:3px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+  .k-card .dday{font-size:0.6rem;color:var(--r);font-weight:600;white-space:nowrap;}
 
   /* List view */
   .list-view{background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;}
@@ -375,16 +372,16 @@ function cardHTML(t){
   const days=daysSince(t.updatedAt);
   const isStale=days>=5 && t.status!=='완료';
   const du=daysUntil(t.dueDate);
-  return `<div class="k-card ${isStale?'stale':''}" style="border-left:3px solid var(--${t.priority==='P1'?'r':'y'})" onclick="openModal('${t.id}')">
-    <div style="display:flex;justify-content:space-between;">
-      <span class="tag tag-${t.priority}">${t.priority}</span>
-      ${du!==null?`<span class="dday">D-${du}</span>`:''}
+  const ageC=ageClass(days);
+  const ageStyle=ageC==='very-stale'?'color:var(--r)':ageC==='stale'?'color:var(--y)':'';
+  return `<div class="k-card ${isStale?'stale':''}" style="border-left:3px solid var(--${t.priority==='P1'?'r':t.priority==='P2'?'y':'bl'})" onclick="openModal('${t.id}')">
+    <div class="card-top">
+      <div class="card-top-left"><span class="tag tag-${t.priority}" style="padding:0 5px;font-size:0.6rem;">${t.priority}</span><span>${t.id}</span><span>·</span><span>${t.assignee.includes('AI')?'🤖':'👤'}${t.assignee}</span><span>·</span><span style="${ageStyle}">${ageText(days)}</span></div>
+      ${du!==null?`<span class="dday">D${du<=0?du:'-'+du}</span>`:''}
     </div>
-    <div class="title"><span style="color:var(--t2);font-size:0.63rem;font-weight:400;margin-right:3px;">${t.id}</span>${t.title}</div>
-    <div class="meta"><span class="tag tag-${t.category}">${t.category}</span> ${t.assignee.includes('AI')?'🤖':'👤'} ${t.assignee} ${t.group?`· ${t.group}`:''}</div>
+    <div class="title">${t.title}</div>
     ${t.statusNote?`<div class="status-note">→ ${t.statusNote}</div>`:''}
-    ${t.blocker?`<div class="blocker-tag">🚫 ${t.blocker.length>30?t.blocker.slice(0,30)+'…':t.blocker}</div>`:''}
-    <div class="age ${ageClass(days)}">업데이트 ${ageText(days)}</div>
+    ${t.blocker?`<div class="blocker-tag">🚫 ${t.blocker.length>35?t.blocker.slice(0,35)+'…':t.blocker}</div>`:''}
   </div>`;
 }
 
@@ -446,18 +443,18 @@ function renderList(ft){
   if(currentSort==='recent') sorted.sort((a,b)=>new Date(b.updatedAt)-new Date(a.updatedAt));
   else sorted.sort((a,b)=>{const po={P1:0,P2:1,P3:2};return (po[a.priority]||9)-(po[b.priority]||9);});
 
-  let html=`<div class="list-view"><table><thead><tr><th>우선</th><th>업무</th><th>카테고리</th><th>담당</th><th>상태</th><th>업데이트</th></tr></thead><tbody>`;
+  let html=`<div class="list-view"><table><thead><tr><th>우선</th><th>업무</th><th>최신 상태</th><th>담당</th><th>상태</th><th>업데이트</th></tr></thead><tbody>`;
   sorted.forEach(t=>{
     const days=daysSince(t.updatedAt);
     const isStale=days>=5&&t.status!=='완료';
     const du=daysUntil(t.dueDate);
     html+=`<tr class="${isStale?'stale-row':''}" onclick="openModal('${t.id}')">
       <td><span class="tag tag-${t.priority}">${t.priority}</span></td>
-      <td><span style="color:var(--t2);font-size:0.68rem;margin-right:3px;">${t.id}</span><span style="font-weight:600">${t.title}</span>${t.blocker?` <span style="color:var(--r);font-size:0.7rem;">🚫</span>`:''}${t.group?`<br><span style="font-size:0.7rem;color:var(--ac2);opacity:.7;">📁 ${t.group}</span>`:''}</td>
-      <td><span class="tag tag-${t.category}">${t.category}</span></td>
+      <td><span style="color:var(--t2);font-size:0.68rem;margin-right:3px;">${t.id}</span><span style="font-weight:600">${t.title}</span>${t.blocker?` <span style="color:var(--r);font-size:0.7rem;">🚫</span>`:''}</td>
+      <td style="font-size:0.75rem;color:var(--g);max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.statusNote||''}</td>
       <td>${t.assignee}</td>
       <td><span class="tag tag-${t.status}">${t.status}</span></td>
-      <td class="${ageClass(days)}">${ageText(days)}${du!==null?` · D-${du}`:''}</td>
+      <td class="${ageClass(days)}">${ageText(days)}${du!==null?` · D${du<=0?du:'-'+du}`:''}</td>
     </tr>`;
   });
   html+='</tbody></table></div>';
