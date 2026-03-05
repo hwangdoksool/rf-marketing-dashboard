@@ -380,7 +380,7 @@ function cardHTML(t){
       <span class="tag tag-${t.priority}">${t.priority}</span>
       ${du!==null?`<span class="dday">D-${du}</span>`:''}
     </div>
-    <div class="title">${t.title}</div>
+    <div class="title"><span style="color:var(--t2);font-size:0.63rem;font-weight:400;margin-right:3px;">${t.id}</span>${t.title}</div>
     <div class="meta"><span class="tag tag-${t.category}">${t.category}</span> ${t.assignee.includes('AI')?'🤖':'👤'} ${t.assignee} ${t.group?`· ${t.group}`:''}</div>
     ${t.statusNote?`<div class="status-note">→ ${t.statusNote}</div>`:''}
     ${t.blocker?`<div class="blocker-tag">🚫 ${t.blocker.length>30?t.blocker.slice(0,30)+'…':t.blocker}</div>`:''}
@@ -453,7 +453,7 @@ function renderList(ft){
     const du=daysUntil(t.dueDate);
     html+=`<tr class="${isStale?'stale-row':''}" onclick="openModal('${t.id}')">
       <td><span class="tag tag-${t.priority}">${t.priority}</span></td>
-      <td><span style="font-weight:600">${t.title}</span>${t.blocker?` <span style="color:var(--r);font-size:0.7rem;">🚫</span>`:''}${t.group?`<br><span style="font-size:0.7rem;color:var(--ac2);opacity:.7;">📁 ${t.group}</span>`:''}</td>
+      <td><span style="color:var(--t2);font-size:0.68rem;margin-right:3px;">${t.id}</span><span style="font-weight:600">${t.title}</span>${t.blocker?` <span style="color:var(--r);font-size:0.7rem;">🚫</span>`:''}${t.group?`<br><span style="font-size:0.7rem;color:var(--ac2);opacity:.7;">📁 ${t.group}</span>`:''}</td>
       <td><span class="tag tag-${t.category}">${t.category}</span></td>
       <td>${t.assignee}</td>
       <td><span class="tag tag-${t.status}">${t.status}</span></td>
