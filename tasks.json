@@ -467,14 +467,14 @@
     "title": "인스타 링크 페이지 (리틀리 대체)",
     "category": "웹",
     "priority": "P1",
-    "status": "진행중",
+    "status": "완료",
     "assignee": "성우+AI",
     "dueDate": null,
     "createdAt": "2026-03-03",
     "updatedAt": "2026-03-05",
-    "statusNote": "페이지 완성, 인스타 등록 오류 → 오늘 재시도",
+    "statusNote": "Instagram 등록 완료, UTM 버튼별 적용",
     "memo": "리틀리를 자체 개발 페이지(roomfit.kr/link)로 대체. 버튼별 강조 색상 + UTM 적용. 인스타 등록 시 오류 발생 → 오늘 재시도 예정.",
-    "blocker": "인스타 링크 등록 오류 (오늘 재시도)",
+    "blocker": null,
     "history": [
       {
         "date": "2026-03-05",
@@ -506,6 +506,11 @@
             "label": "5차 미팅 기록"
           }
         ]
+      },
+      {
+        "date": "2026-03-05",
+        "summary": "Instagram 링크 등록 완료 (24시간 제한 해제). roomfit.kr/link 정상 작동. 각 버튼에 UTM 개별 적용 완료.",
+        "refs": []
       }
     ]
   },
