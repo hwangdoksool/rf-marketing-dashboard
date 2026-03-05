@@ -216,15 +216,20 @@
     "title": "3/4 블로그 초안",
     "category": "콘텐츠",
     "priority": "P2",
-    "status": "피드백대기",
+    "status": "진행중",
     "assignee": "형은",
     "dueDate": null,
     "createdAt": "2026-03-04",
-    "updatedAt": "2026-03-04",
-    "statusNote": "초안 전달 완료, 승인 대기",
+    "updatedAt": "2026-03-05",
+    "statusNote": "대표님 피드백 완료, 노션+슬랙에 코멘트",
     "memo": "슬랙 전달 완료, 승인 대기.",
     "blocker": null,
     "history": [
+      {
+        "date": "2026-03-05",
+        "summary": "대표님 피드백 전달 (노션 코멘트 + 슬랙 메시지).",
+        "refs": []
+      },
       {
         "date": "2026-03-04",
         "summary": "형은님 3/4 블로그 초안 전달.",
