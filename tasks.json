@@ -4,6 +4,7 @@
     "id":"t101","group":"Meta 광고 운영","title":"ASC 캠페인 운영 · 예산 관리",
     "category":"광고","priority":"P3","status":"진행중","assignee":"형은","dueDate":null,
     "createdAt":"2026-02-11","updatedAt":"2026-03-03",
+    "statusNote":"일예산 7만, CPA ₩22,871 안정 운영중",
     "memo":"ASC 2개 운영 중. ① 전환-메인페이지 일예산 4만원 ② 리드-체험하기 일예산 3만원. 21일간 지출 84.6만원, 구매 37건, CPA ₩22,871. 잘 돌아가는 중.",
     "blocker":null,
     "history":[
@@ -17,6 +18,7 @@
     "id":"t102","group":"Meta 광고 운영","title":"기제작 영상 광고 소재 추가",
     "category":"광고","priority":"P2","status":"예정","assignee":"형은","dueDate":null,
     "createdAt":"2026-03-03","updatedAt":"2026-03-03",
+    "statusNote":"5차 미팅 결정, 소재 추가 대기",
     "memo":"기존 제작 영상들을 ASC 캠페인에 소재로 추가. 추가 후 2~3일 학습 기간.",
     "blocker":null,
     "history":[{"date":"2026-03-03","summary":"5차 미팅에서 논의.","refs":[{"type":"notion","url":"https://www.notion.so/5-318478cb1fa58065ba58e4596058a075","label":"5차 미팅 기록"}]}]
@@ -25,6 +27,7 @@
     "id":"t105","group":"Meta 광고 운영","title":"전환 캠페인 체험+구매 통합 분석",
     "category":"광고","priority":"P2","status":"진행중","assignee":"AI",
     "dueDate":null,"createdAt":"2026-03-04","updatedAt":"2026-03-05",
+    "statusNote":"픽셀 리드 4건 확인, 아임웹 교차검증 중",
     "memo":"형은님 요청: 전환 캠페인에서 체험 신청+구매 고객을 함께 봐야 정확. 데이터 보완 중.",
     "blocker":null,
     "history":[
@@ -35,13 +38,17 @@
   {
     "id":"t103","group":"Meta 광고 운영","title":"UTM 설정 수정",
     "category":"광고","priority":"P3","status":"완료","assignee":"AI","dueDate":null,
-    "createdAt":"2026-02-24","updatedAt":"2026-03-03","memo":"ASC 캠페인 UTM 파라미터 정상화 완료.",
+    "createdAt":"2026-02-24","updatedAt":"2026-03-03",
+    "statusNote":"완료",
+    "memo":"ASC 캠페인 UTM 파라미터 정상화 완료.",
     "blocker":null,"history":[{"date":"2026-03-03","summary":"완료 확인.","refs":[]}]
   },
   {
     "id":"t104","group":"Meta 광고 운영","title":"픽셀 정상화",
     "category":"광고","priority":"P3","status":"완료","assignee":"AI","dueDate":null,
-    "createdAt":"2026-02-14","updatedAt":"2026-02-25","memo":"Purchase 정상 발화 확인.",
+    "createdAt":"2026-02-14","updatedAt":"2026-02-25",
+    "statusNote":"Purchase 정상 발화 확인",
+    "memo":"Purchase 정상 발화 확인.",
     "blocker":null,"history":[{"date":"2026-02-25","summary":"완료 확인.","refs":[]}]
   },
 
@@ -50,6 +57,7 @@
     "id":"t201","group":"네이버 검색광고","title":"브랜드 키워드 상시 운영 결정",
     "category":"광고","priority":"P2","status":"피드백대기","assignee":"성우","dueDate":null,
     "createdAt":"2026-02-20","updatedAt":"2026-03-03",
+    "statusNote":"상시 운영 여부 대표님 결정 대기",
     "memo":"파워링크 끊김 확인. 브랜드·스마트홈짐 키워드 상시 운영 제안. 가구 '룸핏' 검색 겹침.",
     "blocker":"상시 운영 여부 미결정",
     "history":[
@@ -62,13 +70,17 @@
   {
     "id":"t301","group":"블로그 정기 발행","title":"3/4 블로그 초안",
     "category":"콘텐츠","priority":"P2","status":"피드백대기","assignee":"형은","dueDate":null,
-    "createdAt":"2026-03-04","updatedAt":"2026-03-04","memo":"슬랙 전달 완료, 승인 대기.",
+    "createdAt":"2026-03-04","updatedAt":"2026-03-04",
+    "statusNote":"초안 전달 완료, 승인 대기",
+    "memo":"슬랙 전달 완료, 승인 대기.",
     "blocker":null,"history":[{"date":"2026-03-04","summary":"형은님 3/4 블로그 초안 전달.","refs":[]}]
   },
   {
     "id":"t302","group":"블로그 정기 발행","title":"3/2 블로그 발행",
     "category":"콘텐츠","priority":"P3","status":"완료","assignee":"형은","dueDate":null,
-    "createdAt":"2026-03-02","updatedAt":"2026-03-02","memo":"","blocker":null,
+    "createdAt":"2026-03-02","updatedAt":"2026-03-02",
+    "statusNote":"발행 완료",
+    "memo":"","blocker":null,
     "history":[{"date":"2026-03-02","summary":"발행 완료.","refs":[]}]
   },
 
@@ -77,6 +89,7 @@
     "id":"t401","group":"인스타/유튜브 숏폼","title":"홈짐계의 테슬라 영상",
     "category":"콘텐츠","priority":"P2","status":"진행중","assignee":"형은","dueDate":"2026-03-05",
     "createdAt":"2026-02-23","updatedAt":"2026-03-04",
+    "statusNote":"오늘 인스타·유튜브 업로드 예정",
     "memo":"캡컷 제작 → 피드백 → 3/5 인스타·유튜브 업로드 예정.",
     "blocker":null,
     "history":[
@@ -89,6 +102,7 @@
     "id":"t403","group":"인스타/유튜브 숏폼","title":"앱 데모 비디오 기획",
     "category":"콘텐츠","priority":"P3","status":"피드백대기","assignee":"형은","dueDate":null,
     "createdAt":"2026-02-26","updatedAt":"2026-02-26",
+    "statusNote":"방향 제안 후 피드백 대기중",
     "memo":"앱→제품 사용까지 하나의 플로우 영상. 아마존 파워랙 레퍼런스.",
     "blocker":null,"history":[{"date":"2026-02-26","summary":"형은님 방향 제안, 피드백 요청.","refs":[]}]
   },
@@ -96,6 +110,7 @@
     "id":"t405","group":"인스타/유튜브 숏폼","title":"캡컷 계정 공유 · Pro 업그레이드",
     "category":"콘텐츠","priority":"P2","status":"진행중","assignee":"성우","dueDate":null,
     "createdAt":"2026-02-20","updatedAt":"2026-02-26",
+    "statusNote":"계정 공유 가능 여부 확인 필요",
     "memo":"형은님 Pro 업그레이드 + 계정 공유 요청. 매번 다운로드 번거로움.",
     "blocker":null,
     "history":[
@@ -106,7 +121,9 @@
   {
     "id":"t404","group":"인스타/유튜브 숏폼","title":"3/2 인스타·유튜브 업로드",
     "category":"콘텐츠","priority":"P3","status":"완료","assignee":"형은","dueDate":null,
-    "createdAt":"2026-02-23","updatedAt":"2026-03-02","memo":"","blocker":null,
+    "createdAt":"2026-02-23","updatedAt":"2026-03-02",
+    "statusNote":"업로드 완료",
+    "memo":"","blocker":null,
     "history":[{"date":"2026-03-02","summary":"업로드 완료.","refs":[]}]
   },
 
@@ -115,6 +132,7 @@
     "id":"t501","group":"스포엑스 2026","title":"스포엑스 기획",
     "category":"이벤트","priority":"P1","status":"진행중","assignee":"성우","dueDate":"2026-03-19",
     "createdAt":"2026-02-27","updatedAt":"2026-02-27",
+    "statusNote":"부스 위치 확정, 현장 전략·배포물 미착수",
     "memo":"부스 위치 확정 (재작년과 비슷). 현장 마케팅 전략, 배포물 기획 필요. 프리오더 오픈 전에 스포엑스 준비 완료해야 함.",
     "blocker":null,
     "history":[{"date":"2026-02-27","summary":"부스 위치 공유. 재작년 위치와 비슷.","refs":[]}]
@@ -125,6 +143,7 @@
     "id":"t601","group":"웹/랜딩페이지","title":"상품 상세페이지 리뉴얼 (/buy)",
     "category":"웹","priority":"P2","status":"진행중","assignee":"성우+AI","dueDate":null,
     "createdAt":"2026-02-18","updatedAt":"2026-03-05",
+    "statusNote":"게시 완료, 세부 지속 개선 예정",
     "memo":"/buy/embed 후기 페이지 완성 → 형은님 컨펌 완료. 일반 고객 리뷰 작성 일관성 논의 진행 중.",
     "blocker":null,
     "history":[
@@ -135,19 +154,25 @@
   },
   {
     "id":"t602","group":"웹/랜딩페이지","title":"체험 신청 폼 개선",
-    "category":"웹","priority":"P2","status":"진행중","assignee":"성우","dueDate":null,
-    "createdAt":"2026-02-19","updatedAt":"2026-02-19",
-    "memo":"유입경로에 광고 항목 추가, 날짜 범위 확대, 완료 페이지 URL 분리.",
-    "blocker":null,"history":[{"date":"2026-02-19","summary":"형은님 개선 요청.","refs":[]}]
+    "category":"웹","priority":"P2","status":"완료","assignee":"AI","dueDate":null,
+    "createdAt":"2026-02-19","updatedAt":"2026-03-05",
+    "statusNote":"Supabase+슬랙 연동 운영중",
+    "memo":"Supabase feel_bookings 연동 + 슬랙 알림 + 컨펌/조정/취소 프로세스 정상 운영중.",
+    "blocker":null,
+    "history":[
+      {"date":"2026-03-05","summary":"대표님 확인: 현재 프로세스 정상 운영중. 완료 처리.","refs":[]},
+      {"date":"2026-02-19","summary":"형은님 개선 요청.","refs":[]}
+    ]
   },
   {
     "id":"t605","group":"웹/랜딩페이지","title":"인스타 링크 페이지 (리틀리 대체)",
     "category":"웹","priority":"P1","status":"진행중","assignee":"성우+AI","dueDate":null,
     "createdAt":"2026-03-03","updatedAt":"2026-03-05",
-    "memo":"리틀리를 자체 개발 페이지(roomfit.kr/link)로 대체. 버튼별 강조 색상 + UTM 적용. 인스타 등록 시 차단 이슈 발생 → 24시간 후 재시도 예정. 우선 리틀리로 복구.",
-    "blocker":"인스타 링크 등록 일시 차단 (24시간 제한, 3/5 이후 재시도)",
+    "statusNote":"페이지 완성, 인스타 등록 오류 → 오늘 재시도",
+    "memo":"리틀리를 자체 개발 페이지(roomfit.kr/link)로 대체. 버튼별 강조 색상 + UTM 적용. 인스타 등록 시 오류 발생 → 오늘 재시도 예정.",
+    "blocker":"인스타 링크 등록 오류 (오늘 재시도)",
     "history":[
-      {"date":"2026-03-05","summary":"형은님: 아직 인스타 등록 오류. 내일 리틀리로 올려볼 예정.","refs":[]},
+      {"date":"2026-03-05","summary":"대표님: 페이지 자체는 완성, 인스타 등록이 자꾸 오류. 오늘 다시 시도.","refs":[]},
       {"date":"2026-03-05","summary":"UTM은 페이지 자체가 아니라 각 버튼에 적용하는 방식으로 결정. 인스타 인앱브라우저가 UTM 리다이렉트를 차단하는 것으로 확인.","refs":[]},
       {"date":"2026-03-04","summary":"roomfit.kr/link 리다이렉트 슬래시 이슈 해결 (Page Rule 수정). 인스타 인앱 브라우저에서 여전히 문제 → 여러 번 시도로 인스타 링크 등록 차단됨.","refs":[]},
       {"date":"2026-03-03","summary":"리틀리 버튼 개별 색상 불가 → 자체 개발 결정. roomfit.kr/link 배포 완료. 카카오 제거, 무료체험 초록 / 더 알아보기 파란 강조. link.roomfit.kr 서브도메인도 설정.","refs":[]},
@@ -157,13 +182,17 @@
   {
     "id":"t603","group":"웹/랜딩페이지","title":"GA4 이벤트 트래킹 설정",
     "category":"웹","priority":"P3","status":"완료","assignee":"AI","dueDate":null,
-    "createdAt":"2026-02-19","updatedAt":"2026-02-19","memo":"완료.",
+    "createdAt":"2026-02-19","updatedAt":"2026-02-19",
+    "statusNote":"19개 이벤트 설정 완료",
+    "memo":"완료.",
     "blocker":null,"history":[{"date":"2026-02-19","summary":"완료.","refs":[]}]
   },
   {
     "id":"t604","group":"웹/랜딩페이지","title":"모바일 렌더링 이슈",
     "category":"웹","priority":"P3","status":"진행중","assignee":"성우+AI","dueDate":null,
-    "createdAt":"2026-02-25","updatedAt":"2026-02-25","memo":"모바일에서 일부 콘텐츠 안 뜨는 현상.",
+    "createdAt":"2026-02-25","updatedAt":"2026-02-25",
+    "statusNote":"일부 콘텐츠 미표시, 원인 파악중",
+    "memo":"모바일에서 일부 콘텐츠 안 뜨는 현상.",
     "blocker":null,"history":[{"date":"2026-02-25","summary":"형은님 이슈 보고.","refs":[]}]
   },
 
@@ -172,6 +201,7 @@
     "id":"t701","group":"전략/프로모션","title":"프리오더 구조 설계",
     "category":"전략","priority":"P1","status":"진행중","assignee":"성우","dueDate":null,
     "createdAt":"2026-03-04","updatedAt":"2026-03-04",
+    "statusNote":"혜택 먼저 확정 → 전환율 보며 수량 결정 방향",
     "memo":"프리오더 알림 신청(2~3주) → 결제 오픈(스포엑스 직전) → 5월 중순 순차 출고. 혜택을 먼저 정하고 알림 전환율 + 실제 구매 건수 보면서 제작 수량 확정하는 방향으로 형은님 제안.",
     "blocker":null,
     "history":[
@@ -183,7 +213,8 @@
   {
     "id":"t702","group":"전략/프로모션","title":"카카오 채널 가격노출 이슈",
     "category":"전략","priority":"P3","status":"완료","assignee":"성우","dueDate":null,
-    "createdAt":"2026-03-03","updatedAt":"2026-03-03",
+    "createdAt":"2026-03-03","updatedAt":"2026-03-05",
+    "statusNote":"자체 링크 페이지로 해결",
     "memo":"카카오 제거 결정 → 자체 링크 페이지에서 카카오 버튼 빠짐. 인스타 링크 페이지(t605)로 이관.",
     "blocker":null,
     "history":[{"date":"2026-03-03","summary":"카카오 제거 방향으로 결정. 자체 링크 페이지 개발로 해결.","refs":[]}]
@@ -191,7 +222,8 @@
   {
     "id":"t703","group":"전략/프로모션","title":"인스타 프로필 리틀리 링크 수정",
     "category":"전략","priority":"P3","status":"완료","assignee":"성우+AI","dueDate":null,
-    "createdAt":"2026-02-24","updatedAt":"2026-03-03",
+    "createdAt":"2026-02-24","updatedAt":"2026-03-05",
+    "statusNote":"자체 페이지로 대체 완료",
     "memo":"리틀리 자체를 자체 개발 페이지로 대체 결정 → t605로 이관.",
     "blocker":null,
     "history":[{"date":"2026-03-03","summary":"리틀리 대체 자체 페이지 개발로 해결. t605 참조.","refs":[]}]
@@ -200,6 +232,7 @@
     "id":"t704","group":"전략/프로모션","title":"이벤트 기획 (페이백/앱인증)",
     "category":"전략","priority":"P3","status":"예정","assignee":"성우","dueDate":null,
     "createdAt":"2026-02-25","updatedAt":"2026-02-25",
+    "statusNote":"아이디어 단계, 미착수",
     "memo":"여름까지 몸 만들기 동기부여. 앱 인증 추첨, 50% 페이백.",
     "blocker":null,"history":[{"date":"2026-02-25","summary":"4차 미팅: 아이디어 논의.","refs":[]}]
   },
@@ -207,6 +240,7 @@
     "id":"t705","group":"전략/프로모션","title":"체험→계약 전환 추적 DB 구축",
     "category":"전략","priority":"P2","status":"예정","assignee":"성우+AI","dueDate":null,
     "createdAt":"2026-03-03","updatedAt":"2026-03-04",
+    "statusNote":"분석 리포트 공유됨, 데이터 보완 필요",
     "memo":"체험 신청→실구매 전환율 추적 필요. 사전체험 구매전환 분석 리포트 공유됨 (데이터 불완전, 보완 필요).",
     "blocker":null,
     "history":[
@@ -217,7 +251,9 @@
   {
     "id":"t706","group":"전략/프로모션","title":"슬랙 구매 알림 봇",
     "category":"전략","priority":"P3","status":"예정","assignee":"AI","dueDate":null,
-    "createdAt":"2026-03-03","updatedAt":"2026-03-03","memo":"체험 알림과 동일 구조로 구매 알림 추가.",
+    "createdAt":"2026-03-03","updatedAt":"2026-03-03",
+    "statusNote":"체험 알림과 동일 구조, 미착수",
+    "memo":"체험 알림과 동일 구조로 구매 알림 추가.",
     "blocker":null,"history":[{"date":"2026-03-03","summary":"5차 미팅 논의.","refs":[]}]
   },
 
@@ -225,13 +261,17 @@
   {
     "id":"t801","group":"도구/인프라","title":"형은님 맥북 오픈클로 설치",
     "category":"전략","priority":"P3","status":"진행중","assignee":"성우","dueDate":null,
-    "createdAt":"2026-03-03","updatedAt":"2026-03-03","memo":"",
+    "createdAt":"2026-03-03","updatedAt":"2026-03-03",
+    "statusNote":"설치 착수",
+    "memo":"",
     "blocker":null,"history":[{"date":"2026-03-03","summary":"설치 착수.","refs":[]}]
   },
   {
     "id":"t802","group":"도구/인프라","title":"마케팅 계정 공유/권한 부여",
     "category":"전략","priority":"P3","status":"진행중","assignee":"성우","dueDate":null,
-    "createdAt":"2026-02-10","updatedAt":"2026-02-10","memo":"형은님에게 필요한 마케팅 툴 계정 공유.",
+    "createdAt":"2026-02-10","updatedAt":"2026-02-10",
+    "statusNote":"형은님 계정 공유 미완료",
+    "memo":"형은님에게 필요한 마케팅 툴 계정 공유.",
     "blocker":null,"history":[{"date":"2026-02-10","summary":"3차 미팅 논의.","refs":[]}]
   },
 
@@ -239,7 +279,9 @@
   {
     "id":"t901","group":"주간 마케팅 리포트","title":"3월 1주차 리포트",
     "category":"광고","priority":"P3","status":"완료","assignee":"AI","dueDate":null,
-    "createdAt":"2026-03-02","updatedAt":"2026-03-02","memo":"광고비 53.2만원 (▲46%).",
+    "createdAt":"2026-03-02","updatedAt":"2026-03-02",
+    "statusNote":"광고비 53.2만원/주 (▲46%)",
+    "memo":"광고비 53.2만원 (▲46%).",
     "blocker":null,"history":[{"date":"2026-03-02","summary":"자동 발행.","refs":[]}]
   }
 ]

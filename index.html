@@ -56,9 +56,9 @@
   .kanban-header .k-col-title:last-child{border-right:none;}
   .priority-section{border-bottom:1px solid var(--b);}
   .priority-section:last-child{border-bottom:none;}
-  .priority-label{padding:6px 12px;font-size:0.7rem;font-weight:700;background:var(--s2);border-bottom:1px solid var(--b);display:flex;align-items:center;gap:6px;}
+  .priority-label{padding:4px 10px;font-size:0.68rem;font-weight:700;background:var(--s2);border-bottom:1px solid var(--b);display:flex;align-items:center;gap:6px;}
   .priority-row{display:grid;grid-template-columns:repeat(3,1fr);}
-  .k-col{padding:8px;border-right:1px solid var(--b);min-height:40px;}
+  .k-col{padding:5px;border-right:1px solid var(--b);min-height:30px;}
   .k-col:last-child{border-right:none;}
   .k-col.empty{opacity:.3;}
   .done-section{margin-top:12px;background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;}
@@ -68,17 +68,18 @@
   .done-body.collapsed{display:none;}
   .done-body.expanded{display:grid;}
   .k-col-title{font-size:0.73rem;font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;}
-  .k-card{background:var(--s2);border-radius:7px;padding:9px;margin-bottom:7px;cursor:pointer;transition:all .12s;position:relative;}
+  .k-card{background:var(--s2);border-radius:6px;padding:6px 8px;margin-bottom:5px;cursor:pointer;transition:all .12s;position:relative;}
   .k-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.2);transform:translateY(-1px);}
-  .k-card .title{font-size:0.82rem;font-weight:600;margin:3px 0;}
-  .k-card .meta{font-size:0.7rem;color:var(--t2);}
-  .k-card .age{font-size:0.63rem;color:var(--t2);margin-top:2px;}
+  .k-card .title{font-size:0.78rem;font-weight:600;margin:1px 0;}
+  .k-card .meta{font-size:0.67rem;color:var(--t2);}
+  .k-card .status-note{font-size:0.65rem;color:var(--g);margin-top:1px;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .k-card .age{font-size:0.6rem;color:var(--t2);margin-top:1px;}
   .k-card .age.stale{color:var(--y);}
   .k-card .age.very-stale{color:var(--r);}
   .k-card.stale{opacity:.55;}
-  .k-card .group-label{font-size:0.63rem;color:var(--ac2);margin-top:2px;opacity:.7;}
-  .k-card .blocker-tag{display:inline-block;background:rgba(225,112,85,.15);color:var(--r);font-size:0.63rem;padding:1px 5px;border-radius:3px;margin-top:3px;}
-  .k-card .dday{font-size:0.65rem;color:var(--r);font-weight:600;}
+  .k-card .group-label{font-size:0.6rem;color:var(--ac2);margin-top:1px;opacity:.7;}
+  .k-card .blocker-tag{display:inline-block;background:rgba(225,112,85,.15);color:var(--r);font-size:0.6rem;padding:1px 5px;border-radius:3px;margin-top:1px;}
+  .k-card .dday{font-size:0.63rem;color:var(--r);font-weight:600;}
 
   /* List view */
   .list-view{background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;}
@@ -380,9 +381,9 @@ function cardHTML(t){
       ${du!==null?`<span class="dday">D-${du}</span>`:''}
     </div>
     <div class="title">${t.title}</div>
-    <div class="meta"><span class="tag tag-${t.category}">${t.category}</span> ${t.assignee.includes('AI')?'🤖':'👤'} ${t.assignee}</div>
-    ${t.group?`<div class="group-label">📁 ${t.group}</div>`:''}
-    ${t.blocker?`<div class="blocker-tag">🚫 ${t.blocker.length>25?t.blocker.slice(0,25)+'…':t.blocker}</div>`:''}
+    <div class="meta"><span class="tag tag-${t.category}">${t.category}</span> ${t.assignee.includes('AI')?'🤖':'👤'} ${t.assignee} ${t.group?`· ${t.group}`:''}</div>
+    ${t.statusNote?`<div class="status-note">→ ${t.statusNote}</div>`:''}
+    ${t.blocker?`<div class="blocker-tag">🚫 ${t.blocker.length>30?t.blocker.slice(0,30)+'…':t.blocker}</div>`:''}
     <div class="age ${ageClass(days)}">업데이트 ${ageText(days)}</div>
   </div>`;
 }
