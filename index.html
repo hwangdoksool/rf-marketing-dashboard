@@ -20,6 +20,12 @@
   .btn.active{background:var(--ac);color:#fff;border-color:var(--ac);}
   .badge{background:var(--g);color:#fff;padding:2px 10px;border-radius:12px;font-size:0.7rem;font-weight:600;}
 
+  /* Main tabs */
+  .main-tabs{display:flex;gap:6px;margin-bottom:12px;}
+  .main-tab{padding:7px 14px;border-radius:7px;font-size:0.82rem;font-weight:700;cursor:pointer;border:1px solid var(--b);background:var(--s);color:var(--t2);transition:all .12s;}
+  .main-tab.active{background:var(--ac);color:#fff;border-color:var(--ac);}
+  .main-tab:hover:not(.active){background:var(--s2);color:var(--t);}
+
   /* Filter bar */
   .filters{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;align-items:center;}
   .filter-btn{padding:4px 10px;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;border:1px solid var(--b);background:var(--s);color:var(--t2);transition:all .12s;}
@@ -124,6 +130,47 @@
   .info-card{background:var(--s);border:1px solid var(--b);border-radius:8px;padding:12px;}
   .info-card h4{font-size:0.88rem;color:var(--ac2);margin-bottom:4px;}
   .info-card p{font-size:0.82rem;color:var(--t2);}
+
+  /* Report view */
+  .rpt{max-width:100%;margin:0;}
+  .rpt-nav{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;align-items:center;padding:8px 10px;background:var(--s);border:1px dashed var(--b);border-radius:10px;}
+  .rpt-nav-label{font-size:0.72rem;color:var(--t2);font-weight:700;margin-right:4px;}
+  .rpt-nav .rpt-tab{padding:5px 11px;border-radius:999px;font-size:0.75rem;font-weight:600;cursor:pointer;background:transparent;border:1px solid var(--b);color:var(--t2);transition:all .15s;}
+  .rpt-nav .rpt-tab.active{background:var(--s2);color:var(--ac2);border-color:var(--ac2);box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--ac2) 35%, transparent);}
+  .rpt-nav .rpt-tab:hover:not(.active){background:var(--s2);color:var(--t);}
+  .rpt-header{margin-bottom:20px;}
+  .rpt-header h2{font-size:1.15rem;font-weight:700;margin-bottom:4px;}
+  .rpt-header .rpt-period{font-size:0.78rem;color:var(--t2);}
+  .rpt-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:20px;}
+  .rpt-kpi-card{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:12px;text-align:center;}
+  .rpt-kpi-card .kv{font-size:1.3rem;font-weight:700;}
+  .rpt-kpi-card .kl{font-size:0.72rem;color:var(--t2);margin-top:2px;}
+  .rpt-kpi-card .kd{font-size:0.7rem;margin-top:3px;font-weight:600;}
+  .kd.up{color:var(--g);}
+  .kd.down{color:var(--r);}
+  .kd.flat{color:var(--t2);}
+  .rpt-abstract{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:16px 18px;margin-bottom:16px;font-size:0.88rem;line-height:1.8;}
+  .rpt-section{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
+  .rpt-section h3{font-size:0.92rem;font-weight:700;margin-bottom:10px;color:var(--ac2);}
+  .rpt-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
+  .rpt-table th{text-align:left;padding:6px 8px;color:var(--t2);font-size:0.7rem;border-bottom:1px solid var(--b);font-weight:600;}
+  .rpt-table td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .rpt-table .num{text-align:right;}
+  .rpt-insight{background:var(--s2);border-radius:8px;padding:10px 14px;margin-top:8px;font-size:0.82rem;line-height:1.6;}
+  .rpt-insight .tag-fact{color:var(--g);}
+  .rpt-insight .tag-warning{color:var(--y);}
+  .rpt-insight .tag-opportunity{color:var(--bl);}
+  .rpt-funnel{display:flex;align-items:center;gap:4px;flex-wrap:wrap;margin:8px 0;}
+  .rpt-funnel-step{background:var(--s2);border-radius:6px;padding:8px 12px;text-align:center;min-width:80px;}
+  .rpt-funnel-step .fv{font-size:1rem;font-weight:700;}
+  .rpt-funnel-step .fl{font-size:0.68rem;color:var(--t2);}
+  .rpt-funnel-arrow{color:var(--t2);font-size:0.75rem;white-space:nowrap;}
+  .rpt-task-item{display:flex;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:0.82rem;align-items:flex-start;}
+  .rpt-task-item:last-child{border-bottom:none;}
+  .rpt-task-id{color:var(--ac2);font-weight:600;font-size:0.72rem;min-width:32px;}
+  .rpt-task-impact{color:var(--t2);font-size:0.75rem;margin-top:2px;}
+  .rpt-back{display:inline-flex;align-items:center;gap:4px;color:var(--ac2);cursor:pointer;font-size:0.82rem;margin-bottom:12px;font-weight:600;}
+  .rpt-back:hover{color:var(--ac);}
 
   /* Footer */
   footer{text-align:center;padding:24px 0;color:var(--t2);font-size:0.7rem;border-top:1px solid var(--b);margin-top:24px;}
@@ -274,6 +321,12 @@
     </div>
   </div>
 
+  <!-- Main Tabs -->
+  <div class="main-tabs">
+    <button class="main-tab active" id="tab-board" onclick="switchMainTab('board')">📋 진행현황</button>
+    <button class="main-tab" id="tab-report" onclick="switchMainTab('report')">📊 주간리포트</button>
+  </div>
+
   <!-- Filters -->
   <div class="filters">
     <span class="filter-btn active" data-filter="all">전체</span>
@@ -300,7 +353,10 @@
     <div class="modal" id="modal"></div>
   </div>
 
-  <footer>🦍 황고릴 · WESPION · 룸핏 마케팅 대시보드 v0.3</footer>
+  <!-- Report View (hidden by default) -->
+  <div id="report-view" style="display:none;"></div>
+
+  <footer>🦍 황고릴 · WESPION · 룸핏 마케팅 대시보드 v0.4</footer>
 </div>
 
 <script>
@@ -553,6 +609,307 @@ function toggleTheme(){
 }
 const saved=localStorage.getItem('theme');
 if(saved) document.documentElement.setAttribute('data-theme',saved);
+
+// ===== REPORT VIEW =====
+let reports = [];
+let currentMainTab = 'board';
+fetch('reports.json').then(r=>r.json()).then(d=>{reports=d;if(window.location.hash==='#report')switchMainTab('report');}).catch(()=>{});
+
+function switchMainTab(tab){
+  currentMainTab = tab;
+  const boardEls = ['board','summary'];
+  const filterEl = document.querySelector('.filters');
+  const rv = document.getElementById('report-view');
+  const tabBoard = document.getElementById('tab-board');
+  const tabReport = document.getElementById('tab-report');
+
+  if(tab==='report'){
+    boardEls.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+    if(filterEl) filterEl.style.display='none';
+    document.getElementById('prd-panel').style.display='none';
+    document.getElementById('guide-panel').style.display='none';
+    rv.style.display='block';
+    tabBoard.classList.remove('active');
+    tabReport.classList.add('active');
+    history.replaceState(null,null,'#report');
+    renderReportList();
+  } else {
+    boardEls.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='';});
+    if(filterEl) filterEl.style.display='';
+    rv.style.display='none';
+    tabBoard.classList.add('active');
+    tabReport.classList.remove('active');
+    history.replaceState(null,null,'#board');
+  }
+}
+
+function renderReportList(){
+  const rv = document.getElementById('report-view');
+  if(!reports.length){rv.innerHTML='<div class="rpt"><p style="color:var(--t2);padding:40px;text-align:center;">리포트 데이터를 불러오는 중...</p></div>';return;}
+  
+  // Show latest report directly
+  renderReport(reports[0].id);
+}
+
+function renderReport(id){
+  const r = reports.find(x=>x.id===id);
+  if(!r) return;
+  const rv = document.getElementById('report-view');
+
+  // Navigation tabs (for multiple reports)
+  let navHtml = '<div class="rpt-nav"><span class="rpt-nav-label">리포트 선택</span>';
+  reports.forEach(rp=>{
+    navHtml+=`<div class="rpt-tab ${rp.id===id?'active':''}" onclick="renderReport('${rp.id}')">${rp.title}</div>`;
+  });
+  navHtml+='</div>';
+
+  // KPI cards
+  let kpiHtml = '<div class="rpt-kpi">';
+  const kpiDefs = [
+    {key:'sessions', label:'세션', fmt:v=>v.toLocaleString()},
+    {key:'users', label:'유저', fmt:v=>v.toLocaleString()},
+    {key:'adSpend', label:'총 광고비', fmt:v=>'₩'+Math.round(v/10000)+'만'},
+    {key:'purchases_ga4', label:'구매 (GA4)', fmt:v=>v+'건'},
+    {key:'bounceRate', label:'이탈률', fmt:v=>v+'%'},
+    {key:'avgDuration', label:'평균 체류', fmt:v=>v+'초'},
+  ];
+  kpiDefs.forEach(def=>{
+    const d = r.kpi[def.key];
+    if(!d) return;
+    const v = d.value, p = d.prev;
+    let delta='', cls='flat';
+    if(p && typeof v==='number' && typeof p==='number' && p!==0){
+      const pct=((v-p)/p*100);
+      if(def.key==='bounceRate'){
+        const diff=v-p;
+        delta=diff>0?`▲${diff.toFixed(1)}p`:`▼${Math.abs(diff).toFixed(1)}p`;
+        cls=diff>0?'down':'up';
+      } else {
+        delta=pct>0?`▲${pct.toFixed(1)}%`:`▼${Math.abs(pct).toFixed(1)}%`;
+        cls=def.key==='adSpend'?(pct>0?'down':'up'):(pct>0?'up':'down');
+      }
+    }
+    kpiHtml+=`<div class="rpt-kpi-card"><div class="kv">${def.fmt(v)}</div><div class="kl">${def.label}</div>${delta?`<div class="kd ${cls}">${delta} WoW</div>`:''}</div>`;
+  });
+  kpiHtml+='</div>';
+
+  // Abstract
+  let abstractHtml=`<div class="rpt-abstract"><strong style="color:var(--ac2);">Executive Summary</strong><br>${r.abstract}</div>`;
+
+  // Sections
+  let sectionsHtml = '';
+  r.sections.forEach(s=>{
+    sectionsHtml+='<div class="rpt-section">';
+    sectionsHtml+=`<h3>${s.title}</h3>`;
+    
+    if(s.type==='metrics'){
+      sectionsHtml+='<table class="rpt-table"><thead><tr><th>지표</th><th class="num">W10</th><th class="num">W9</th><th class="num">WoW</th><th>비고</th></tr></thead><tbody>';
+      s.content.forEach(m=>{
+        const v10=typeof m.w10==='number'?m.w10.toLocaleString():m.w10;
+        const v9=typeof m.w9==='number'?m.w9.toLocaleString():m.w9;
+        let wow='—';
+        if(typeof m.w10==='number'&&typeof m.w9==='number'&&m.w9!==0){
+          const p=((m.w10-m.w9)/m.w9*100);
+          wow=p>0?`<span style="color:var(--g)">+${p.toFixed(1)}%</span>`:`<span style="color:var(--r)">${p.toFixed(1)}%</span>`;
+        }
+        sectionsHtml+=`<tr><td>${m.label}</td><td class="num"><strong>${v10}</strong></td><td class="num">${v9}</td><td class="num">${wow}</td><td style="font-size:0.75rem;color:var(--t2)">${m.note||''}</td></tr>`;
+      });
+      sectionsHtml+='</tbody></table>';
+    }
+    
+    else if(s.type==='channels'){
+      sectionsHtml+='<table class="rpt-table"><thead><tr><th>채널</th><th class="num">세션</th><th class="num">전주</th><th class="num">WoW</th><th class="num">이탈률</th><th>평가</th></tr></thead><tbody>';
+      s.content.forEach(ch=>{
+        const chgStyle=ch.change.includes('+')||ch.change.includes('x')?'color:var(--g)':'color:var(--r)';
+        sectionsHtml+=`<tr><td><strong>${ch.channel}</strong></td><td class="num">${ch.sessions.toLocaleString()}</td><td class="num">${ch.prev.toLocaleString()}</td><td class="num" style="${chgStyle}">${ch.change}</td><td class="num">${ch.bounce}</td><td style="font-size:0.75rem;color:var(--t2)">${ch.verdict}</td></tr>`;
+      });
+      sectionsHtml+='</tbody></table>';
+    }
+    
+    else if(s.type==='funnel'){
+      const f=s.content;
+      const steps=[
+        {k:'view_item',label:'상품 조회',icon:'🔍'},
+        {k:'begin_checkout',label:'체크아웃',icon:'🛒'},
+        {k:'add_payment_info',label:'결제 입력',icon:'💳'},
+        {k:'purchase',label:'구매',icon:'✅'}
+      ];
+      sectionsHtml+='<div class="rpt-funnel">';
+      steps.forEach((st,i)=>{
+        const d=f[st.k];
+        if(!d)return;
+        const w10=d.w10, w9=d.w9;
+        sectionsHtml+=`<div class="rpt-funnel-step"><div class="fv">${st.icon} ${w10.users.toLocaleString()}</div><div class="fl">${st.label}</div><div class="fl" style="color:var(--t2)">(W9: ${w9.users})</div></div>`;
+        if(i<steps.length-1){
+          const next=steps[i+1];
+          const nd=f[next.k];
+          if(nd&&d.w10.users>0){
+            const dropPct=((1-nd.w10.users/d.w10.users)*100).toFixed(1);
+            sectionsHtml+=`<div class="rpt-funnel-arrow">→ <span style="color:var(--r)">${dropPct}% 이탈</span> →</div>`;
+          }
+        }
+      });
+      sectionsHtml+='</div>';
+      if(f.conversion_rate){
+        sectionsHtml+=`<div class="rpt-insight"><span class="tag-fact">📈</span> 전환율: <strong>${f.conversion_rate.w10}</strong> (W9: ${f.conversion_rate.w9}) — ${f.conversion_rate.note}</div>`;
+      }
+    }
+    
+    else if(s.type==='feel_conversion'){
+      const fc=s.content;
+      sectionsHtml+=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;margin-bottom:10px;">`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">${fc.total_bookings}명</div><div class="kl">체험 신청</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">${fc.completed}명</div><div class="kl">체험 완료</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;border-color:var(--g);"><div class="kv" style="font-size:1rem;color:var(--g);">${fc.converted}명</div><div class="kl">구매 전환</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">${fc.conversion_rate}</div><div class="kl">전환율</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;color:var(--t2);">${fc.historical_rate}</div><div class="kl">누적 전환율</div></div>`;
+      sectionsHtml+=`</div>`;
+      // Channel breakdown
+      sectionsHtml+=`<table class="rpt-table"><thead><tr><th>인지 경로</th><th class="num">신청 수</th><th class="num">비중</th></tr></thead><tbody>`;
+      fc.channel_breakdown.forEach(ch=>{
+        sectionsHtml+=`<tr><td>${ch.channel}</td><td class="num">${ch.count}</td><td class="num">${ch.pct}</td></tr>`;
+      });
+      sectionsHtml+=`</tbody></table>`;
+      // Converted detail
+      if(fc.converted_detail){
+        const cd=fc.converted_detail;
+        sectionsHtml+=`<div style="background:rgba(80,200,120,0.08);border:1px solid rgba(80,200,120,0.2);border-radius:8px;padding:10px;margin-top:8px;font-size:0.82rem;">`;
+        sectionsHtml+=`<strong style="color:var(--g);">✅ 전환 사례</strong> — ${cd.name} · 체험 ${cd.booking_date} → 구매 ${cd.order_date} (${cd.days_to_convert}일) · ₩${(cd.amount/10000).toFixed(0)}만 · 인지: ${cd.first_touch}`;
+        sectionsHtml+=`</div>`;
+      }
+      sectionsHtml+=`<div class="rpt-insight">${fc.insight}</div>`;
+    }
+
+    else if(s.type==='ads'){
+      const ad=s.content;
+      // Meta
+      const m=ad.meta;
+      sectionsHtml+=`<h4 style="font-size:0.85rem;margin:8px 0 6px;">Meta Ads</h4>`;
+      sectionsHtml+=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;margin-bottom:10px;">`;
+      const mSpendWow=((m.spend-m.prev_spend)/m.prev_spend*100).toFixed(1);
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">₩${Math.round(m.spend/10000)}만</div><div class="kl">지출</div><div class="kd ${mSpendWow>0?'down':'up'}">${mSpendWow>0?'▲':'▼'}${Math.abs(mSpendWow)}%</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">${(m.impressions/1000).toFixed(1)}K</div><div class="kl">노출</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">${m.clicks.toLocaleString()}</div><div class="kl">클릭</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">${m.ctr}</div><div class="kl">CTR</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">${m.purchases}건</div><div class="kl">구매</div></div>`;
+      sectionsHtml+=`</div>`;
+      // 전환 지표 카드 (신규)
+      sectionsHtml+=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;margin-bottom:10px;">`;
+      if(m.cpa!==null&&m.cpa!==undefined){sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;border-color:var(--y);"><div class="kv" style="font-size:1rem;">₩${Math.round(m.cpa/10000)}만</div><div class="kl">CPA</div></div>`;}
+      if(m.cvr!==undefined){sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">${m.cvr}%</div><div class="kl">전환율</div></div>`;}
+      if(m.roas){sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;border-color:var(--g);"><div class="kv" style="font-size:1rem;">${m.roas}x</div><div class="kl">ROAS</div></div>`;}
+      sectionsHtml+=`</div>`;
+      if(m.roas_note){sectionsHtml+=`<div style="font-size:0.75rem;color:var(--t2);margin:-6px 0 8px 2px;">⚠️ ${m.roas_note}</div>`;}
+      // Top creatives table (전환율/CPA 컬럼 추가)
+      sectionsHtml+=`<table class="rpt-table"><thead><tr><th>소재</th><th class="num">지출</th><th class="num">CTR</th><th class="num">전환율</th><th class="num">구매</th><th class="num">CPA</th></tr></thead><tbody>`;
+      m.top_creatives.forEach(c=>{
+        const cpaStr=c.cpa?`₩${Math.round(c.cpa/10000)}만`:'-';
+        sectionsHtml+=`<tr><td>${c.name}</td><td class="num">₩${Math.round(c.spend/10000)}만</td><td class="num">${c.ctr}</td><td class="num">${c.cvr!==undefined?c.cvr+'%':'-'}</td><td class="num" style="color:${c.purchases?'var(--g)':'var(--t2)'}">${c.purchases}</td><td class="num">${cpaStr}</td></tr>`;
+      });
+      sectionsHtml+=`</tbody></table>`;
+      sectionsHtml+=`<div class="rpt-insight">${m.insight}</div>`;
+      
+      // Naver
+      const n=ad.naver;
+      sectionsHtml+=`<h4 style="font-size:0.85rem;margin:14px 0 6px;">네이버 검색광고</h4>`;
+      sectionsHtml+=`<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:6px;margin-bottom:10px;">`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">₩${(n.spend/10000).toFixed(1)}만</div><div class="kl">지출</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">${n.impressions.toLocaleString()}</div><div class="kl">노출</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">${n.clicks}</div><div class="kl">클릭</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;color:var(--g);">${n.ctr}</div><div class="kl">CTR</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">₩${n.cpc}</div><div class="kl">CPC</div></div>`;
+      if(n.conversions!==undefined){sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;border-color:var(--g);"><div class="kv" style="font-size:1rem;color:var(--g);">${n.conversions}건</div><div class="kl">구매</div></div>`;}
+      if(n.cpa){sectionsHtml+=`<div class="rpt-kpi-card" style="padding:8px;"><div class="kv" style="font-size:1rem;">₩${n.cpa.toLocaleString()}</div><div class="kl">CPA</div></div>`;}
+      sectionsHtml+=`</div>`;
+      // 광고그룹별 성과 테이블 (신규)
+      if(n.adgroups&&n.adgroups.length){
+        sectionsHtml+=`<table class="rpt-table"><thead><tr><th>광고그룹</th><th class="num">클릭</th><th class="num">노출</th><th class="num">CTR</th><th class="num">CPC</th></tr></thead><tbody>`;
+        n.adgroups.forEach(ag=>{
+          sectionsHtml+=`<tr><td>${ag.name}</td><td class="num">${ag.clicks}</td><td class="num">${ag.impressions}</td><td class="num">${ag.ctr}</td><td class="num">₩${ag.cpc}</td></tr>`;
+        });
+        sectionsHtml+=`</tbody></table>`;
+      }
+      sectionsHtml+=`<div class="rpt-insight">${n.insight}</div>`;
+    }
+    
+    else if(s.type==='audience'){
+      const au=s.content;
+      sectionsHtml+='<table class="rpt-table"><thead><tr><th>디바이스</th><th class="num">세션</th><th class="num">비중</th><th class="num">이탈률</th></tr></thead><tbody>';
+      au.devices.forEach(d=>{
+        sectionsHtml+=`<tr><td>${d.device}</td><td class="num">${d.sessions.toLocaleString()}</td><td class="num">${d.pct}</td><td class="num">${d.bounce}</td></tr>`;
+      });
+      sectionsHtml+='</tbody></table>';
+      const nr=au.new_vs_returning;
+      sectionsHtml+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:10px;"><div class="kv" style="font-size:1rem;">🆕 ${nr.new.sessions.toLocaleString()}</div><div class="kl">신규</div><div class="kl">이탈 ${nr.new.bounce} · 체류 ${nr.new.duration}</div></div>`;
+      sectionsHtml+=`<div class="rpt-kpi-card" style="padding:10px;border-color:var(--g);"><div class="kv" style="font-size:1rem;color:var(--g);">🔄 ${nr.returning.sessions.toLocaleString()}</div><div class="kl">재방문</div><div class="kl">이탈 ${nr.returning.bounce} · 체류 ${nr.returning.duration}</div></div>`;
+      sectionsHtml+=`</div>`;
+      sectionsHtml+=`<div class="rpt-insight">${au.insight}</div>`;
+    }
+    
+    else if(s.type==='tasks'){
+      const t=s.content;
+      // Completed
+      sectionsHtml+=`<h4 style="font-size:0.82rem;color:var(--g);margin-bottom:6px;">✅ 이번 주 완료 (${t.completed_this_week.length}건)</h4>`;
+      t.completed_this_week.forEach(tk=>{
+        sectionsHtml+=`<div class="rpt-task-item"><span class="rpt-task-id">${tk.id}</span><div><div>${tk.title}</div><div class="rpt-task-impact">→ ${tk.impact}</div></div></div>`;
+      });
+      // In progress
+      sectionsHtml+=`<h4 style="font-size:0.82rem;color:var(--y);margin:12px 0 6px;">🔄 진행 중 (${t.in_progress.length}건)</h4>`;
+      t.in_progress.forEach(tk=>{
+        sectionsHtml+=`<div class="rpt-task-item"><span class="rpt-task-id">${tk.id}</span><div><div>${tk.title}</div><div class="rpt-task-impact">${tk.note}</div></div></div>`;
+      });
+      // Blockers
+      if(t.blockers.length){
+        sectionsHtml+=`<h4 style="font-size:0.82rem;color:var(--r);margin:12px 0 6px;">🚫 블로커 (${t.blockers.length}건)</h4>`;
+        t.blockers.forEach(tk=>{
+          sectionsHtml+=`<div class="rpt-task-item"><span class="rpt-task-id">${tk.id}</span><div><div>${tk.title}</div><div class="rpt-task-impact" style="color:var(--r)">🚫 ${tk.blocker} → ${tk.impact}</div></div></div>`;
+        });
+      }
+      // Next week
+      sectionsHtml+=`<h4 style="font-size:0.82rem;color:var(--bl);margin:12px 0 6px;">📅 다음 주 포커스</h4>`;
+      sectionsHtml+='<ul style="padding-left:16px;font-size:0.82rem;">';
+      t.next_week_focus.forEach(f=>{sectionsHtml+=`<li style="margin:4px 0;">${f}</li>`;});
+      sectionsHtml+='</ul>';
+    }
+    
+    else if(s.type==='insights'){
+      s.content.forEach(ins=>{
+        const tagIcon={fact:'📊',warning:'⚠️',opportunity:'💡'}[ins.tag]||'📌';
+        const tagCls={fact:'tag-fact',warning:'tag-warning',opportunity:'tag-opportunity'}[ins.tag]||'';
+        const action=(ins.action||'').replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank" style="color:var(--bl);text-decoration:none;">$1</a>');
+        sectionsHtml+=`<div class="rpt-insight" style="margin-bottom:8px;"><span class="${tagCls}">${tagIcon} ${ins.finding}</span><br><span style="font-size:0.78rem;color:var(--t2);">원인: ${ins.cause}</span><br><span style="font-size:0.78rem;">→ <strong>${action}</strong></span></div>`;
+      });
+    }
+    
+    else if(s.type==='embed'){
+      const e=s.content||{};
+      sectionsHtml+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">`;
+      sectionsHtml+=`<p style="font-size:0.8rem;color:var(--t2);margin:0;">${e.note||''}</p>`;
+      sectionsHtml+=`<a href="${e.url||'#'}" target="_blank" rel="noopener" style="font-size:0.75rem;color:var(--bl);text-decoration:none;">새 탭에서 보기 ↗</a>`;
+      sectionsHtml+=`</div>`;
+      sectionsHtml+=`<div style="border:1px solid var(--b);border-radius:10px;overflow:hidden;">`;
+      const embedUrl=(e.url||'')+(e.url&&e.url.includes('?')?'&':'?')+'_v='+Date.now();
+      sectionsHtml+=`<iframe class="rf-embed-iframe" src="${embedUrl}" style="width:100%;height:${e.height||14000}px;border:0;" scrolling="no"></iframe>`;
+      sectionsHtml+=`</div>`;
+    }
+    
+    sectionsHtml+='</div>';
+  });
+
+  rv.innerHTML=`<div class="rpt">${navHtml}<div class="rpt-header"><h2>📊 ${r.title}</h2><span class="rpt-period">${r.period} · 발행일 ${r.publishedAt}</span></div>${kpiHtml}${abstractHtml}${sectionsHtml}</div>`;
+}
+
+// Global iframe auto-resize listener
+window.addEventListener('message', function(ev){
+  if(ev.data && ev.data.type === 'rf-report-height'){
+    document.querySelectorAll('.rf-embed-iframe').forEach(function(f){
+      if(f.contentWindow === ev.source){
+        f.style.height = ev.data.height + 'px';
+      }
+    });
+  }
+});
 </script>
 </body>
 </html>
