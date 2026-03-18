@@ -57,141 +57,297 @@
         "prev": 94
       }
     },
-    "abstract": "W12(3/9~15) 세션 7,154(WoW +24%), 유저 6,556명. Meta 광고비 ₩89.3만(+37%), 노출 107,109(+38%). GA4 구매 10건, 결제정보입력 22건. Display(메타) 4,985 세션이 전체의 70% 차지.",
+    "abstract": "W12(3/9~15) 세션 7,154(▲24.2%), 유저 6,556(▲27.5%). Meta 광고비 ₩89.3만, 네이버 ₩2.2만. GA4 구매 10건(결제입력 22건). Display 채널 4,985 세션(70%)으로 주력.",
     "sections": [
       {
-        "title": "📊 채널별 트래픽",
+        "title": "📊 트래픽 개요",
         "type": "metrics",
         "content": [
           {
-            "metric": "Display",
-            "w12": 4985,
-            "w11": null,
-            "note": "유저 4714명, 이탈 58%"
+            "label": "세션",
+            "w10": 7154,
+            "w9": 5758,
+            "note": "▲24.2%"
           },
           {
-            "metric": "Direct",
-            "w12": 1246,
-            "w11": null,
-            "note": "유저 1188명, 이탈 72%"
+            "label": "유저",
+            "w10": 6556,
+            "w9": 5140,
+            "note": "▲27.5%"
           },
           {
-            "metric": "Organic Social",
-            "w12": 317,
-            "w11": null,
-            "note": "유저 269명, 이탈 32%"
+            "label": "신규 유저",
+            "w10": 6113,
+            "w9": 4764,
+            "note": ""
           },
           {
-            "metric": "Paid Search",
-            "w12": 235,
-            "w11": null,
-            "note": "유저 190명, 이탈 33%"
+            "label": "페이지뷰",
+            "w10": 11930,
+            "w9": "-",
+            "note": ""
           },
           {
-            "metric": "Organic Search",
-            "w12": 200,
-            "w11": null,
-            "note": "유저 152명, 이탈 28%"
+            "label": "평균 체류",
+            "w10": "73초",
+            "w9": "94초",
+            "note": ""
           },
           {
-            "metric": "Paid Social",
-            "w12": 80,
-            "w11": null,
-            "note": "유저 71명, 이탈 60%"
-          },
-          {
-            "metric": "Referral",
-            "w12": 73,
-            "w11": null,
-            "note": "유저 30명, 이탈 51%"
-          },
-          {
-            "metric": "Unassigned",
-            "w12": 11,
-            "w11": null,
-            "note": "유저 11명, 이탈 82%"
+            "label": "이탈률",
+            "w10": "58.1%",
+            "w9": "54.3%",
+            "note": ""
           }
         ]
       },
       {
-        "title": "🎯 전환 퍼널 (GA4)",
+        "title": "📡 채널 분석",
+        "type": "channels",
+        "content": [
+          {
+            "channel": "Display",
+            "sessions": 4985,
+            "prev": 0,
+            "bounce": "58.2%",
+            "change": "69.7% 비중",
+            "verdict": "유저 4714명"
+          },
+          {
+            "channel": "Direct",
+            "sessions": 1246,
+            "prev": 0,
+            "bounce": "71.9%",
+            "change": "17.4% 비중",
+            "verdict": "유저 1188명"
+          },
+          {
+            "channel": "Organic Social",
+            "sessions": 317,
+            "prev": 0,
+            "bounce": "31.9%",
+            "change": "4.4% 비중",
+            "verdict": "유저 269명"
+          },
+          {
+            "channel": "Paid Search",
+            "sessions": 235,
+            "prev": 0,
+            "bounce": "33.2%",
+            "change": "3.3% 비중",
+            "verdict": "유저 190명"
+          },
+          {
+            "channel": "Organic Search",
+            "sessions": 200,
+            "prev": 0,
+            "bounce": "28.0%",
+            "change": "2.8% 비중",
+            "verdict": "유저 152명"
+          },
+          {
+            "channel": "Paid Social",
+            "sessions": 80,
+            "prev": 0,
+            "bounce": "60.0%",
+            "change": "1.1% 비중",
+            "verdict": "유저 71명"
+          }
+        ]
+      },
+      {
+        "title": "🔀 전환 퍼널",
         "type": "funnel",
         "content": {
-          "view_item": 5547,
-          "begin_checkout": 104,
-          "add_payment_info": 22,
-          "purchase": 10
+          "view_item": {
+            "w10": {
+              "count": 5547,
+              "users": 2458
+            },
+            "w9": {
+              "count": 0,
+              "users": 0
+            }
+          },
+          "begin_checkout": {
+            "w10": {
+              "count": 104,
+              "users": 42
+            },
+            "w9": {
+              "count": 0,
+              "users": 0
+            }
+          },
+          "add_payment_info": {
+            "w10": {
+              "count": 22,
+              "users": 16
+            },
+            "w9": {
+              "count": 0,
+              "users": 0
+            }
+          },
+          "purchase": {
+            "w10": {
+              "count": 10,
+              "users": 6
+            },
+            "w9": {
+              "count": 0,
+              "users": 0
+            }
+          }
         }
       },
       {
-        "title": "💰 Meta 소재 TOP 5 (by spend)",
-        "type": "metrics",
-        "content": [
-          {
-            "metric": "04_이미지_이사 걱정 없는",
-            "w12": "₩489,701",
-            "w11": "imp 54,418",
-            "note": "clicks 2,682, CTR 4.9%"
+        "title": "💰 광고 성과",
+        "type": "ads",
+        "content": {
+          "meta": {
+            "spend": 892547,
+            "prev_spend": 652456,
+            "impressions": 107109,
+            "clicks": 5509,
+            "ctr": "5.14%",
+            "cpc": 162,
+            "purchases": 3,
+            "cpa": 297515,
+            "cvr": 0.05,
+            "roas": null,
+            "top_creatives": [
+              {
+                "name": "04_이미지_이사 걱정 없는",
+                "spend": "₩489,701",
+                "impressions": 54418,
+                "clicks": 2682,
+                "ctr": "4.9%"
+              },
+              {
+                "name": "12_영상_이게 진짜 가성비 홈짐인이유_순차",
+                "spend": "₩147,885",
+                "impressions": 23079,
+                "clicks": 1286,
+                "ctr": "5.6%"
+              },
+              {
+                "name": "10_영상_해외에서 난리난",
+                "spend": "₩75,644",
+                "impressions": 11969,
+                "clicks": 800,
+                "ctr": "6.7%"
+              },
+              {
+                "name": "13_영상_홈짐계의 테슬라",
+                "spend": "₩57,913",
+                "impressions": 7796,
+                "clicks": 412,
+                "ctr": "5.3%"
+              },
+              {
+                "name": "03_영상_벤치프레스 편하게",
+                "spend": "₩38,333",
+                "impressions": 3719,
+                "clicks": 200,
+                "ctr": "5.4%"
+              }
+            ]
           },
-          {
-            "metric": "12_영상_이게 진짜 가성비 홈짐인이유_순차",
-            "w12": "₩147,885",
-            "w11": "imp 23,079",
-            "note": "clicks 1,286, CTR 5.6%"
-          },
-          {
-            "metric": "10_영상_해외에서 난리난",
-            "w12": "₩75,644",
-            "w11": "imp 11,969",
-            "note": "clicks 800, CTR 6.7%"
-          },
-          {
-            "metric": "13_영상_홈짐계의 테슬라",
-            "w12": "₩57,913",
-            "w11": "imp 7,796",
-            "note": "clicks 412, CTR 5.3%"
-          },
-          {
-            "metric": "03_영상_벤치프레스 편하게",
-            "w12": "₩38,333",
-            "w11": "imp 3,719",
-            "note": "clicks 200, CTR 5.4%"
+          "naver": {
+            "spend": 21868,
+            "prev_spend": 15345,
+            "impressions": 2199,
+            "clicks": 251,
+            "ctr": "11.4%",
+            "cpc": 87,
+            "insight": "클릭 251건, CPC ₩87"
           }
-        ]
+        }
+      },
+      {
+        "title": "👥 오디언스",
+        "type": "audience",
+        "content": {
+          "devices": [
+            {
+              "device": "mobile",
+              "sessions": 6632,
+              "pct": "92.7%",
+              "bounce": "58.6%"
+            },
+            {
+              "device": "desktop",
+              "sessions": 359,
+              "pct": "5.0%",
+              "bounce": "42.3%"
+            },
+            {
+              "device": "tablet",
+              "sessions": 152,
+              "pct": "2.1%",
+              "bounce": "43.4%"
+            }
+          ],
+          "new_vs_returning": {
+            "new": {
+              "sessions": 6129,
+              "bounce": "59.3%",
+              "duration": "49초"
+            },
+            "returning": {
+              "sessions": 789,
+              "bounce": "31.6%",
+              "duration": "206초"
+            },
+            "(not set)": {
+              "sessions": 283,
+              "bounce": "94.3%",
+              "duration": "210초"
+            }
+          },
+          "insight": ""
+        }
       },
       {
         "title": "📄 인기 페이지",
         "type": "metrics",
         "content": [
           {
-            "metric": "/",
-            "w12": "6,217뷰",
-            "w11": null,
-            "note": "체류 31초, 유저 5092"
+            "label": "/",
+            "w10": "6,217뷰 · 5092명",
+            "w9": "-",
+            "note": "체류 31초"
           },
           {
-            "metric": "/funding/",
-            "w12": "3,097뷰",
-            "w11": null,
-            "note": "체류 73초, 유저 2647"
+            "label": "/funding/",
+            "w10": "3,097뷰 · 2647명",
+            "w9": "-",
+            "note": "체류 73초"
           },
           {
-            "metric": "/community/",
-            "w12": "656뷰",
-            "w11": null,
-            "note": "체류 87초, 유저 344"
+            "label": "/community/",
+            "w10": "656뷰 · 344명",
+            "w9": "-",
+            "note": "체류 87초"
           },
           {
-            "metric": "/feel",
-            "w12": "412뷰",
-            "w11": null,
-            "note": "체류 74초, 유저 332"
+            "label": "/feel",
+            "w10": "412뷰 · 332명",
+            "w9": "-",
+            "note": "체류 74초"
           },
           {
-            "metric": "/community",
-            "w12": "342뷰",
-            "w11": null,
-            "note": "체류 81초, 유저 89"
+            "label": "/community",
+            "w10": "342뷰 · 89명",
+            "w9": "-",
+            "note": "체류 81초"
+          },
+          {
+            "label": "/reviews/",
+            "w10": "273뷰 · 120명",
+            "w9": "-",
+            "note": "체류 123초"
           }
         ]
       }
