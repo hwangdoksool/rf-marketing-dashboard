@@ -981,24 +981,7 @@ const LEAD_STATUSES = [
 ];
 const LEAD_STATUS_LOST = {key:'lost', label:'❌ 이탈', color:'var(--t2)'};
 
-async function loadLeads(){
-  const lv = document.getElementById('leads-view');
-  lv.innerHTML='<div class="leads-empty">리드 데이터 로딩 중...</div>';
-  try {
-    let res, retries = 2;
-    while(retries >= 0) {
-      try { res = await fetch(LEADS_API+'?limit=200'); break; }
-      catch(e) { if(retries-- <= 0) throw e; await new Promise(r=>setTimeout(r,1500)); }
-    }
-    if(!res.ok) throw new Error('HTTP '+res.status);
-    const data = await res.json();
-    leadsData = data.leads || [];
-    renderLeads();
-    updateLeadsBadge();
-  } catch(e){
-    lv.innerHTML='<div class="leads-empty">⚠️ 리드 API 연결 실패<br><span style="font-size:0.75rem;color:var(--t2);">'+LEADS_API+'</span><br><span style="font-size:0.7rem;color:var(--t2);">'+e.message+' · 새로고침 해보세요</span></div>';
-  }
-}
+// loadLeads는 아래 Supabase 버전(1곳)으로 통합
 
 function updateLeadsBadge(){
   const newCount = leadsData.filter(l=>l.status==='new').length;
@@ -2054,9 +2037,11 @@ function resetSttUpload(bookingId) {
 // Handle hash on load
 const initHash = window.location.hash.replace('#','');
 if(['report','feel','leads'].includes(initHash)) setTimeout(()=>switchMainTab(initHash),100);
-// Auto-load leads badge on page load
-fetch(LEADS_API+'?limit=200').then(r=>r.json()).then(d=>{
-  leadsData=d.leads||[];
+// Auto-load leads badge on page load (Supabase)
+fetch(`${SB_URL}/rest/v1/business_leads?select=*&order=created_at.desc`,{
+  headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
+}).then(r=>r.json()).then(d=>{
+  leadsData=d||[];
   updateLeadsBadge();
   if(window.location.hash==='#leads') switchMainTab('leads');
 }).catch(()=>{});
