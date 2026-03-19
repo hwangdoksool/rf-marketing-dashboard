@@ -226,6 +226,7 @@
     .view-toggle{margin-left:0;margin-top:4px;}
     .summary{font-size:0.75rem;gap:8px;}
   }
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -359,6 +360,7 @@
   <div class="main-tabs">
     <button class="main-tab active" id="tab-board" onclick="switchMainTab('board')">📋 진행현황</button>
     <button class="main-tab" id="tab-report" onclick="switchMainTab('report')">📊 주간리포트</button>
+    <button class="main-tab" id="tab-feel" onclick="switchMainTab('feel')">🏋️ 체험신청</button>
     <button class="main-tab" id="tab-leads" onclick="switchMainTab('leads')">🤝 B2B 리드 <span id="leads-badge" class="badge" style="display:none;margin-left:4px;">0</span></button>
   </div>
 
@@ -390,6 +392,9 @@
 
   <!-- Report View (hidden by default) -->
   <div id="report-view" style="display:none;"></div>
+
+  <!-- Feel Booking -->
+  <div id="feel-view" style="display:none;"></div>
 
   <!-- Leads View (hidden by default) -->
   <div id="leads-view" style="display:none;"></div>
@@ -602,6 +607,7 @@ function openModal(id){
   document.getElementById('modal-bg').classList.add('open');
 }
 function closeModal(){document.getElementById('modal-bg').classList.remove('open');}
+function closeLeadModal(){closeModal();}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 
 // Filters
@@ -662,38 +668,36 @@ function switchMainTab(tab){
   currentMainTab = tab;
   const boardEls = ['board','summary'];
   const filterEl = document.querySelector('.filters');
-  const rv = document.getElementById('report-view');
-  const lv = document.getElementById('leads-view');
-  const tabBoard = document.getElementById('tab-board');
-  const tabReport = document.getElementById('tab-report');
-  const tabLeads = document.getElementById('tab-leads');
+  const allTabs = ['tab-board','tab-report','tab-feel','tab-leads'];
+  const allViews = ['report-view','feel-view','leads-view'];
 
   // Hide all
   boardEls.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
   if(filterEl) filterEl.style.display='none';
-  rv.style.display='none';
-  lv.style.display='none';
-  document.getElementById('prd-panel').style.display='none';
-  document.getElementById('guide-panel').style.display='none';
-  tabBoard.classList.remove('active');
-  tabReport.classList.remove('active');
-  tabLeads.classList.remove('active');
+  allViews.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  try{document.getElementById('prd-panel').style.display='none';}catch(e){}
+  try{document.getElementById('guide-panel').style.display='none';}catch(e){}
+  allTabs.forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
 
-  if(tab==='report'){
-    rv.style.display='block';
-    tabReport.classList.add('active');
-    history.replaceState(null,null,'#report');
-    renderReportList();
-  } else if(tab==='leads'){
-    lv.style.display='block';
-    tabLeads.classList.add('active');
-    history.replaceState(null,null,'#leads');
-    loadLeads();
-  } else {
+  const activeTab = document.getElementById('tab-'+tab);
+  if(activeTab) activeTab.classList.add('active');
+
+  if(tab==='board'){
     boardEls.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='';});
     if(filterEl) filterEl.style.display='';
-    tabBoard.classList.add('active');
     history.replaceState(null,null,'#board');
+  } else if(tab==='report'){
+    document.getElementById('report-view').style.display='block';
+    history.replaceState(null,null,'#report');
+    renderReportList();
+  } else if(tab==='feel'){
+    document.getElementById('feel-view').style.display='block';
+    history.replaceState(null,null,'#feel');
+    loadBookings();
+  } else if(tab==='leads'){
+    document.getElementById('leads-view').style.display='block';
+    history.replaceState(null,null,'#leads');
+    loadLeads();
   }
 }
 
@@ -1017,188 +1021,427 @@ function isUrgent(lead){
 
 function renderLeads(){
   const lv = document.getElementById('leads-view');
+  const statusMap = {
+    'new':'🆕 신규','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'
+  };
+  const statusColors = {
+    'new':'var(--bl)','contacted':'var(--y)','qualified':'var(--g)','converted':'var(--ac2)','lost':'var(--t2)'
+  };
+
+  const filtered = leadsFilter==='all' ? leadsData : leadsData.filter(l=>l.lead_status===leadsFilter);
 
   // Stats
-  const counts = {};
-  LEAD_STATUSES.forEach(s=>counts[s.key]=0);
-  counts.lost=0;
-  leadsData.forEach(l=>counts[l.status]=(counts[l.status]||0)+1);
-
-  let html='<div class="leads-stats">';
-  html+=`<div class="leads-stat"><div class="ls-num">${leadsData.length}</div><div class="ls-label">전체 리드</div></div>`;
-  LEAD_STATUSES.forEach(s=>{
-    html+=`<div class="leads-stat"><div class="ls-num" style="color:${s.color}">${counts[s.key]}</div><div class="ls-label">${s.label}</div></div>`;
+  const stats = {total:leadsData.length};
+  ['new','contacted','qualified','converted','lost'].forEach(s=>{
+    stats[s] = leadsData.filter(l=>l.lead_status===s).length;
   });
-  html+='</div>';
 
-  if(!leadsData.length){
-    html+='<div class="leads-empty">아직 수집된 리드가 없습니다.<br><span style="font-size:0.75rem;color:var(--t2);">Meta 리드 광고에서 유입되면 자동으로 표시됩니다.</span></div>';
-    lv.innerHTML=html;
-    return;
+  let html = '';
+
+  // Header
+  html += '<div style="background:var(--s);border:1px solid var(--b);border-radius:12px;padding:16px;margin-bottom:12px;">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">';
+  html += '<div><h2 style="font-size:1rem;margin-bottom:4px;">🤝 B2B 리드 관리</h2>';
+  html += '<p style="font-size:0.78rem;color:var(--t2);">Meta 리드 광고 + 홈페이지 견적 → 자동 수집 · Supabase</p></div>';
+  html += `<span style="font-size:0.78rem;color:var(--t2);">총 ${stats.total}건</span>`;
+  html += '</div>';
+
+  // Status KPI cards
+  html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;">';
+  [['all','전체',stats.total,'var(--t)'],['new','신규',stats.new,'var(--bl)'],['contacted','연락완료',stats.contacted,'var(--y)'],['qualified','적합',stats.qualified,'var(--g)'],['converted','전환',stats.converted,'var(--ac2)'],['lost','이탈',stats.lost,'var(--t2)']].forEach(([key,label,count,color])=>{
+    const active = leadsFilter===key ? 'border-color:'+color+';box-shadow:inset 0 0 0 1px '+color : '';
+    html += `<div onclick="leadsFilter='${key}';renderLeads();" style="background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:8px;text-align:center;cursor:pointer;${active}">`;
+    html += `<div style="font-size:1.1rem;font-weight:700;color:${color};">${count}</div>`;
+    html += `<div style="font-size:0.68rem;color:var(--t2);">${label}</div></div>`;
+  });
+  html += '</div></div>';
+
+  // Leads list
+  if(filtered.length === 0){
+    html += '<div style="background:var(--s);border:1px solid var(--b);border-radius:12px;padding:40px;text-align:center;color:var(--t2);">';
+    html += leadsData.length===0 ? '아직 접수된 리드가 없습니다. 메타 리드 광고에서 양식이 제출되면 여기에 자동으로 표시됩니다.' : '해당 상태의 리드가 없습니다.';
+    html += '</div>';
+  } else {
+    html += '<div style="background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;">';
+    html += '<table style="width:100%;border-collapse:collapse;">';
+    html += '<thead><tr>';
+    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">상태</th>';
+    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">이름</th>';
+    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">연락처</th>';
+    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">회사</th>';
+    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">소스</th>';
+    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">접수일</th>';
+    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">메모</th>';
+    html += '</tr></thead><tbody>';
+
+    filtered.forEach(lead=>{
+      const name = lead.full_name || '-';
+      const phone = lead.phone || '-';
+      const email = lead.email || '';
+      const company = lead.company_name || '-';
+      const contact = phone !== '-' ? phone : email;
+      const date = lead.created_at ? new Date(lead.created_at).toLocaleDateString('ko-KR') : '-';
+      const statusLabel = statusMap[lead.lead_status] || lead.lead_status;
+      const statusColor = statusColors[lead.lead_status] || 'var(--t2)';
+      const sourceLabel = lead.source==='meta_lead' ? '📱 메타광고' : lead.source==='website' ? '🌐 홈페이지' : lead.source || '-';
+      const adName = lead.meta_ad_name || '';
+
+      html += `<tr style="cursor:pointer;transition:background .1s;" onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background=''" onclick="openLeadModal(${lead.id})">`;
+      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.78rem;"><span style="color:${statusColor};font-weight:600;">${statusLabel}</span></td>`;
+      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.82rem;font-weight:600;">${esc(name)}</td>`;
+      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.78rem;color:var(--t2);">${esc(contact)}</td>`;
+      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.78rem;">${esc(company)}</td>`;
+      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.72rem;color:var(--t2);">${sourceLabel}${adName?' · '+esc(adName):''}</td>`;
+      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.75rem;color:var(--t2);">${date}</td>`;
+      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.75rem;color:var(--t2);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(lead.admin_memo||'')}</td>`;
+      html += '</tr>';
+    });
+
+    html += '</tbody></table></div>';
   }
 
-  // Pipeline columns
-  html+='<div class="leads-pipeline">';
-  LEAD_STATUSES.forEach(s=>{
-    const items = leadsData.filter(l=>l.status===s.key).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
-    html+=`<div class="leads-col">`;
-    html+=`<div class="leads-col-header" style="color:${s.color}">${s.label} <span class="count">${items.length}</span></div>`;
-    html+=`<div class="leads-col-body">`;
-    items.forEach(l=>{
-      const name = l.fields.full_name || l.fields['이름'] || l.fields.name || '이름 없음';
-      const company = l.fields.company_name || l.fields['회사명'] || l.fields['업체명'] || '';
-      const phone = l.fields.phone_number || l.fields['전화번호'] || '';
-      const urgent = isUrgent(l);
-      html+=`<div class="lead-card status-${l.status}" onclick="openLeadModal('${l.id}')">`;
-      html+=`<div class="lead-name">${name}</div>`;
-      if(company) html+=`<div class="lead-info">🏢 ${company}</div>`;
-      if(phone) html+=`<div class="lead-info">📱 ${phone}</div>`;
-      html+=`<div class="lead-time ${urgent?'urgent':''}">${urgent?'⚠️ ':''}${leadTimeSince(l.createdAt)}</div>`;
-      html+=`</div>`;
-    });
-    if(!items.length) html+=`<div style="text-align:center;padding:20px;color:var(--t2);font-size:0.75rem;">${s.desc}</div>`;
-    html+=`</div></div>`;
-  });
-  html+='</div>';
-
-  // Lost leads (collapsed)
-  const lostLeads = leadsData.filter(l=>l.status==='lost');
-  if(lostLeads.length){
-    html+=`<div class="done-section"><div class="done-header" onclick="this.nextElementSibling.classList.toggle('expanded');this.nextElementSibling.classList.toggle('collapsed');this.querySelector('.arrow').textContent=this.nextElementSibling.classList.contains('expanded')?'▼':'▶'">
-      <span>❌ 이탈 <span style="color:var(--r)">${lostLeads.length}</span></span>
-      <span class="arrow" style="font-size:0.7rem;">▶</span>
-    </div><div class="done-body collapsed">`;
-    lostLeads.forEach(l=>{
-      const name = l.fields.full_name || l.fields['이름'] || l.fields.name || '이름 없음';
-      html+=`<div class="lead-card status-lost" onclick="openLeadModal('${l.id}')"><div class="lead-name">${name}</div><div class="lead-time">${leadTimeSince(l.createdAt)}</div></div>`;
-    });
-    html+='</div></div>';
-  }
-
-  lv.innerHTML=html;
+  lv.innerHTML = html;
 }
 
-function openLeadModal(id){
-  const l = leadsData.find(x=>x.id===id);
-  if(!l) return;
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-  const name = l.fields.full_name || l.fields['이름'] || l.fields.name || '이름 없음';
-  const email = l.fields.email || l.fields['이메일'] || l.fields.work_email || '';
-  const phone = l.fields.phone_number || l.fields['전화번호'] || '';
-  const company = l.fields.company_name || l.fields['회사명'] || l.fields['업체명'] || '';
-  const currentStatus = LEAD_STATUSES.find(s=>s.key===l.status) || LEAD_STATUS_LOST;
+function openLeadModal(leadId){
+  const lead = leadsData.find(l=>l.id===leadId);
+  if(!lead) return;
 
-  let html=`<span class="close" onclick="closeLeadModal()">✕</span>`;
-  html+=`<h2>${name}</h2>`;
-  html+=`<div class="tags"><span class="tag" style="background:${currentStatus.color}20;color:${currentStatus.color}">${currentStatus.label}</span></div>`;
+  const statusMap = {'new':'🆕 신규','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'};
+  const date = lead.created_at ? new Date(lead.created_at).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}) : '-';
+  const sourceLabel = lead.source==='meta_lead' ? '📱 메타 리드 광고' : lead.source==='website' ? '🌐 홈페이지 견적' : lead.source || '-';
 
-  // Fields
-  html+=`<div style="margin:12px 0;">`;
-  if(company) html+=`<div class="field"><span class="field-label">업체명</span> <span class="field-val">🏢 ${company}</span></div>`;
-  if(phone) html+=`<div class="field"><span class="field-label">연락처</span> <span class="field-val">📱 ${phone}</span></div>`;
-  if(email) html+=`<div class="field"><span class="field-label">이메일</span> <span class="field-val">📧 ${email}</span></div>`;
-  html+=`<div class="field"><span class="field-label">접수일</span> <span class="field-val">${new Date(l.createdAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})} (${leadTimeSince(l.createdAt)})</span></div>`;
+  let html = '<span class="close" onclick="closeModal()">✕</span>';
+  html += `<h2>🤝 리드 상세</h2>`;
+  html += '<div class="tags">';
+  html += `<span class="tag" style="background:rgba(108,92,231,.15);color:var(--ac2);">#${lead.id}</span>`;
+  html += `<span class="tag" style="background:rgba(0,184,148,.15);color:var(--g);">${statusMap[lead.lead_status]||lead.lead_status}</span>`;
+  html += `<span class="tag" style="background:rgba(116,185,255,.15);color:var(--bl);">${sourceLabel}</span>`;
+  html += '</div>';
 
-  // Show all other fields
-  const shownKeys = ['full_name','이름','name','email','이메일','work_email','phone_number','전화번호','company_name','회사명','업체명'];
-  Object.entries(l.fields).forEach(([k,v])=>{
-    if(!shownKeys.includes(k) && v){
-      html+=`<div class="field"><span class="field-label">${k}</span> <span class="field-val">${v}</span></div>`;
+  // Core fields
+  const fields = [
+    ['이름', lead.full_name],
+    ['전화번호', lead.phone],
+    ['이메일', lead.email],
+    ['회사명', lead.company_name],
+    ['지역', lead.city],
+    ['웹사이트', lead.website],
+    ['메시지', lead.message],
+  ];
+  
+  fields.forEach(([label,val])=>{
+    if(val){
+      html += `<div class="field"><div class="field-label">${label}</div><div class="field-val">${esc(val)}</div></div>`;
     }
   });
-  html+=`</div>`;
 
-  // Status actions
-  html+=`<div style="margin:16px 0;"><span class="field-label">상태 변경</span></div>`;
-  html+=`<div class="lead-modal-actions">`;
-  if(l.status==='new'){
-    html+=`<button class="btn btn-warning" onclick="updateLeadStatus('${l.id}','confirmed')">✅ 확인</button>`;
+  html += `<div class="field"><div class="field-label">접수일</div><div class="field-val">${date}</div></div>`;
+
+  // Meta ad info (if from meta)
+  if(lead.source==='meta_lead' && lead.meta_campaign_name){
+    html += '<div style="margin-top:8px;padding:8px;background:var(--s2);border-radius:6px;font-size:0.78rem;">';
+    html += `<div style="color:var(--t2);margin-bottom:4px;">📊 광고 정보</div>`;
+    if(lead.meta_campaign_name) html += `<div>캠페인: ${esc(lead.meta_campaign_name)}</div>`;
+    if(lead.meta_adset_name) html += `<div>광고세트: ${esc(lead.meta_adset_name)}</div>`;
+    if(lead.meta_ad_name) html += `<div>소재: ${esc(lead.meta_ad_name)}</div>`;
+    if(lead.meta_form_name) html += `<div>양식: ${esc(lead.meta_form_name)}</div>`;
+    if(lead.meta_platform) html += `<div>플랫폼: ${lead.meta_platform}</div>`;
+    html += '</div>';
   }
-  if(l.status==='new'||l.status==='confirmed'){
-    html+=`<button class="btn btn-primary" onclick="updateLeadStatus('${l.id}','contacted')">📧 안내 발송</button>`;
-  }
-  if(l.status!=='consulting'&&l.status!=='converted'&&l.status!=='lost'){
-    html+=`<button class="btn" style="border-color:var(--ac);color:var(--ac);" onclick="updateLeadStatus('${l.id}','consulting')">📞 상담중</button>`;
-  }
-  if(l.status!=='converted'){
-    html+=`<button class="btn btn-success" onclick="updateLeadStatus('${l.id}','converted')">🎉 계약 완료</button>`;
-  }
-  if(l.status!=='lost'){
-    html+=`<button class="btn btn-danger" onclick="updateLeadStatus('${l.id}','lost')">❌ 이탈</button>`;
-  }
-  html+=`</div>`;
+
+  // Status update
+  html += '<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--b);">';
+  html += '<div class="field-label" style="margin-bottom:6px;">상태 변경</div>';
+  html += '<div style="display:flex;gap:4px;flex-wrap:wrap;">';
+  ['new','contacted','qualified','converted','lost'].forEach(s=>{
+    const active = lead.lead_status===s ? 'background:var(--ac);color:#fff;border-color:var(--ac);' : '';
+    html += `<button onclick="updateLeadStatus(${lead.id},'${s}')" style="padding:4px 10px;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;border:1px solid var(--b);background:var(--s);color:var(--t);${active}">${statusMap[s]}</button>`;
+  });
+  html += '</div></div>';
 
   // Notes
-  html+=`<div style="margin-top:16px;"><span class="field-label">메모</span></div>`;
-  html+=`<textarea class="lead-notes-input" id="lead-notes-${l.id}" placeholder="메모를 입력하세요...">${l.notes||''}</textarea>`;
-  html+=`<button class="btn" style="margin-top:6px;" onclick="saveLeadNotes('${l.id}')">💾 메모 저장</button>`;
+  html += '<div style="margin-top:12px;">';
+  html += '<div class="field-label" style="margin-bottom:4px;">메모</div>';
+  html += `<textarea id="lead-notes" style="width:100%;height:60px;background:var(--s2);border:1px solid var(--b);border-radius:6px;color:var(--t);padding:8px;font-size:0.82rem;resize:vertical;">${esc(lead.admin_memo||'')}</textarea>`;
+  html += `<button onclick="saveLeadNotes(${lead.id})" style="margin-top:6px;padding:5px 14px;border-radius:6px;background:var(--ac);color:#fff;border:none;cursor:pointer;font-size:0.78rem;">메모 저장</button>`;
+  html += '</div>';
 
-  // Quick actions
-  if(email && (l.status==='confirmed'||l.status==='new')){
-    const subject = encodeURIComponent('룸핏 스마트 웨이트 머신 도입 안내');
-    const body = encodeURIComponent(`안녕하세요 ${name}님,\n\n룸핏에 관심 가져주셔서 감사합니다.\n\n아래 링크에서 센터 도입 관련 상세 내용을 확인하실 수 있습니다.\n👉 https://roomfit-renewal-2026.pages.dev/business\n\n궁금하신 점이 있으시면 편하게 연락 주세요.\n\n감사합니다.\n위스피온 황성우 드림\ncontact@wespion.com`);
-    html+=`<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--b);">`;
-    html+=`<span class="field-label">빠른 액션</span><br>`;
-    html+=`<a href="https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(email)}&su=${subject}&body=${body}" target="_blank" class="btn" style="display:inline-block;margin-top:6px;text-decoration:none;">📧 Gmail에서 안내 메일 보내기</a>`;
-    html+=`</div>`;
-  }
-  if(phone){
-    html+=`<div style="margin-top:${email?'8':'16'}px;${!email?'padding-top:12px;border-top:1px solid var(--b);':''}">`;
-    if(!email) html+=`<span class="field-label">빠른 액션</span><br>`;
-    html+=`<a href="tel:${phone}" class="btn" style="display:inline-block;margin-top:6px;text-decoration:none;">📞 전화 걸기</a>`;
-    html+=`</div>`;
-  }
-
-  document.getElementById('lead-modal').innerHTML=html;
+  const modal = document.getElementById('lead-modal');
+  modal.innerHTML = html;
   document.getElementById('lead-modal-bg').classList.add('open');
 }
 
-function closeLeadModal(){
-  document.getElementById('lead-modal-bg').classList.remove('open');
-}
-
-async function updateLeadStatus(id, newStatus){
+async function updateLeadStatus(leadId, status){
   try {
-    const res = await fetch(LEADS_API+'/'+id, {
-      method:'PUT',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({status:newStatus})
+    await fetch(`${SB_URL}/rest/v1/business_leads?id=eq.${leadId}`, {
+      method:'PATCH',
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body:JSON.stringify({lead_status:status, updated_at:new Date().toISOString()})
     });
-    if(!res.ok) throw new Error('API error');
-    const updated = await res.json();
-    // Update local data
-    const idx = leadsData.findIndex(l=>l.id===id);
-    if(idx>=0) leadsData[idx] = updated;
+    const lead = leadsData.find(l=>l.id===leadId);
+    if(lead) lead.lead_status = status;
+    closeModal();
     renderLeads();
-    updateLeadsBadge();
-    closeLeadModal();
-  } catch(e){
-    alert('상태 업데이트 실패: '+e.message);
-  }
+  } catch(e){ alert('상태 업데이트 실패'); }
 }
 
-async function saveLeadNotes(id){
-  const notes = document.getElementById('lead-notes-'+id).value;
+async function saveLeadNotes(leadId){
+  const notes = document.getElementById('lead-notes').value;
   try {
-    const res = await fetch(LEADS_API+'/'+id, {
-      method:'PUT',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({notes})
+    await fetch(`${SB_URL}/rest/v1/business_leads?id=eq.${leadId}`, {
+      method:'PATCH',
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body:JSON.stringify({admin_memo:notes, updated_at:new Date().toISOString()})
     });
-    if(!res.ok) throw new Error('API error');
-    const updated = await res.json();
-    const idx = leadsData.findIndex(l=>l.id===id);
-    if(idx>=0) leadsData[idx] = updated;
-    // Brief success feedback
-    const btn = event.target;
-    const orig = btn.textContent;
-    btn.textContent='✅ 저장됨';
-    setTimeout(()=>btn.textContent=orig, 1500);
-  } catch(e){
-    alert('메모 저장 실패: '+e.message);
-  }
+    const lead = leadsData.find(l=>l.id===leadId);
+    if(lead) lead.admin_memo = notes;
+    renderLeads();
+  } catch(e){ alert('메모 저장 실패'); }
 }
 
+// ── STT Upload ──
+const STT_WORKER_URL = 'https://roomfit-feel-stt.wespion.workers.dev';
+
+// Client-side: decode audio, split into 5-min WAV chunks, process each via Worker
+async function processLargeAudio(file, bookingId, bookingName, statusEl, barEl) {
+  const arrayBuf = await file.arrayBuffer();
+  if(statusEl) statusEl.textContent = '📦 오디오 디코딩 중...';
+  if(barEl) barEl.style.width = '5%';
+
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  let audioBuffer;
+  try {
+    audioBuffer = await audioCtx.decodeAudioData(arrayBuf);
+  } catch(e) {
+    audioCtx.close();
+    throw new Error('오디오 디코딩 실패 — 슬랙 DM으로 파일을 보내주세요');
+  }
+
+  const duration = audioBuffer.duration;
+  const CHUNK_SEC = 300; // 5 minutes
+  const numChunks = Math.ceil(duration / CHUNK_SEC);
+  const sampleRate = 16000; // downsample target
+
+  if(statusEl) statusEl.textContent = '📦 '+numChunks+'개 청크로 분할 중... (총 '+Math.round(duration/60)+'분)';
+  if(barEl) barEl.style.width = '10%';
+
+  const allTranscripts = [];
+
+  for (let i = 0; i < numChunks; i++) {
+    const startSec = i * CHUNK_SEC;
+    const endSec = Math.min((i + 1) * CHUNK_SEC, duration);
+    const chunkDuration = endSec - startSec;
+
+    if(statusEl) statusEl.textContent = '🎙️ 청크 '+(i+1)+'/'+numChunks+' 처리 중... ('+ Math.round(startSec/60)+'~'+Math.round(endSec/60)+'분)';
+    const progress = 10 + (80 * i / numChunks);
+    if(barEl) barEl.style.width = progress + '%';
+
+    // Resample chunk to 16kHz mono
+    const chunkSamples = Math.ceil(chunkDuration * sampleRate);
+    const offlineCtx = new OfflineAudioContext(1, chunkSamples, sampleRate);
+    const source = offlineCtx.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(offlineCtx.destination);
+    source.start(0, startSec, chunkDuration);
+    const rendered = await offlineCtx.startRendering();
+    const pcm = rendered.getChannelData(0);
+
+    // Encode as WAV
+    const wavBuf = encodeWAV(pcm, sampleRate);
+    const chunkFile = new Blob([wavBuf], { type: 'audio/wav' });
+    const chunkMB = (chunkFile.size / 1024 / 1024).toFixed(1);
+
+    // Send to Worker (just for STT, no GPT structuring on individual chunks)
+    const res = await fetch(STT_WORKER_URL+'/transcribe?ext=wav', {
+      method: 'POST',
+      headers: { 'Content-Type': 'audio/wav' },
+      body: chunkFile,
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      console.error('Chunk '+(i+1)+' failed:', err);
+      allTranscripts.push('[청크 '+(i+1)+' 변환 실패]');
+      continue;
+    }
+
+    const data = await res.json();
+    if (data.transcript) {
+      allTranscripts.push(data.transcript);
+    }
+  }
+
+  audioCtx.close();
+
+  // Now send combined transcript for GPT structuring
+  const fullTranscript = allTranscripts.join('\n\n');
+  if (!fullTranscript || fullTranscript.trim().length < 10) {
+    throw new Error('음성 인식 결과가 비어있습니다');
+  }
+
+  if(statusEl) statusEl.textContent = '🤖 AI 분석 중...';
+  if(barEl) barEl.style.width = '90%';
+
+  const structRes = await fetch(STT_WORKER_URL+'/structure', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ bookingId, bookingName, transcript: fullTranscript }),
+  });
+
+  if (!structRes.ok) {
+    throw new Error('AI 구조화 실패: ' + await structRes.text());
+  }
+
+  return await structRes.json();
+}
+
+function encodeWAV(samples, sampleRate) {
+  const numSamples = samples.length;
+  const buffer = new ArrayBuffer(44 + numSamples * 2);
+  const view = new DataView(buffer);
+  function writeStr(o, s) { for(let i=0;i<s.length;i++) view.setUint8(o+i, s.charCodeAt(i)); }
+  writeStr(0,'RIFF');
+  view.setUint32(4, 36+numSamples*2, true);
+  writeStr(8,'WAVE'); writeStr(12,'fmt ');
+  view.setUint32(16,16,true); view.setUint16(20,1,true); view.setUint16(22,1,true);
+  view.setUint32(24,sampleRate,true); view.setUint32(28,sampleRate*2,true);
+  view.setUint16(32,2,true); view.setUint16(34,16,true);
+  writeStr(36,'data'); view.setUint32(40,numSamples*2,true);
+  let o=44;
+  for(let i=0;i<numSamples;i++){
+    const s=Math.max(-1,Math.min(1,samples[i]));
+    view.setInt16(o, s<0?s*0x8000:s*0x7FFF, true); o+=2;
+  }
+  return buffer;
+}
+
+function handleAudioDrop(event, bookingId, bookingName) {
+  const files = event.dataTransfer.files;
+  if (files.length > 0) processAudioUpload(files[0], bookingId, bookingName);
+}
+function handleAudioSelect(input, bookingId, bookingName) {
+  if (input.files.length > 0) processAudioUpload(input.files[0], bookingId, bookingName);
+}
+async function processAudioUpload(file, bookingId, bookingName) {
+  if (file.size > 100*1024*1024) { alert('파일이 100MB를 초과합니다'); return; }
+  const validExts = /\.(m4a|mp3|wav|webm|ogg|aac|mp4)$/i;
+  if (!validExts.test(file.name)) { alert('지원하지 않는 파일 형식입니다'); return; }
+
+  const uploadEl = document.getElementById('stt-upload-'+bookingId);
+  const progressEl = document.getElementById('stt-progress-'+bookingId);
+  const statusEl = document.getElementById('stt-status-'+bookingId);
+  const barEl = document.getElementById('stt-bar-'+bookingId);
+  const resultEl = document.getElementById('stt-result-'+bookingId);
+
+  if(uploadEl) uploadEl.style.display = 'none';
+  if(progressEl) progressEl.style.display = 'block';
+  if(resultEl) resultEl.style.display = 'none';
+
+  const sizeMB = (file.size/1024/1024).toFixed(1);
+  if(statusEl) statusEl.textContent = '업로드 중... ('+sizeMB+'MB)';
+  if(barEl) barEl.style.width = '10%';
+
+  try {
+    const fileSizeMB = file.size / 1024 / 1024;
+    let res;
+
+    if (fileSizeMB > 20) {
+      // Large file: split into 5-min chunks client-side, process each
+      const result = await processLargeAudio(file, bookingId, bookingName, statusEl, barEl);
+
+      if(barEl) barEl.style.width = '100%';
+      if(statusEl) statusEl.textContent = '✅ 완료!';
+
+      // Show result
+      const resEl = document.getElementById('stt-result-'+bookingId);
+      if(resEl) {
+        resEl.style.display = 'block';
+        resEl.innerHTML = '<div style="color:var(--gr);font-weight:600;margin-bottom:4px;">✅ 처리 완료!</div>' +
+          (result.structured?.interview_notes ? '<div style="font-size:0.78rem;color:var(--t2);">'+result.structured.interview_notes+'</div>' : '');
+      }
+      setTimeout(()=>{ loadBookings(); }, 2000);
+      return;
+    } else {
+      // Small file: send binary directly with metadata in headers
+      if(barEl) barEl.style.width = '30%';
+      if(statusEl) statusEl.textContent = '🎙️ 음성 인식 중... (30초~2분)';
+
+      const fileExt = file.name.split('.').pop() || 'mp3';
+      res = await fetch(STT_WORKER_URL+'/process?bookingId='+bookingId+'&bookingName='+encodeURIComponent(bookingName)+'&ext='+fileExt, {
+        method: 'POST',
+        headers: { 'Content-Type': file.type || 'audio/mpeg' },
+        body: file,
+      });
+    }
+    if(barEl) barEl.style.width = '90%';
+    if(statusEl) statusEl.textContent = '결과 처리 중...';
+
+    const data = await res.json();
+    if(barEl) barEl.style.width = '100%';
+
+    if(data.ok) {
+      const spinEl = document.getElementById('stt-spinner-'+bookingId);
+      if(spinEl) spinEl.style.display = 'none';
+      if(data.pending) {
+        // Large file — queued for background processing
+        if(statusEl) statusEl.textContent = '⏳ 대기 중';
+        if(resultEl) {
+          resultEl.style.display = 'block';
+          resultEl.innerHTML = '<div style="padding:10px;background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:8px;">'
+            + '<div style="font-size:0.85rem;font-weight:600;color:var(--y);margin-bottom:6px;">⏳ 업로드 완료 — 백그라운드 처리 중</div>'
+            + '<div style="font-size:0.78rem;color:var(--t2);line-height:1.4;">파일이 25MB를 초과하여 서버에서 압축 후 자동 처리됩니다.<br>5~10분 후 새로고침하시면 결과가 반영됩니다.</div>'
+            + '<button style="margin-top:8px;padding:6px 12px;border-radius:6px;border:1px solid var(--pr);background:transparent;color:var(--pr);font-size:0.78rem;cursor:pointer;" onclick="location.reload()">🔄 새로고침</button>'
+            + '</div>';
+        }
+      } else {
+        if(statusEl) statusEl.textContent = '✅ 완료!';
+        if(resultEl) {
+          resultEl.style.display = 'block';
+          resultEl.innerHTML = '<div style="padding:10px;background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.3);border-radius:8px;">'
+            + '<div style="font-size:0.85rem;font-weight:600;color:var(--g);margin-bottom:6px;">✅ AI 정리 완료!</div>'
+            + (data.structured?.interview_notes ? '<div style="font-size:0.78rem;margin-bottom:6px;line-height:1.4;"><b>요약:</b> '+esc(data.structured.interview_notes)+'</div>' : '')
+            + (data.structured?.purchase_intent ? '<div style="font-size:0.78rem;color:var(--t2);">구매 의향: <b>'+esc(data.structured.purchase_intent)+'</b></div>' : '')
+            + '<details style="margin-top:6px;"><summary style="font-size:0.72rem;color:var(--t2);cursor:pointer;">📜 전체 녹취록 보기</summary>'
+            + '<pre style="font-size:0.72rem;color:var(--t2);margin-top:4px;white-space:pre-wrap;max-height:150px;overflow-y:auto;">'+esc(data.transcript)+'</pre></details>'
+            + '<button style="margin-top:8px;padding:6px 12px;border-radius:6px;border:1px solid var(--g);background:transparent;color:var(--g);font-size:0.78rem;cursor:pointer;" onclick="location.reload()">🔄 새로고침</button>'
+            + '</div>';
+        }
+      }
+    } else {
+      throw new Error(data.error || 'STT 처리 실패');
+    }
+  } catch(e) {
+    if(statusEl) statusEl.textContent = '❌ ' + e.message;
+    const spinEl = document.getElementById('stt-spinner-'+bookingId);
+    if(spinEl) spinEl.style.display = 'none';
+    if(barEl) { barEl.style.width = '100%'; barEl.style.background = 'var(--r)'; }
+    if(resultEl) {
+      resultEl.style.display = 'block';
+      resultEl.innerHTML = '<div style="padding:8px;background:rgba(255,77,106,0.1);border-radius:6px;font-size:0.78rem;color:var(--r);">'
+        + esc(e.message)
+        + '<br><button style="margin-top:4px;padding:4px 8px;border-radius:4px;border:1px solid var(--b);background:var(--s2);color:var(--t2);font-size:0.72rem;cursor:pointer;" onclick="resetSttUpload('+bookingId+')">다시 시도</button></div>';
+    }
+  }
+}
+function resetSttUpload(bookingId) {
+  const uploadEl = document.getElementById('stt-upload-'+bookingId);
+  const progressEl = document.getElementById('stt-progress-'+bookingId);
+  const resultEl = document.getElementById('stt-result-'+bookingId);
+  const barEl = document.getElementById('stt-bar-'+bookingId);
+  const spinEl = document.getElementById('stt-spinner-'+bookingId);
+  if(uploadEl) uploadEl.style.display = 'block';
+  if(progressEl) progressEl.style.display = 'none';
+  if(resultEl) resultEl.style.display = 'none';
+  if(barEl) { barEl.style.width = '0%'; barEl.style.background = 'var(--pr)'; }
+  if(spinEl) spinEl.style.display = 'block';
+}
+
+// Handle hash on load
+const initHash = window.location.hash.replace('#','');
+if(['report','feel','leads'].includes(initHash)) setTimeout(()=>switchMainTab(initHash),100);
 // Auto-load leads badge on page load
 fetch(LEADS_API+'?limit=200').then(r=>r.json()).then(d=>{
   leadsData=d.leads||[];
