@@ -972,6 +972,7 @@ window.addEventListener('message', function(ev){
 // ===== B2B LEADS =====
 const LEADS_API = 'https://meta-lead-webhook.wespion.workers.dev/api/leads';
 let leadsData = [];
+let leadsFilter = 'all';
 const LEAD_STATUSES = [
   {key:'new', label:'📥 접수', color:'var(--r)', desc:'Meta 광고 유입'},
   {key:'confirmed', label:'✅ 확인', color:'var(--y)', desc:'담당자 확인 완료'},
