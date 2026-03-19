@@ -172,6 +172,40 @@
   .rpt-back{display:inline-flex;align-items:center;gap:4px;color:var(--ac2);cursor:pointer;font-size:0.82rem;margin-bottom:12px;font-weight:600;}
   .rpt-back:hover{color:var(--ac);}
 
+  /* Leads */
+  .leads-pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px;}
+  @media(max-width:768px){.leads-pipeline{grid-template-columns:1fr;}}
+  .leads-col{background:var(--s);border:1px solid var(--b);border-radius:10px;min-height:200px;}
+  .leads-col-header{padding:10px 12px;border-bottom:1px solid var(--b);display:flex;justify-content:space-between;align-items:center;font-size:0.78rem;font-weight:700;}
+  .leads-col-header .count{background:var(--s2);padding:1px 8px;border-radius:10px;font-size:0.7rem;color:var(--t2);}
+  .leads-col-body{padding:6px;}
+  .lead-card{background:var(--s2);border-radius:8px;padding:10px 12px;margin-bottom:6px;cursor:pointer;transition:all .12s;border-left:3px solid var(--ac);}
+  .lead-card:hover{box-shadow:0 2px 8px rgba(0,0,0,.2);transform:translateY(-1px);}
+  .lead-card.status-new{border-left-color:var(--r);}
+  .lead-card.status-confirmed{border-left-color:var(--y);}
+  .lead-card.status-contacted{border-left-color:var(--bl);}
+  .lead-card.status-consulting{border-left-color:var(--ac);}
+  .lead-card.status-converted{border-left-color:var(--g);}
+  .lead-card.status-lost{border-left-color:var(--t2);opacity:.5;}
+  .lead-card .lead-name{font-size:0.88rem;font-weight:600;margin-bottom:2px;}
+  .lead-card .lead-info{font-size:0.73rem;color:var(--t2);}
+  .lead-card .lead-time{font-size:0.65rem;color:var(--t2);margin-top:4px;}
+  .lead-card .lead-time.urgent{color:var(--r);font-weight:600;}
+  .leads-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:16px;}
+  .leads-stat{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:12px;text-align:center;}
+  .leads-stat .ls-num{font-size:1.4rem;font-weight:700;}
+  .leads-stat .ls-label{font-size:0.72rem;color:var(--t2);margin-top:2px;}
+  .leads-empty{text-align:center;padding:40px;color:var(--t2);font-size:0.88rem;}
+
+  /* Lead modal */
+  .lead-modal-actions{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0;}
+  .lead-modal-actions .btn{font-size:0.78rem;padding:6px 14px;}
+  .lead-modal-actions .btn-primary{background:var(--ac);color:#fff;border-color:var(--ac);}
+  .lead-modal-actions .btn-success{background:var(--g);color:#fff;border-color:var(--g);}
+  .lead-modal-actions .btn-danger{background:var(--r);color:#fff;border-color:var(--r);}
+  .lead-modal-actions .btn-warning{background:var(--y);color:#111;border-color:var(--y);}
+  .lead-notes-input{width:100%;background:var(--s2);border:1px solid var(--b);color:var(--t);border-radius:6px;padding:8px;font-size:0.82rem;font-family:inherit;resize:vertical;min-height:60px;}
+
   /* Footer */
   footer{text-align:center;padding:24px 0;color:var(--t2);font-size:0.7rem;border-top:1px solid var(--b);margin-top:24px;}
 
@@ -325,6 +359,7 @@
   <div class="main-tabs">
     <button class="main-tab active" id="tab-board" onclick="switchMainTab('board')">📋 진행현황</button>
     <button class="main-tab" id="tab-report" onclick="switchMainTab('report')">📊 주간리포트</button>
+    <button class="main-tab" id="tab-leads" onclick="switchMainTab('leads')">🤝 B2B 리드 <span id="leads-badge" class="badge" style="display:none;margin-left:4px;">0</span></button>
   </div>
 
   <!-- Filters -->
@@ -355,6 +390,14 @@
 
   <!-- Report View (hidden by default) -->
   <div id="report-view" style="display:none;"></div>
+
+  <!-- Leads View (hidden by default) -->
+  <div id="leads-view" style="display:none;"></div>
+
+  <!-- Lead Modal -->
+  <div class="modal-bg" id="lead-modal-bg" onclick="if(event.target===this)closeLeadModal()">
+    <div class="modal" id="lead-modal"></div>
+  </div>
 
   <footer>🦍 황고릴 · WESPION · 룸핏 마케팅 대시보드 v0.4</footer>
 </div>
@@ -620,25 +663,36 @@ function switchMainTab(tab){
   const boardEls = ['board','summary'];
   const filterEl = document.querySelector('.filters');
   const rv = document.getElementById('report-view');
+  const lv = document.getElementById('leads-view');
   const tabBoard = document.getElementById('tab-board');
   const tabReport = document.getElementById('tab-report');
+  const tabLeads = document.getElementById('tab-leads');
+
+  // Hide all
+  boardEls.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+  if(filterEl) filterEl.style.display='none';
+  rv.style.display='none';
+  lv.style.display='none';
+  document.getElementById('prd-panel').style.display='none';
+  document.getElementById('guide-panel').style.display='none';
+  tabBoard.classList.remove('active');
+  tabReport.classList.remove('active');
+  tabLeads.classList.remove('active');
 
   if(tab==='report'){
-    boardEls.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
-    if(filterEl) filterEl.style.display='none';
-    document.getElementById('prd-panel').style.display='none';
-    document.getElementById('guide-panel').style.display='none';
     rv.style.display='block';
-    tabBoard.classList.remove('active');
     tabReport.classList.add('active');
     history.replaceState(null,null,'#report');
     renderReportList();
+  } else if(tab==='leads'){
+    lv.style.display='block';
+    tabLeads.classList.add('active');
+    history.replaceState(null,null,'#leads');
+    loadLeads();
   } else {
     boardEls.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='';});
     if(filterEl) filterEl.style.display='';
-    rv.style.display='none';
     tabBoard.classList.add('active');
-    tabReport.classList.remove('active');
     history.replaceState(null,null,'#board');
   }
 }
@@ -910,6 +964,248 @@ window.addEventListener('message', function(ev){
     });
   }
 });
+
+// ===== B2B LEADS =====
+const LEADS_API = 'https://meta-lead-webhook.wespion.workers.dev/api/leads';
+let leadsData = [];
+const LEAD_STATUSES = [
+  {key:'new', label:'📥 접수', color:'var(--r)', desc:'Meta 광고 유입'},
+  {key:'confirmed', label:'✅ 확인', color:'var(--y)', desc:'담당자 확인 완료'},
+  {key:'contacted', label:'📧 안내발송', color:'var(--bl)', desc:'제안서/링크 발송'},
+  {key:'consulting', label:'📞 상담중', color:'var(--ac)', desc:'직접 연락/상담'},
+  {key:'converted', label:'🎉 계약', color:'var(--g)', desc:'계약 완료'},
+];
+const LEAD_STATUS_LOST = {key:'lost', label:'❌ 이탈', color:'var(--t2)'};
+
+async function loadLeads(){
+  const lv = document.getElementById('leads-view');
+  lv.innerHTML='<div class="leads-empty">리드 데이터 로딩 중...</div>';
+  try {
+    const res = await fetch(LEADS_API+'?limit=200');
+    const data = await res.json();
+    leadsData = data.leads || [];
+    renderLeads();
+    updateLeadsBadge();
+  } catch(e){
+    lv.innerHTML='<div class="leads-empty">⚠️ 리드 API 연결 실패<br><span style="font-size:0.75rem;color:var(--t2);">'+LEADS_API+'</span></div>';
+  }
+}
+
+function updateLeadsBadge(){
+  const newCount = leadsData.filter(l=>l.status==='new').length;
+  const badge = document.getElementById('leads-badge');
+  if(newCount>0){badge.textContent=newCount;badge.style.display='inline';}
+  else badge.style.display='none';
+}
+
+function leadTimeSince(isoStr){
+  if(!isoStr) return '';
+  const diff = Date.now() - new Date(isoStr).getTime();
+  const mins = Math.floor(diff/60000);
+  if(mins<60) return mins+'분 전';
+  const hrs = Math.floor(mins/60);
+  if(hrs<24) return hrs+'시간 전';
+  const days = Math.floor(hrs/24);
+  return days+'일 전';
+}
+
+function isUrgent(lead){
+  if(lead.status!=='new') return false;
+  const diff = Date.now() - new Date(lead.createdAt).getTime();
+  return diff > 24*60*60*1000; // 24h+
+}
+
+function renderLeads(){
+  const lv = document.getElementById('leads-view');
+
+  // Stats
+  const counts = {};
+  LEAD_STATUSES.forEach(s=>counts[s.key]=0);
+  counts.lost=0;
+  leadsData.forEach(l=>counts[l.status]=(counts[l.status]||0)+1);
+
+  let html='<div class="leads-stats">';
+  html+=`<div class="leads-stat"><div class="ls-num">${leadsData.length}</div><div class="ls-label">전체 리드</div></div>`;
+  LEAD_STATUSES.forEach(s=>{
+    html+=`<div class="leads-stat"><div class="ls-num" style="color:${s.color}">${counts[s.key]}</div><div class="ls-label">${s.label}</div></div>`;
+  });
+  html+='</div>';
+
+  if(!leadsData.length){
+    html+='<div class="leads-empty">아직 수집된 리드가 없습니다.<br><span style="font-size:0.75rem;color:var(--t2);">Meta 리드 광고에서 유입되면 자동으로 표시됩니다.</span></div>';
+    lv.innerHTML=html;
+    return;
+  }
+
+  // Pipeline columns
+  html+='<div class="leads-pipeline">';
+  LEAD_STATUSES.forEach(s=>{
+    const items = leadsData.filter(l=>l.status===s.key).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+    html+=`<div class="leads-col">`;
+    html+=`<div class="leads-col-header" style="color:${s.color}">${s.label} <span class="count">${items.length}</span></div>`;
+    html+=`<div class="leads-col-body">`;
+    items.forEach(l=>{
+      const name = l.fields.full_name || l.fields['이름'] || l.fields.name || '이름 없음';
+      const company = l.fields.company_name || l.fields['회사명'] || l.fields['업체명'] || '';
+      const phone = l.fields.phone_number || l.fields['전화번호'] || '';
+      const urgent = isUrgent(l);
+      html+=`<div class="lead-card status-${l.status}" onclick="openLeadModal('${l.id}')">`;
+      html+=`<div class="lead-name">${name}</div>`;
+      if(company) html+=`<div class="lead-info">🏢 ${company}</div>`;
+      if(phone) html+=`<div class="lead-info">📱 ${phone}</div>`;
+      html+=`<div class="lead-time ${urgent?'urgent':''}">${urgent?'⚠️ ':''}${leadTimeSince(l.createdAt)}</div>`;
+      html+=`</div>`;
+    });
+    if(!items.length) html+=`<div style="text-align:center;padding:20px;color:var(--t2);font-size:0.75rem;">${s.desc}</div>`;
+    html+=`</div></div>`;
+  });
+  html+='</div>';
+
+  // Lost leads (collapsed)
+  const lostLeads = leadsData.filter(l=>l.status==='lost');
+  if(lostLeads.length){
+    html+=`<div class="done-section"><div class="done-header" onclick="this.nextElementSibling.classList.toggle('expanded');this.nextElementSibling.classList.toggle('collapsed');this.querySelector('.arrow').textContent=this.nextElementSibling.classList.contains('expanded')?'▼':'▶'">
+      <span>❌ 이탈 <span style="color:var(--r)">${lostLeads.length}</span></span>
+      <span class="arrow" style="font-size:0.7rem;">▶</span>
+    </div><div class="done-body collapsed">`;
+    lostLeads.forEach(l=>{
+      const name = l.fields.full_name || l.fields['이름'] || l.fields.name || '이름 없음';
+      html+=`<div class="lead-card status-lost" onclick="openLeadModal('${l.id}')"><div class="lead-name">${name}</div><div class="lead-time">${leadTimeSince(l.createdAt)}</div></div>`;
+    });
+    html+='</div></div>';
+  }
+
+  lv.innerHTML=html;
+}
+
+function openLeadModal(id){
+  const l = leadsData.find(x=>x.id===id);
+  if(!l) return;
+
+  const name = l.fields.full_name || l.fields['이름'] || l.fields.name || '이름 없음';
+  const email = l.fields.email || l.fields['이메일'] || l.fields.work_email || '';
+  const phone = l.fields.phone_number || l.fields['전화번호'] || '';
+  const company = l.fields.company_name || l.fields['회사명'] || l.fields['업체명'] || '';
+  const currentStatus = LEAD_STATUSES.find(s=>s.key===l.status) || LEAD_STATUS_LOST;
+
+  let html=`<span class="close" onclick="closeLeadModal()">✕</span>`;
+  html+=`<h2>${name}</h2>`;
+  html+=`<div class="tags"><span class="tag" style="background:${currentStatus.color}20;color:${currentStatus.color}">${currentStatus.label}</span></div>`;
+
+  // Fields
+  html+=`<div style="margin:12px 0;">`;
+  if(company) html+=`<div class="field"><span class="field-label">업체명</span> <span class="field-val">🏢 ${company}</span></div>`;
+  if(phone) html+=`<div class="field"><span class="field-label">연락처</span> <span class="field-val">📱 ${phone}</span></div>`;
+  if(email) html+=`<div class="field"><span class="field-label">이메일</span> <span class="field-val">📧 ${email}</span></div>`;
+  html+=`<div class="field"><span class="field-label">접수일</span> <span class="field-val">${new Date(l.createdAt).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'})} (${leadTimeSince(l.createdAt)})</span></div>`;
+
+  // Show all other fields
+  const shownKeys = ['full_name','이름','name','email','이메일','work_email','phone_number','전화번호','company_name','회사명','업체명'];
+  Object.entries(l.fields).forEach(([k,v])=>{
+    if(!shownKeys.includes(k) && v){
+      html+=`<div class="field"><span class="field-label">${k}</span> <span class="field-val">${v}</span></div>`;
+    }
+  });
+  html+=`</div>`;
+
+  // Status actions
+  html+=`<div style="margin:16px 0;"><span class="field-label">상태 변경</span></div>`;
+  html+=`<div class="lead-modal-actions">`;
+  if(l.status==='new'){
+    html+=`<button class="btn btn-warning" onclick="updateLeadStatus('${l.id}','confirmed')">✅ 확인</button>`;
+  }
+  if(l.status==='new'||l.status==='confirmed'){
+    html+=`<button class="btn btn-primary" onclick="updateLeadStatus('${l.id}','contacted')">📧 안내 발송</button>`;
+  }
+  if(l.status!=='consulting'&&l.status!=='converted'&&l.status!=='lost'){
+    html+=`<button class="btn" style="border-color:var(--ac);color:var(--ac);" onclick="updateLeadStatus('${l.id}','consulting')">📞 상담중</button>`;
+  }
+  if(l.status!=='converted'){
+    html+=`<button class="btn btn-success" onclick="updateLeadStatus('${l.id}','converted')">🎉 계약 완료</button>`;
+  }
+  if(l.status!=='lost'){
+    html+=`<button class="btn btn-danger" onclick="updateLeadStatus('${l.id}','lost')">❌ 이탈</button>`;
+  }
+  html+=`</div>`;
+
+  // Notes
+  html+=`<div style="margin-top:16px;"><span class="field-label">메모</span></div>`;
+  html+=`<textarea class="lead-notes-input" id="lead-notes-${l.id}" placeholder="메모를 입력하세요...">${l.notes||''}</textarea>`;
+  html+=`<button class="btn" style="margin-top:6px;" onclick="saveLeadNotes('${l.id}')">💾 메모 저장</button>`;
+
+  // Quick actions
+  if(email && (l.status==='confirmed'||l.status==='new')){
+    const subject = encodeURIComponent('룸핏 스마트 웨이트 머신 도입 안내');
+    const body = encodeURIComponent(`안녕하세요 ${name}님,\n\n룸핏에 관심 가져주셔서 감사합니다.\n\n아래 링크에서 센터 도입 관련 상세 내용을 확인하실 수 있습니다.\n👉 https://roomfit-renewal-2026.pages.dev/business\n\n궁금하신 점이 있으시면 편하게 연락 주세요.\n\n감사합니다.\n위스피온 황성우 드림\ncontact@wespion.com`);
+    html+=`<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--b);">`;
+    html+=`<span class="field-label">빠른 액션</span><br>`;
+    html+=`<a href="https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(email)}&su=${subject}&body=${body}" target="_blank" class="btn" style="display:inline-block;margin-top:6px;text-decoration:none;">📧 Gmail에서 안내 메일 보내기</a>`;
+    html+=`</div>`;
+  }
+  if(phone){
+    html+=`<div style="margin-top:${email?'8':'16'}px;${!email?'padding-top:12px;border-top:1px solid var(--b);':''}">`;
+    if(!email) html+=`<span class="field-label">빠른 액션</span><br>`;
+    html+=`<a href="tel:${phone}" class="btn" style="display:inline-block;margin-top:6px;text-decoration:none;">📞 전화 걸기</a>`;
+    html+=`</div>`;
+  }
+
+  document.getElementById('lead-modal').innerHTML=html;
+  document.getElementById('lead-modal-bg').classList.add('open');
+}
+
+function closeLeadModal(){
+  document.getElementById('lead-modal-bg').classList.remove('open');
+}
+
+async function updateLeadStatus(id, newStatus){
+  try {
+    const res = await fetch(LEADS_API+'/'+id, {
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({status:newStatus})
+    });
+    if(!res.ok) throw new Error('API error');
+    const updated = await res.json();
+    // Update local data
+    const idx = leadsData.findIndex(l=>l.id===id);
+    if(idx>=0) leadsData[idx] = updated;
+    renderLeads();
+    updateLeadsBadge();
+    closeLeadModal();
+  } catch(e){
+    alert('상태 업데이트 실패: '+e.message);
+  }
+}
+
+async function saveLeadNotes(id){
+  const notes = document.getElementById('lead-notes-'+id).value;
+  try {
+    const res = await fetch(LEADS_API+'/'+id, {
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({notes})
+    });
+    if(!res.ok) throw new Error('API error');
+    const updated = await res.json();
+    const idx = leadsData.findIndex(l=>l.id===id);
+    if(idx>=0) leadsData[idx] = updated;
+    // Brief success feedback
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent='✅ 저장됨';
+    setTimeout(()=>btn.textContent=orig, 1500);
+  } catch(e){
+    alert('메모 저장 실패: '+e.message);
+  }
+}
+
+// Auto-load leads badge on page load
+fetch(LEADS_API+'?limit=200').then(r=>r.json()).then(d=>{
+  leadsData=d.leads||[];
+  updateLeadsBadge();
+  if(window.location.hash==='#leads') switchMainTab('leads');
+}).catch(()=>{});
+
 </script>
 </body>
 </html>
