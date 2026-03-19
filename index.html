@@ -985,13 +985,18 @@ async function loadLeads(){
   const lv = document.getElementById('leads-view');
   lv.innerHTML='<div class="leads-empty">리드 데이터 로딩 중...</div>';
   try {
-    const res = await fetch(LEADS_API+'?limit=200');
+    let res, retries = 2;
+    while(retries >= 0) {
+      try { res = await fetch(LEADS_API+'?limit=200'); break; }
+      catch(e) { if(retries-- <= 0) throw e; await new Promise(r=>setTimeout(r,1500)); }
+    }
+    if(!res.ok) throw new Error('HTTP '+res.status);
     const data = await res.json();
     leadsData = data.leads || [];
     renderLeads();
     updateLeadsBadge();
   } catch(e){
-    lv.innerHTML='<div class="leads-empty">⚠️ 리드 API 연결 실패<br><span style="font-size:0.75rem;color:var(--t2);">'+LEADS_API+'</span></div>';
+    lv.innerHTML='<div class="leads-empty">⚠️ 리드 API 연결 실패<br><span style="font-size:0.75rem;color:var(--t2);">'+LEADS_API+'</span><br><span style="font-size:0.7rem;color:var(--t2);">'+e.message+' · 새로고침 해보세요</span></div>';
   }
 }
 
