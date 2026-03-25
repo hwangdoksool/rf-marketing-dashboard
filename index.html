@@ -974,11 +974,11 @@ const LEADS_API = 'https://meta-lead-webhook.wespion.workers.dev/api/leads';
 var leadsData = [];
 var leadsFilter = 'all';
 const LEAD_STATUSES = [
-  {key:'new', label:'📥 접수', color:'var(--r)', desc:'Meta 광고 유입'},
-  {key:'confirmed', label:'✅ 확인', color:'var(--y)', desc:'담당자 확인 완료'},
-  {key:'contacted', label:'📧 안내발송', color:'var(--bl)', desc:'제안서/링크 발송'},
-  {key:'consulting', label:'📞 상담중', color:'var(--ac)', desc:'직접 연락/상담'},
-  {key:'converted', label:'🎉 계약', color:'var(--g)', desc:'계약 완료'},
+  {key:'new', label:'📥 신규', color:'var(--r)', desc:'Meta 광고 유입'},
+  {key:'email_sent', label:'📧 메일발송', color:'var(--y)', desc:'제안서 메일 발송'},
+  {key:'contacted', label:'📞 연락완료', color:'var(--bl)', desc:'직접 연락/통화'},
+  {key:'qualified', label:'✅ 적합', color:'var(--ac)', desc:'도입 적합 판단'},
+  {key:'converted', label:'🎉 전환', color:'var(--g)', desc:'계약 완료'},
 ];
 const LEAD_STATUS_LOST = {key:'lost', label:'❌ 이탈', color:'var(--t2)'};
 
@@ -1011,17 +1011,17 @@ function isUrgent(lead){
 function renderLeads(){
   const lv = document.getElementById('leads-view');
   const statusMap = {
-    'new':'🆕 신규','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'
+    'new':'📥 신규','email_sent':'📧 메일발송','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'
   };
   const statusColors = {
-    'new':'var(--bl)','contacted':'var(--y)','qualified':'var(--g)','converted':'var(--ac2)','lost':'var(--t2)'
+    'new':'var(--bl)','email_sent':'var(--y)','contacted':'var(--ac)','qualified':'var(--g)','converted':'var(--ac2)','lost':'var(--t2)'
   };
 
   const filtered = leadsFilter==='all' ? leadsData : leadsData.filter(l=>l.lead_status===leadsFilter);
 
   // Stats
   const stats = {total:leadsData.length};
-  ['new','contacted','qualified','converted','lost'].forEach(s=>{
+  ['new','email_sent','contacted','qualified','converted','lost'].forEach(s=>{
     stats[s] = leadsData.filter(l=>l.lead_status===s).length;
   });
 
@@ -1098,7 +1098,7 @@ function openLeadModal(leadId){
   const lead = leadsData.find(l=>l.id===leadId);
   if(!lead) return;
 
-  const statusMap = {'new':'🆕 신규','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'};
+  const statusMap = {'new':'📥 신규','email_sent':'📧 메일발송','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'};
   const date = lead.created_at ? new Date(lead.created_at).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}) : '-';
   const sourceLabel = lead.source==='meta_lead' ? '📱 메타 리드 광고' : lead.source==='website' ? '🌐 홈페이지 견적' : lead.source || '-';
 
@@ -1145,10 +1145,18 @@ function openLeadModal(leadId){
   html += '<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--b);">';
   html += '<div class="field-label" style="margin-bottom:6px;">상태 변경</div>';
   html += '<div style="display:flex;gap:4px;flex-wrap:wrap;">';
-  ['new','contacted','qualified','converted','lost'].forEach(s=>{
+  ['new','email_sent','contacted','qualified','converted','lost'].forEach(s=>{
     const active = lead.lead_status===s ? 'background:var(--ac);color:#fff;border-color:var(--ac);' : '';
     html += `<button onclick="updateLeadStatus(${lead.id},'${s}')" style="padding:4px 10px;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;border:1px solid var(--b);background:var(--s);color:var(--t);${active}">${statusMap[s]}</button>`;
   });
+  html += '</div></div>';
+
+  // 메일 초안 복사
+  html += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--b);">';
+  html += '<div class="field-label" style="margin-bottom:6px;">제안서 발송</div>';
+  html += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
+  html += `<button onclick="copyEmailDraft(${lead.id})" style="padding:6px 14px;border-radius:6px;background:var(--ac);color:#fff;border:none;cursor:pointer;font-size:0.78rem;font-weight:600;">📋 메일 초안 복사</button>`;
+  html += `<a href="https://roomfit-b2b-proposal.pages.dev/roomfit-b2b-proposal.pdf" target="_blank" style="padding:6px 14px;border-radius:6px;background:var(--s2);color:var(--t);border:1px solid var(--b);cursor:pointer;font-size:0.78rem;font-weight:600;text-decoration:none;display:inline-block;">📄 제안서 PDF</a>`;
   html += '</div></div>';
 
   // Notes
@@ -1163,11 +1171,27 @@ function openLeadModal(leadId){
   document.getElementById('lead-modal-bg').classList.add('open');
 }
 
+function copyEmailDraft(leadId){
+  const lead = leadsData.find(l=>l.id===leadId);
+  if(!lead) return;
+  const name = lead.full_name || '담당자';
+  const company = lead.company_name || '센터';
+  const subject = `[룸핏] ${company} 센터 도입 안내 드립니다`;
+  const body = `제목: ${subject}\n\n───\n\n안녕하세요, ${name} 님.\n스마트 웨이트 머신 룸핏(Roomfit) 입니다.\n\n센터 도입에 관심 가져주셔서 감사합니다.\n\n룸핏은 실제 웨이트 운동 중 속도·파워·ROM을 실시간 측정하는 스마트 웨이트 머신입니다. 운동 데이터가 자동으로 쌓여 회원에게 PT 효과를 숫자로 보여줄 수 있습니다.\n\n📎 첨부된 PDF에서 상세 내용을 확인하실 수 있습니다.\n\n센터 도입 시 혜택:\n• B2B 전용 센터 앱 무료 제공\n• 대량 도입 할인 협의\n• A/S 우선 접수\n\n도입 규모에 맞춘 견적을 안내드리겠습니다.\n편하신 시간에 회신 주시거나 카카오톡(룸핏 검색)으로 연락 주시면 됩니다.`;
+  navigator.clipboard.writeText(body).then(()=>{
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✅ 복사됨!';
+    btn.style.background = 'var(--g)';
+    setTimeout(()=>{ btn.textContent = orig; btn.style.background = 'var(--ac)'; }, 1500);
+  }).catch(()=>alert('클립보드 복사 실패'));
+}
+
 async function updateLeadStatus(leadId, status){
   try {
     await fetch(`${SB_URL}/rest/v1/business_leads?id=eq.${leadId}`, {
       method:'PATCH',
-      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
       body:JSON.stringify({lead_status:status, updated_at:new Date().toISOString()})
     });
     const lead = leadsData.find(l=>l.id===leadId);
@@ -1605,17 +1629,17 @@ async function loadLeads(){
 function renderLeads(){
   const lv = document.getElementById('leads-view');
   const statusMap = {
-    'new':'🆕 신규','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'
+    'new':'📥 신규','email_sent':'📧 메일발송','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'
   };
   const statusColors = {
-    'new':'var(--bl)','contacted':'var(--y)','qualified':'var(--g)','converted':'var(--ac2)','lost':'var(--t2)'
+    'new':'var(--bl)','email_sent':'var(--y)','contacted':'var(--ac)','qualified':'var(--g)','converted':'var(--ac2)','lost':'var(--t2)'
   };
 
   const filtered = leadsFilter==='all' ? leadsData : leadsData.filter(l=>l.lead_status===leadsFilter);
 
   // Stats
   const stats = {total:leadsData.length};
-  ['new','contacted','qualified','converted','lost'].forEach(s=>{
+  ['new','email_sent','contacted','qualified','converted','lost'].forEach(s=>{
     stats[s] = leadsData.filter(l=>l.lead_status===s).length;
   });
 
@@ -1691,7 +1715,7 @@ function openLeadModal(leadId){
   const lead = leadsData.find(l=>l.id===leadId);
   if(!lead) return;
 
-  const statusMap = {'new':'🆕 신규','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'};
+  const statusMap = {'new':'📥 신규','email_sent':'📧 메일발송','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'};
   const date = lead.created_at ? new Date(lead.created_at).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}) : '-';
   const sourceLabel = lead.source==='meta_lead' ? '📱 메타 리드 광고' : lead.source==='website' ? '🌐 홈페이지 견적' : lead.source || '-';
 
@@ -1738,10 +1762,18 @@ function openLeadModal(leadId){
   html += '<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--b);">';
   html += '<div class="field-label" style="margin-bottom:6px;">상태 변경</div>';
   html += '<div style="display:flex;gap:4px;flex-wrap:wrap;">';
-  ['new','contacted','qualified','converted','lost'].forEach(s=>{
+  ['new','email_sent','contacted','qualified','converted','lost'].forEach(s=>{
     const active = lead.lead_status===s ? 'background:var(--ac);color:#fff;border-color:var(--ac);' : '';
     html += `<button onclick="updateLeadStatus(${lead.id},'${s}')" style="padding:4px 10px;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;border:1px solid var(--b);background:var(--s);color:var(--t);${active}">${statusMap[s]}</button>`;
   });
+  html += '</div></div>';
+
+  // 메일 초안 복사
+  html += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--b);">';
+  html += '<div class="field-label" style="margin-bottom:6px;">제안서 발송</div>';
+  html += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
+  html += `<button onclick="copyEmailDraft(${lead.id})" style="padding:6px 14px;border-radius:6px;background:var(--ac);color:#fff;border:none;cursor:pointer;font-size:0.78rem;font-weight:600;">📋 메일 초안 복사</button>`;
+  html += `<a href="https://roomfit-b2b-proposal.pages.dev/roomfit-b2b-proposal.pdf" target="_blank" style="padding:6px 14px;border-radius:6px;background:var(--s2);color:var(--t);border:1px solid var(--b);cursor:pointer;font-size:0.78rem;font-weight:600;text-decoration:none;display:inline-block;">📄 제안서 PDF</a>`;
   html += '</div></div>';
 
   // Notes
