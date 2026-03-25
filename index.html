@@ -1008,213 +1008,6 @@ function isUrgent(lead){
   return diff > 24*60*60*1000; // 24h+
 }
 
-function renderLeads(){
-  const lv = document.getElementById('leads-view');
-  const statusMap = {
-    'new':'📥 신규','email_sent':'📧 메일발송','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'
-  };
-  const statusColors = {
-    'new':'var(--bl)','email_sent':'var(--y)','contacted':'var(--ac)','qualified':'var(--g)','converted':'var(--ac2)','lost':'var(--t2)'
-  };
-
-  const filtered = leadsFilter==='all' ? leadsData : leadsData.filter(l=>l.lead_status===leadsFilter);
-
-  // Stats
-  const stats = {total:leadsData.length};
-  ['new','email_sent','contacted','qualified','converted','lost'].forEach(s=>{
-    stats[s] = leadsData.filter(l=>l.lead_status===s).length;
-  });
-
-  let html = '';
-
-  // Header
-  html += '<div style="background:var(--s);border:1px solid var(--b);border-radius:12px;padding:16px;margin-bottom:12px;">';
-  html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">';
-  html += '<div><h2 style="font-size:1rem;margin-bottom:4px;">🤝 B2B 리드 관리</h2>';
-  html += '<p style="font-size:0.78rem;color:var(--t2);">Meta 리드 광고 + 홈페이지 견적 → 자동 수집 · Supabase</p></div>';
-  html += `<span style="font-size:0.78rem;color:var(--t2);">총 ${stats.total}건</span>`;
-  html += '</div>';
-
-  // Status KPI cards
-  html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;">';
-  [['all','전체',stats.total,'var(--t)'],['new','신규',stats.new,'var(--bl)'],['contacted','연락완료',stats.contacted,'var(--y)'],['qualified','적합',stats.qualified,'var(--g)'],['converted','전환',stats.converted,'var(--ac2)'],['lost','이탈',stats.lost,'var(--t2)']].forEach(([key,label,count,color])=>{
-    const active = leadsFilter===key ? 'border-color:'+color+';box-shadow:inset 0 0 0 1px '+color : '';
-    html += `<div onclick="leadsFilter='${key}';renderLeads();" style="background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:8px;text-align:center;cursor:pointer;${active}">`;
-    html += `<div style="font-size:1.1rem;font-weight:700;color:${color};">${count}</div>`;
-    html += `<div style="font-size:0.68rem;color:var(--t2);">${label}</div></div>`;
-  });
-  html += '</div></div>';
-
-  // Leads list
-  if(filtered.length === 0){
-    html += '<div style="background:var(--s);border:1px solid var(--b);border-radius:12px;padding:40px;text-align:center;color:var(--t2);">';
-    html += leadsData.length===0 ? '아직 접수된 리드가 없습니다. 메타 리드 광고에서 양식이 제출되면 여기에 자동으로 표시됩니다.' : '해당 상태의 리드가 없습니다.';
-    html += '</div>';
-  } else {
-    html += '<div style="background:var(--s);border:1px solid var(--b);border-radius:12px;overflow:hidden;">';
-    html += '<table style="width:100%;border-collapse:collapse;">';
-    html += '<thead><tr>';
-    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">상태</th>';
-    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">이름</th>';
-    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">연락처</th>';
-    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">회사</th>';
-    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">소스</th>';
-    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">접수일</th>';
-    html += '<th style="text-align:left;padding:10px;font-size:0.72rem;color:var(--t2);border-bottom:1px solid var(--b);">메모</th>';
-    html += '</tr></thead><tbody>';
-
-    filtered.forEach(lead=>{
-      const name = lead.full_name || '-';
-      const phone = lead.phone || '-';
-      const email = lead.email || '';
-      const company = lead.company_name || '-';
-      const contact = phone !== '-' ? phone : email;
-      const date = lead.created_at ? new Date(lead.created_at).toLocaleDateString('ko-KR') : '-';
-      const statusLabel = statusMap[lead.lead_status] || lead.lead_status;
-      const statusColor = statusColors[lead.lead_status] || 'var(--t2)';
-      const sourceLabel = lead.source==='meta_lead' ? '📱 메타광고' : lead.source==='website' ? '🌐 홈페이지' : lead.source || '-';
-      const adName = lead.meta_ad_name || '';
-
-      html += `<tr style="cursor:pointer;transition:background .1s;" onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background=''" onclick="openLeadModal(${lead.id})">`;
-      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.78rem;"><span style="color:${statusColor};font-weight:600;">${statusLabel}</span></td>`;
-      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.82rem;font-weight:600;">${esc(name)}</td>`;
-      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.78rem;color:var(--t2);">${esc(contact)}</td>`;
-      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.78rem;">${esc(company)}</td>`;
-      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.72rem;color:var(--t2);">${sourceLabel}${adName?' · '+esc(adName):''}</td>`;
-      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.75rem;color:var(--t2);">${date}</td>`;
-      html += `<td style="padding:8px 10px;border-bottom:1px solid var(--b);font-size:0.75rem;color:var(--t2);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(lead.admin_memo||'')}</td>`;
-      html += '</tr>';
-    });
-
-    html += '</tbody></table></div>';
-  }
-
-  lv.innerHTML = html;
-}
-
-function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
-function openLeadModal(leadId){
-  const lead = leadsData.find(l=>l.id===leadId);
-  if(!lead) return;
-
-  const statusMap = {'new':'📥 신규','email_sent':'📧 메일발송','contacted':'📞 연락완료','qualified':'✅ 적합','converted':'🎉 전환','lost':'❌ 이탈'};
-  const date = lead.created_at ? new Date(lead.created_at).toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}) : '-';
-  const sourceLabel = lead.source==='meta_lead' ? '📱 메타 리드 광고' : lead.source==='website' ? '🌐 홈페이지 견적' : lead.source || '-';
-
-  let html = '<span class="close" onclick="closeModal()">✕</span>';
-  html += `<h2>🤝 리드 상세</h2>`;
-  html += '<div class="tags">';
-  html += `<span class="tag" style="background:rgba(108,92,231,.15);color:var(--ac2);">#${lead.id}</span>`;
-  html += `<span class="tag" style="background:rgba(0,184,148,.15);color:var(--g);">${statusMap[lead.lead_status]||lead.lead_status}</span>`;
-  html += `<span class="tag" style="background:rgba(116,185,255,.15);color:var(--bl);">${sourceLabel}</span>`;
-  html += '</div>';
-
-  // Core fields
-  const fields = [
-    ['이름', lead.full_name],
-    ['전화번호', lead.phone],
-    ['이메일', lead.email],
-    ['회사명', lead.company_name],
-    ['지역', lead.city],
-    ['웹사이트', lead.website],
-    ['메시지', lead.message],
-  ];
-  
-  fields.forEach(([label,val])=>{
-    if(val){
-      html += `<div class="field"><div class="field-label">${label}</div><div class="field-val">${esc(val)}</div></div>`;
-    }
-  });
-
-  html += `<div class="field"><div class="field-label">접수일</div><div class="field-val">${date}</div></div>`;
-
-  // Meta ad info (if from meta)
-  if(lead.source==='meta_lead' && lead.meta_campaign_name){
-    html += '<div style="margin-top:8px;padding:8px;background:var(--s2);border-radius:6px;font-size:0.78rem;">';
-    html += `<div style="color:var(--t2);margin-bottom:4px;">📊 광고 정보</div>`;
-    if(lead.meta_campaign_name) html += `<div>캠페인: ${esc(lead.meta_campaign_name)}</div>`;
-    if(lead.meta_adset_name) html += `<div>광고세트: ${esc(lead.meta_adset_name)}</div>`;
-    if(lead.meta_ad_name) html += `<div>소재: ${esc(lead.meta_ad_name)}</div>`;
-    if(lead.meta_form_name) html += `<div>양식: ${esc(lead.meta_form_name)}</div>`;
-    if(lead.meta_platform) html += `<div>플랫폼: ${lead.meta_platform}</div>`;
-    html += '</div>';
-  }
-
-  // Status update
-  html += '<div style="margin-top:16px;padding-top:12px;border-top:1px solid var(--b);">';
-  html += '<div class="field-label" style="margin-bottom:6px;">상태 변경</div>';
-  html += '<div style="display:flex;gap:4px;flex-wrap:wrap;">';
-  ['new','email_sent','contacted','qualified','converted','lost'].forEach(s=>{
-    const active = lead.lead_status===s ? 'background:var(--ac);color:#fff;border-color:var(--ac);' : '';
-    html += `<button onclick="updateLeadStatus(${lead.id},'${s}')" style="padding:4px 10px;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;border:1px solid var(--b);background:var(--s);color:var(--t);${active}">${statusMap[s]}</button>`;
-  });
-  html += '</div></div>';
-
-  // 메일 초안 복사
-  html += '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--b);">';
-  html += '<div class="field-label" style="margin-bottom:6px;">제안서 발송</div>';
-  html += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
-  html += `<button onclick="copyEmailDraft(${lead.id})" style="padding:6px 14px;border-radius:6px;background:var(--ac);color:#fff;border:none;cursor:pointer;font-size:0.78rem;font-weight:600;">📋 메일 초안 복사</button>`;
-  html += `<a href="https://roomfit-b2b-proposal.pages.dev/roomfit-b2b-proposal.pdf" target="_blank" style="padding:6px 14px;border-radius:6px;background:var(--s2);color:var(--t);border:1px solid var(--b);cursor:pointer;font-size:0.78rem;font-weight:600;text-decoration:none;display:inline-block;">📄 제안서 PDF</a>`;
-  html += '</div></div>';
-
-  // Notes
-  html += '<div style="margin-top:12px;">';
-  html += '<div class="field-label" style="margin-bottom:4px;">메모</div>';
-  html += `<textarea id="lead-notes" style="width:100%;height:60px;background:var(--s2);border:1px solid var(--b);border-radius:6px;color:var(--t);padding:8px;font-size:0.82rem;resize:vertical;">${esc(lead.admin_memo||'')}</textarea>`;
-  html += `<button onclick="saveLeadNotes(${lead.id})" style="margin-top:6px;padding:5px 14px;border-radius:6px;background:var(--ac);color:#fff;border:none;cursor:pointer;font-size:0.78rem;">메모 저장</button>`;
-  html += '</div>';
-
-  const modal = document.getElementById('lead-modal');
-  modal.innerHTML = html;
-  document.getElementById('lead-modal-bg').classList.add('open');
-}
-
-function copyEmailDraft(leadId){
-  const lead = leadsData.find(l=>l.id===leadId);
-  if(!lead) return;
-  const name = lead.full_name || '담당자';
-  const company = lead.company_name || '센터';
-  const subject = `[룸핏] ${company} 센터 도입 안내 드립니다`;
-  const body = `제목: ${subject}\n\n───\n\n안녕하세요, ${name} 님.\n스마트 웨이트 머신 룸핏(Roomfit) 입니다.\n\n센터 도입에 관심 가져주셔서 감사합니다.\n\n룸핏은 실제 웨이트 운동 중 속도·파워·ROM을 실시간 측정하는 스마트 웨이트 머신입니다. 운동 데이터가 자동으로 쌓여 회원에게 PT 효과를 숫자로 보여줄 수 있습니다.\n\n📎 첨부된 PDF에서 상세 내용을 확인하실 수 있습니다.\n\n센터 도입 시 혜택:\n• B2B 전용 센터 앱 무료 제공\n• 대량 도입 할인 협의\n• A/S 우선 접수\n\n도입 규모에 맞춘 견적을 안내드리겠습니다.\n편하신 시간에 회신 주시거나 카카오톡(룸핏 검색)으로 연락 주시면 됩니다.`;
-  navigator.clipboard.writeText(body).then(()=>{
-    const btn = event.target;
-    const orig = btn.textContent;
-    btn.textContent = '✅ 복사됨!';
-    btn.style.background = 'var(--g)';
-    setTimeout(()=>{ btn.textContent = orig; btn.style.background = 'var(--ac)'; }, 1500);
-  }).catch(()=>alert('클립보드 복사 실패'));
-}
-
-async function updateLeadStatus(leadId, status){
-  try {
-    await fetch(`${SB_URL}/rest/v1/business_leads?id=eq.${leadId}`, {
-      method:'PATCH',
-      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
-      body:JSON.stringify({lead_status:status, updated_at:new Date().toISOString()})
-    });
-    const lead = leadsData.find(l=>l.id===leadId);
-    if(lead) lead.lead_status = status;
-    closeModal();
-    renderLeads();
-  } catch(e){ alert('상태 업데이트 실패'); }
-}
-
-async function saveLeadNotes(leadId){
-  const notes = document.getElementById('lead-notes').value;
-  try {
-    await fetch(`${SB_URL}/rest/v1/business_leads?id=eq.${leadId}`, {
-      method:'PATCH',
-      headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-      body:JSON.stringify({admin_memo:notes, updated_at:new Date().toISOString()})
-    });
-    const lead = leadsData.find(l=>l.id===leadId);
-    if(lead) lead.admin_memo = notes;
-    renderLeads();
-  } catch(e){ alert('메모 저장 실패'); }
-}
-
 // ── STT Upload ──
 
 let bookingsData = [];
@@ -1655,7 +1448,7 @@ function renderLeads(){
 
   // Status KPI cards
   html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;">';
-  [['all','전체',stats.total,'var(--t)'],['new','신규',stats.new,'var(--bl)'],['contacted','연락완료',stats.contacted,'var(--y)'],['qualified','적합',stats.qualified,'var(--g)'],['converted','전환',stats.converted,'var(--ac2)'],['lost','이탈',stats.lost,'var(--t2)']].forEach(([key,label,count,color])=>{
+  [['all','전체',stats.total,'var(--t)'],['new','신규',stats.new,'var(--bl)'],['email_sent','메일발송',stats.email_sent,'var(--y)'],['contacted','연락완료',stats.contacted,'var(--ac)'],['qualified','적합',stats.qualified,'var(--g)'],['converted','전환',stats.converted,'var(--ac2)'],['lost','이탈',stats.lost,'var(--t2)']].forEach(([key,label,count,color])=>{
     const active = leadsFilter===key ? 'border-color:'+color+';box-shadow:inset 0 0 0 1px '+color : '';
     html += `<div onclick="leadsFilter='${key}';renderLeads();" style="background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:8px;text-align:center;cursor:pointer;${active}">`;
     html += `<div style="font-size:1.1rem;font-weight:700;color:${color};">${count}</div>`;
@@ -1786,6 +1579,22 @@ function openLeadModal(leadId){
   const modal = document.getElementById('modal');
   modal.innerHTML = html;
   document.getElementById('modal-bg').classList.add('open');
+}
+
+function copyEmailDraft(leadId){
+  const lead = leadsData.find(l=>l.id===leadId);
+  if(!lead) return;
+  const name = lead.full_name || '담당자';
+  const company = lead.company_name || '센터';
+  const subject = `[룸핏] ${company} 센터 도입 안내 드립니다`;
+  const body = `제목: ${subject}\n\n───\n\n안녕하세요, ${name} 님.\n스마트 웨이트 머신 룸핏(Roomfit) 입니다.\n\n센터 도입에 관심 가져주셔서 감사합니다.\n\n룸핏은 실제 웨이트 운동 중 속도·파워·ROM을 실시간 측정하는 스마트 웨이트 머신입니다. 운동 데이터가 자동으로 쌓여 회원에게 PT 효과를 숫자로 보여줄 수 있습니다.\n\n📎 첨부된 PDF에서 상세 내용을 확인하실 수 있습니다.\n\n센터 도입 시 혜택:\n• B2B 전용 센터 앱 무료 제공\n• 대량 도입 할인 협의\n• A/S 우선 접수\n\n도입 규모에 맞춘 견적을 안내드리겠습니다.\n편하신 시간에 회신 주시거나 카카오톡(룸핏 검색)으로 연락 주시면 됩니다.`;
+  navigator.clipboard.writeText(body).then(()=>{
+    const btn = event.target;
+    const orig = btn.textContent;
+    btn.textContent = '✅ 복사됨!';
+    btn.style.background = 'var(--g)';
+    setTimeout(()=>{ btn.textContent = orig; btn.style.background = 'var(--ac)'; }, 1500);
+  }).catch(()=>alert('클립보드 복사 실패'));
 }
 
 async function updateLeadStatus(leadId, status){
@@ -2082,3 +1891,4 @@ fetch(`${SB_URL}/rest/v1/business_leads?select=*&order=created_at.desc`,{
 </script>
 </body>
 </html>
+<!-- v1774400642 -->
