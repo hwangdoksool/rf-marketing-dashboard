@@ -761,16 +761,25 @@ function renderReport(id){
     sectionsHtml+=`<h3>${s.title}</h3>`;
     
     if(s.type==='metrics'){
-      sectionsHtml+='<table class="rpt-table"><thead><tr><th>지표</th><th class="num">W10</th><th class="num">W9</th><th class="num">WoW</th><th>비고</th></tr></thead><tbody>';
+      // Dynamic column detection: find the two numeric week columns
+      const sample=s.content[0]||{};
+      const weekCols=Object.keys(sample).filter(k=>k.match(/^w\d+$/)).sort((a,b)=>{
+        const na=parseInt(a.slice(1)),nb=parseInt(b.slice(1));return nb-na;
+      });
+      const colCur=weekCols[0]||'w10', colPrev=weekCols[1]||'w9';
+      const labelKey=sample.label!==undefined?'label':'metric';
+      const curLabel=colCur.toUpperCase(), prevLabel=colPrev.toUpperCase();
+      sectionsHtml+=`<table class="rpt-table"><thead><tr><th>지표</th><th class="num">${curLabel}</th><th class="num">${prevLabel}</th><th class="num">WoW</th><th>비고</th></tr></thead><tbody>`;
       s.content.forEach(m=>{
-        const v10=typeof m.w10==='number'?m.w10.toLocaleString():m.w10;
-        const v9=typeof m.w9==='number'?m.w9.toLocaleString():m.w9;
+        const vCur=m[colCur], vPrev=m[colPrev];
+        const v10=typeof vCur==='number'?vCur.toLocaleString():(vCur||'—');
+        const v9=typeof vPrev==='number'?vPrev.toLocaleString():(vPrev||'—');
         let wow='—';
-        if(typeof m.w10==='number'&&typeof m.w9==='number'&&m.w9!==0){
-          const p=((m.w10-m.w9)/m.w9*100);
+        if(typeof vCur==='number'&&typeof vPrev==='number'&&vPrev!==0){
+          const p=((vCur-vPrev)/vPrev*100);
           wow=p>0?`<span style="color:var(--g)">+${p.toFixed(1)}%</span>`:`<span style="color:var(--r)">${p.toFixed(1)}%</span>`;
         }
-        sectionsHtml+=`<tr><td>${m.label}</td><td class="num"><strong>${v10}</strong></td><td class="num">${v9}</td><td class="num">${wow}</td><td style="font-size:0.75rem;color:var(--t2)">${m.note||''}</td></tr>`;
+        sectionsHtml+=`<tr><td>${m[labelKey]||''}</td><td class="num"><strong>${v10}</strong></td><td class="num">${v9}</td><td class="num">${wow}</td><td style="font-size:0.75rem;color:var(--t2)">${m.note||''}</td></tr>`;
       });
       sectionsHtml+='</tbody></table>';
     }
@@ -792,24 +801,59 @@ function renderReport(id){
         {k:'add_payment_info',label:'결제 입력',icon:'💳'},
         {k:'purchase',label:'구매',icon:'✅'}
       ];
+      // Helper: extract user count from either {w10:{users:N},w9:{users:N}} or plain number
+      function funnelUsers(d,which){
+        if(typeof d==='number') return d;
+        if(typeof d==='object'&&d!==null){
+          // Try dynamic week keys
+          const wks=Object.keys(d).filter(k=>k.match(/^w\d+$/)).sort((a,b)=>parseInt(b.slice(1))-parseInt(a.slice(1)));
+          const key=which==='cur'?wks[0]:wks[1];
+          const val=key?d[key]:null;
+          if(typeof val==='number') return val;
+          if(val&&typeof val==='object') return val.users||0;
+        }
+        return 0;
+      }
+      // Detect if data has prev week
+      const sampleD=f[steps.find(st=>f[st.k])?.k];
+      const hasPrev=typeof sampleD==='object'&&sampleD!==null&&Object.keys(sampleD).filter(k=>k.match(/^w\d+$/)).length>=2;
+      // Find week labels
+      let curWkLabel='', prevWkLabel='';
+      if(typeof sampleD==='object'&&sampleD!==null){
+        const wks=Object.keys(sampleD).filter(k=>k.match(/^w\d+$/)).sort((a,b)=>parseInt(b.slice(1))-parseInt(a.slice(1)));
+        curWkLabel=wks[0]?wks[0].toUpperCase():'';
+        prevWkLabel=wks[1]?wks[1].toUpperCase():'';
+      }
       sectionsHtml+='<div class="rpt-funnel">';
       steps.forEach((st,i)=>{
         const d=f[st.k];
-        if(!d)return;
-        const w10=d.w10, w9=d.w9;
-        sectionsHtml+=`<div class="rpt-funnel-step"><div class="fv">${st.icon} ${w10.users.toLocaleString()}</div><div class="fl">${st.label}</div><div class="fl" style="color:var(--t2)">(W9: ${w9.users})</div></div>`;
+        if(d===undefined||d===null)return;
+        const curUsers=funnelUsers(d,'cur');
+        const prevUsers=hasPrev?funnelUsers(d,'prev'):null;
+        sectionsHtml+=`<div class="rpt-funnel-step"><div class="fv">${st.icon} ${curUsers.toLocaleString()}</div><div class="fl">${st.label}</div>`;
+        if(prevUsers!==null) sectionsHtml+=`<div class="fl" style="color:var(--t2)">(${prevWkLabel}: ${prevUsers.toLocaleString()})</div>`;
+        sectionsHtml+=`</div>`;
         if(i<steps.length-1){
           const next=steps[i+1];
           const nd=f[next.k];
-          if(nd&&d.w10.users>0){
-            const dropPct=((1-nd.w10.users/d.w10.users)*100).toFixed(1);
-            sectionsHtml+=`<div class="rpt-funnel-arrow">→ <span style="color:var(--r)">${dropPct}% 이탈</span> →</div>`;
+          if(nd!==undefined&&nd!==null){
+            const nextCur=funnelUsers(nd,'cur');
+            if(curUsers>0){
+              const dropPct=((1-nextCur/curUsers)*100).toFixed(1);
+              sectionsHtml+=`<div class="rpt-funnel-arrow">→ <span style="color:var(--r)">${dropPct}% 이탈</span> →</div>`;
+            }
           }
         }
       });
       sectionsHtml+='</div>';
       if(f.conversion_rate){
-        sectionsHtml+=`<div class="rpt-insight"><span class="tag-fact">📈</span> 전환율: <strong>${f.conversion_rate.w10}</strong> (W9: ${f.conversion_rate.w9}) — ${f.conversion_rate.note}</div>`;
+        const cr=f.conversion_rate;
+        const crCur=typeof cr==='object'?(cr.w10||cr.w11||cr.w12||cr.w13||cr.value||cr):'';
+        const crPrev=typeof cr==='object'?(cr.w9||cr.w10||cr.prev||''):'';
+        const crNote=typeof cr==='object'?(cr.note||''):'';
+        if(typeof cr==='object'&&crCur){
+          sectionsHtml+=`<div class="rpt-insight"><span class="tag-fact">📈</span> 전환율: <strong>${crCur}</strong>${crPrev?` (전주: ${crPrev})`:''} ${crNote?'— '+crNote:''}</div>`;
+        }
       }
     }
     
