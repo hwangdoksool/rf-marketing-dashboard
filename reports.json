@@ -1,63 +1,61 @@
 [
   {
-    "id": "w12-2026",
-    "title": "W12 · 3월 3주차",
-    "period": "2026-03-16 ~ 03-22",
+    "id": "w13-2026",
+    "title": "W13 · 3월 4주차 (스포엑스 주간)",
+    "period": "2026-03-23 ~ 2026-03-27",
     "publishedAt": "2026-03-28",
     "kpi": {
       "sessions": {
-        "value": 12473,
+        "value": 5195,
         "prev": 12473
       },
       "users": {
-        "value": 11317,
+        "value": 4803,
         "prev": 11317
       },
       "newUsers": {
-        "value": 10591,
+        "value": 4208,
         "prev": 10591
       },
       "adSpend": {
-        "value": 1375424,
+        "value": 831582,
         "prev": 1375409,
         "unit": "₩"
       },
       "adSpend_meta": {
-        "value": 1345735,
+        "value": 816314,
         "prev": 1345720,
         "unit": "₩",
         "note": "Meta"
       },
       "adSpend_naver": {
-        "value": 29689,
+        "value": 15268,
         "prev": 29689,
         "unit": "₩",
         "note": "네이버"
       },
       "impressions": {
-        "value": 155106,
-        "prev": 155104,
-        "note": "Meta 153,037 + 네이버 2,069"
+        "value": 79034,
+        "prev": 155104
       },
       "clicks": {
-        "value": 10733,
-        "prev": 10733,
-        "note": "Meta 10,394 + 네이버 339"
+        "value": 4692,
+        "prev": 10733
       },
       "purchases_ga4": {
-        "value": 9,
+        "value": 2,
         "prev": 9
       },
       "bounceRate": {
-        "value": 55.0,
+        "value": 56.0,
         "prev": 55.0
       },
       "avgDuration": {
-        "value": 67,
+        "value": 80,
         "prev": 67
       }
     },
-    "abstract": "W12(03-16~03-22) 세션 12,473, 유저 11,317명. 총 광고비 ₩137.5만 (Meta ₩134.6만 + 네이버 ₩3.0만). GA4 구매 9건.",
+    "abstract": "W13(03-23~03-27) 스포엑스 주간 — 세션 5,195, 유저 4,803명. 총 광고비 ₩83.2만 (Meta ₩81.6만 + 네이버 ₩1.5만). GA4 구매 2건.",
     "sections": [
       {
         "title": "📊 채널별 트래픽",
@@ -65,51 +63,51 @@
         "content": [
           {
             "metric": "Display",
-            "w12": 8967,
-            "w11": null,
-            "note": "유저 8318명, 이탈 54%"
+            "w13": 3122,
+            "w12": null,
+            "note": "유저 2912명, 이탈 54%"
           },
           {
             "metric": "Direct",
-            "w12": 1984,
-            "w11": null,
-            "note": "유저 1932명, 이탈 74%"
-          },
-          {
-            "metric": "Organic Social",
-            "w12": 547,
-            "w11": null,
-            "note": "유저 512명, 이탈 34%"
-          },
-          {
-            "metric": "Paid Search",
-            "w12": 372,
-            "w11": null,
-            "note": "유저 307명, 이탈 38%"
-          },
-          {
-            "metric": "Organic Search",
-            "w12": 295,
-            "w11": null,
-            "note": "유저 232명, 이탈 25%"
+            "w13": 851,
+            "w12": null,
+            "note": "유저 818명, 이탈 75%"
           },
           {
             "metric": "Paid Social",
-            "w12": 93,
-            "w11": null,
-            "note": "유저 57명, 이탈 57%"
+            "w13": 518,
+            "w12": null,
+            "note": "유저 479명, 이탈 62%"
           },
           {
-            "metric": "Referral",
-            "w12": 76,
-            "w11": null,
-            "note": "유저 38명, 이탈 42%"
+            "metric": "Organic Social",
+            "w13": 340,
+            "w12": null,
+            "note": "유저 299명, 이탈 41%"
           },
           {
             "metric": "Unassigned",
-            "w12": 27,
-            "w11": null,
-            "note": "유저 18명, 이탈 63%"
+            "w13": 263,
+            "w12": null,
+            "note": "유저 241명, 이탈 96%"
+          },
+          {
+            "metric": "Paid Search",
+            "w13": 185,
+            "w12": null,
+            "note": "유저 158명, 이탈 42%"
+          },
+          {
+            "metric": "Organic Search",
+            "w13": 149,
+            "w12": null,
+            "note": "유저 122명, 이탈 41%"
+          },
+          {
+            "metric": "Referral",
+            "w13": 54,
+            "w12": null,
+            "note": "유저 37명, 이탈 41%"
           }
         ]
       },
@@ -117,10 +115,10 @@
         "title": "🎯 전환 퍼널 (GA4)",
         "type": "funnel",
         "content": {
-          "view_item": 10037,
-          "begin_checkout": 83,
-          "add_payment_info": 15,
-          "purchase": 9
+          "view_item": 4270,
+          "begin_checkout": 82,
+          "add_payment_info": 14,
+          "purchase": 2
         }
       },
       {
@@ -128,34 +126,34 @@
         "type": "metrics",
         "content": [
           {
+            "metric": "05_리드_센터_영상",
+            "w13": "₩88,476",
+            "w12": null,
+            "note": "clicks 121, CTR 2.7%"
+          },
+          {
             "metric": "10_영상_해외에서 난리난",
-            "w12": "₩301,519",
-            "w11": "imp 50,547",
-            "note": "clicks 4,048, CTR 8.0%"
+            "w13": "₩80,846",
+            "w12": null,
+            "note": "clicks 827, CTR 7.0%"
           },
           {
             "metric": "04_이미지_이사 걱정 없는",
-            "w12": "₩241,973",
-            "w11": "imp 24,010",
-            "note": "clicks 1,359, CTR 5.7%"
-          },
-          {
-            "metric": "13_영상_홈짐계의 테슬라",
-            "w12": "₩140,659",
-            "w11": "imp 13,473",
-            "note": "clicks 798, CTR 5.9%"
+            "w13": "₩74,057",
+            "w12": null,
+            "note": "clicks 419, CTR 4.8%"
           },
           {
             "metric": "10_영상_해외에서 난리난",
-            "w12": "₩140,214",
-            "w11": "imp 18,513",
-            "note": "clicks 1,209, CTR 6.5%"
+            "w13": "₩66,246",
+            "w12": null,
+            "note": "clicks 777, CTR 6.6%"
           },
           {
             "metric": "03_영상_벤치프레스 편하게",
-            "w12": "₩122,949",
-            "w11": "imp 15,745",
-            "note": "clicks 1,202, CTR 7.6%"
+            "w13": "₩65,199",
+            "w12": null,
+            "note": "clicks 679, CTR 7.5%"
           }
         ]
       },
@@ -165,33 +163,33 @@
         "content": [
           {
             "metric": "/",
-            "w12": "11,171뷰",
-            "w11": null,
-            "note": "체류 35초, 유저 8796"
+            "w13": "4,740뷰",
+            "w12": null,
+            "note": "체류 51초, 유저 3601"
           },
           {
             "metric": "/funding/",
-            "w12": "5,523뷰",
-            "w11": null,
-            "note": "체류 52초, 유저 4925"
+            "w13": "2,346뷰",
+            "w12": null,
+            "note": "체류 45초, 유저 2092"
           },
           {
             "metric": "/community/",
-            "w12": "933뷰",
-            "w11": null,
-            "note": "체류 55초, 유저 575"
+            "w13": "478뷰",
+            "w12": null,
+            "note": "체류 55초, 유저 321"
           },
           {
             "metric": "/feel",
-            "w12": "730뷰",
-            "w11": null,
-            "note": "체류 71초, 유저 599"
+            "w13": "273뷰",
+            "w12": null,
+            "note": "체류 35초, 유저 244"
           },
           {
             "metric": "/links",
-            "w12": "495뷰",
-            "w11": null,
-            "note": "체류 92초, 유저 243"
+            "w13": "273뷰",
+            "w12": null,
+            "note": "체류 268초, 유저 132"
           }
         ]
       }
@@ -396,8 +394,8 @@
     ]
   },
   {
-    "id": "w12-2026",
-    "title": "W12 · 3월 3주차",
+    "id": "w11-2026",
+    "title": "W11 · 3월 2주차",
     "period": "2026-03-09 ~ 03-15",
     "publishedAt": "2026-03-18",
     "kpi": {
@@ -792,8 +790,8 @@
     ]
   },
   {
-    "id": "w11-2026",
-    "title": "W11 · 3월 2주차",
+    "id": "w10-2026",
+    "title": "W10 · 3월 1주차",
     "period": "2026-03-02 ~ 03-08",
     "publishedAt": "2026-03-09",
     "kpi": {
@@ -1298,514 +1296,6 @@
             "finding": "'해외에서 난리난 사본' CTR 6.8%, 구매 1건 (₩16,575)",
             "cause": "리드 캠페인 소재가 전환에서도 효율적",
             "action": "ASC 캠페인에도 동일 소재 추가 테스트"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "w10-2026",
-    "title": "W10 · 3월 1주차",
-    "period": "2026-03-02 ~ 03-08",
-    "publishedAt": "2026-03-08",
-    "kpi": {
-      "sessions": {
-        "value": 4943,
-        "prev": 5215,
-        "unit": ""
-      },
-      "users": {
-        "value": 4459,
-        "prev": 4671,
-        "unit": ""
-      },
-      "adSpend": {
-        "value": 569370,
-        "prev": 503497,
-        "unit": "₩"
-      },
-      "purchases_ga4": {
-        "value": 5,
-        "prev": 2,
-        "unit": ""
-      },
-      "purchases_meta": {
-        "value": 3,
-        "prev": 3,
-        "unit": ""
-      },
-      "bounceRate": {
-        "value": 55.6,
-        "prev": 55.3,
-        "unit": "%"
-      },
-      "avgDuration": {
-        "value": 88,
-        "prev": 71,
-        "unit": "s"
-      },
-      "total_ad_cpa": {
-        "value": 113874,
-        "unit": "₩",
-        "note": "총 광고비/GA4 구매 5건"
-      }
-    },
-    "abstract": "트래픽 4,943세션으로 전주 대비 5.2% 감소했으나, 평균 체류시간은 71초→88초(+24%)로 유의미하게 상승했다. Meta 광고비 ₩55.6만(+13.3%)을 집행했으나 노출·클릭 모두 감소(노출 -7.6%, 클릭 -14.1%)하여 효율이 둔화되는 추세다. GA4 기준 구매 5건(W9: 2건)으로 전환 자체는 증가. 네이버SA는 CTR 11.0%(역대 최고)를 기록하며 효율 채널로서 입지를 굳히고 있다. Organic Social이 37→435세션으로 전주 대비 10.8배 폭증한 것이 이번 주 가장 큰 변화 — 인스타 릴스 '홈짐계의 테슬라' 업로드(t401) 효과로 분석된다.",
-    "sections": [
-      {
-        "title": "📊 트래픽 개요",
-        "type": "metrics",
-        "content": [
-          {
-            "label": "세션",
-            "w10": 4943,
-            "w9": 5215,
-            "note": "Display -11.6%, Organic Social +10.8x"
-          },
-          {
-            "label": "유저",
-            "w10": 4459,
-            "w9": 4671,
-            "note": "신규 4,116 / 재방문 626"
-          },
-          {
-            "label": "페이지뷰",
-            "w10": 9088,
-            "w9": 9849,
-            "note": "메인 4,168 / 상품 2,337 / 체험 341"
-          },
-          {
-            "label": "이탈률",
-            "w10": "55.6%",
-            "w9": "55.3%",
-            "note": "동일 수준"
-          },
-          {
-            "label": "체류시간",
-            "w10": "88초",
-            "w9": "71초",
-            "note": "+24% — 콘텐츠 소비 증가"
-          }
-        ]
-      },
-      {
-        "title": "📡 채널 분석",
-        "type": "channels",
-        "content": [
-          {
-            "channel": "Display (Meta)",
-            "sessions": 3115,
-            "prev": 3524,
-            "bounce": "56.5%",
-            "change": "-11.6%",
-            "verdict": "비용 증가 대비 트래픽 감소"
-          },
-          {
-            "channel": "Direct",
-            "sessions": 880,
-            "prev": 1146,
-            "bounce": "72.0%",
-            "change": "-23.2%",
-            "verdict": "자연 감소"
-          },
-          {
-            "channel": "Organic Social",
-            "sessions": 435,
-            "prev": 37,
-            "bounce": "35.2%",
-            "change": "+10.8x 🚀",
-            "verdict": "릴스 업로드 효과"
-          },
-          {
-            "channel": "Organic Search",
-            "sessions": 227,
-            "prev": 214,
-            "bounce": "32.2%",
-            "change": "+6.1%",
-            "verdict": "안정적 유입"
-          },
-          {
-            "channel": "Unassigned",
-            "sessions": 214,
-            "prev": 12,
-            "bounce": "96.7%",
-            "change": "+16.8x",
-            "verdict": "미분류 급증 — 원인 파악 필요"
-          },
-          {
-            "channel": "Paid Search (네이버)",
-            "sessions": 185,
-            "prev": 167,
-            "bounce": "36.8%",
-            "change": "+10.8%",
-            "verdict": "CTR 역대 최고, 효율 유지"
-          },
-          {
-            "channel": "Organic Video",
-            "sessions": 15,
-            "prev": 0,
-            "bounce": "20.0%",
-            "change": "신규",
-            "verdict": "유튜브 유입 시작"
-          }
-        ]
-      },
-      {
-        "title": "🔀 전환 퍼널",
-        "type": "funnel",
-        "content": {
-          "view_item": {
-            "w10": {
-              "count": 4302,
-              "users": 1889
-            },
-            "w9": {
-              "count": 4626,
-              "users": 1979
-            }
-          },
-          "begin_checkout": {
-            "w10": {
-              "count": 43,
-              "users": 25
-            },
-            "w9": {
-              "count": 72,
-              "users": 32
-            }
-          },
-          "add_payment_info": {
-            "w10": {
-              "count": 7,
-              "users": 5
-            },
-            "w9": {
-              "count": 12,
-              "users": 8
-            }
-          },
-          "purchase": {
-            "w10": {
-              "count": 5,
-              "users": 5
-            },
-            "w9": {
-              "count": 3,
-              "users": 2
-            }
-          },
-          "conversion_rate": {
-            "w10": "0.26%",
-            "w9": "0.10%",
-            "note": "view_item→purchase 전환율 2.6배 개선"
-          }
-        }
-      },
-      {
-        "title": "🏋️ 체험 → 전환",
-        "type": "feel_conversion",
-        "content": {
-          "total_bookings": 13,
-          "completed": 8,
-          "converted": 1,
-          "conversion_rate": "7.7%",
-          "historical_rate": "12.2%",
-          "historical_note": "누적 141명 중 18명 전환 (과거 데이터 매칭)",
-          "converted_detail": {
-            "name": "이**",
-            "booking_date": "2026-02-24",
-            "order_date": "2026-02-25",
-            "amount": 2460000,
-            "days_to_convert": 1,
-            "first_touch": "인스타그램"
-          },
-          "channel_breakdown": [
-            {
-              "channel": "인스타그램",
-              "count": 7,
-              "pct": "53.8%"
-            },
-            {
-              "channel": "직접 검색",
-              "count": 3,
-              "pct": "23.1%"
-            },
-            {
-              "channel": "유튜브",
-              "count": 2,
-              "pct": "15.4%"
-            },
-            {
-              "channel": "기타",
-              "count": 1,
-              "pct": "7.7%"
-            }
-          ],
-          "insight": "체험 인지 경로의 53.8%가 인스타그램. 체험→구매 전환 1건(이준오님, 체험 다음날 구매 ₩246만). 현재 전환율 7.7%는 누적 12.2% 대비 낮으나 아직 체험 미완료 5건 대기 중."
-        }
-      },
-      {
-        "title": "💰 광고 성과",
-        "type": "ads",
-        "content": {
-          "meta": {
-            "spend": 556214,
-            "prev_spend": 491056,
-            "impressions": 66342,
-            "clicks": 3609,
-            "ctr": "5.4%",
-            "cpc": 154,
-            "purchases": 3,
-            "top_creatives": [
-              {
-                "name": "해외에서 난리난",
-                "spend": 187074,
-                "impressions": 31202,
-                "clicks": 1857,
-                "ctr": "6.0%",
-                "purchases": 0,
-                "cpa": null,
-                "cvr": 0.0
-              },
-              {
-                "name": "이게 진짜 가성비 홈짐인이유 (사본)",
-                "spend": 115549,
-                "impressions": 12554,
-                "clicks": 725,
-                "ctr": "5.8%",
-                "purchases": 0,
-                "cpa": null,
-                "cvr": 0.0
-              },
-              {
-                "name": "이사 걱정 없는 (이미지)",
-                "spend": 105410,
-                "impressions": 7652,
-                "clicks": 248,
-                "ctr": "3.2%",
-                "purchases": 1,
-                "cpa": 105410,
-                "cvr": 0.4
-              },
-              {
-                "name": "벤치프레스 편하게",
-                "spend": 63690,
-                "impressions": 6772,
-                "clicks": 373,
-                "ctr": "5.5%",
-                "purchases": 1,
-                "cpa": 63690,
-                "cvr": 0.27
-              },
-              {
-                "name": "해외에서 난리난 (사본)",
-                "spend": 16575,
-                "impressions": 1688,
-                "clicks": 115,
-                "ctr": "6.8%",
-                "purchases": 1,
-                "cpa": 16575,
-                "cvr": 0.87
-              }
-            ],
-            "insight": "킬러 소재 '벤치프레스 편하게'가 예산 소진되며 2위권으로 후퇴. '해외에서 난리난'이 최대 예산 소재로 부상했으나 구매 0건. 이미지 소재 '이사 걱정 없는'이 낮은 CTR(3.2%) 대비 구매 1건 — 구매 의도 높은 유저에게 도달하는 패턴.",
-            "cpa": 185405,
-            "cvr": 0.08,
-            "roas": 18.8,
-            "roas_note": "Meta 어트리뷰션 3건 × ₩348만 기준, GA4 라스트터치와 차이 있음"
-          },
-          "naver": {
-            "spend": 13156,
-            "prev_spend": 12441,
-            "impressions": 1611,
-            "clicks": 178,
-            "ctr": "11.0%",
-            "cpc": 74,
-            "insight": "CTR 11.0% 역대 최고. 상품페이지 직접 랜딩이 CTR 13.3%로 가장 높음. GA4 기준 2건 구매(CPA ₩6,578)로 전 채널 최저 CPA. 소규모 예산이지만 확대 근거 충분.",
-            "adgroups": [
-              {
-                "name": "파워링크 랜딩페이지",
-                "clicks": 48,
-                "impressions": 496,
-                "spend": 3410,
-                "ctr": "9.7%",
-                "cpc": 71
-              },
-              {
-                "name": "파워링크 상품페이지",
-                "clicks": 64,
-                "impressions": 482,
-                "spend": 5258,
-                "ctr": "13.3%",
-                "cpc": 82
-              },
-              {
-                "name": "홈짐 타겟 (일시중지)",
-                "clicks": 26,
-                "impressions": 324,
-                "spend": 1991,
-                "ctr": "8.0%",
-                "cpc": 77
-              },
-              {
-                "name": "트레이너 타겟 (일시중지)",
-                "clicks": 40,
-                "impressions": 309,
-                "spend": 2497,
-                "ctr": "12.9%",
-                "cpc": 62
-              }
-            ],
-            "conversions": 2,
-            "cpa": 6578
-          }
-        }
-      },
-      {
-        "title": "👥 오디언스",
-        "type": "audience",
-        "content": {
-          "devices": [
-            {
-              "device": "모바일",
-              "sessions": 4549,
-              "pct": "92.0%",
-              "bounce": "57.2%"
-            },
-            {
-              "device": "데스크탑",
-              "sessions": 340,
-              "pct": "6.9%",
-              "bounce": "37.4%"
-            },
-            {
-              "device": "태블릿",
-              "sessions": 72,
-              "pct": "1.5%",
-              "bounce": "47.2%"
-            }
-          ],
-          "new_vs_returning": {
-            "new": {
-              "sessions": 4108,
-              "bounce": "56.9%",
-              "duration": "54초"
-            },
-            "returning": {
-              "sessions": 626,
-              "bounce": "32.6%",
-              "duration": "273초"
-            }
-          },
-          "insight": "재방문자 체류 273초는 전주 215초 대비 +27% 증가. 콘텐츠 소비 깊이가 늘어나고 있다."
-        }
-      },
-      {
-        "title": "🎯 마케팅 보드 연동",
-        "type": "tasks",
-        "content": {
-          "completed_this_week": [
-            {
-              "id": "t105",
-              "title": "전환 캠페인 체험+구매 통합 분석",
-              "impact": "체험→구매 전환율 12.2% 확인, 추적 파이프라인 구축"
-            },
-            {
-              "id": "t103",
-              "title": "UTM 설정 수정",
-              "impact": "GA4 채널 분류 정확도 개선"
-            },
-            {
-              "id": "t302",
-              "title": "3/2 블로그 발행",
-              "impact": "SEO 콘텐츠 축적"
-            },
-            {
-              "id": "t401",
-              "title": "홈짐계의 테슬라 영상",
-              "impact": "→ Organic Social +10.8x 폭증의 직접 원인"
-            },
-            {
-              "id": "t602",
-              "title": "체험 신청 폼 개선",
-              "impact": "카카오 채널 추가 필수화, 대시보드 구축"
-            },
-            {
-              "id": "t706",
-              "title": "슬랙 구매 알림 봇",
-              "impact": "실시간 주문 모니터링 가동"
-            }
-          ],
-          "in_progress": [
-            {
-              "id": "t701",
-              "title": "프리오더 구조 설계",
-              "note": "3/9 미팅 확정 예정 (P1)"
-            },
-            {
-              "id": "t501",
-              "title": "스포엑스 기획",
-              "note": "3/9 미팅 방향 결정 (P1)"
-            },
-            {
-              "id": "t601",
-              "title": "상품 상세페이지 리뉴얼",
-              "note": "게시 완료, 지속 개선"
-            },
-            {
-              "id": "t301",
-              "title": "블로그 초안",
-              "note": "대표님 피드백 반영 대기"
-            }
-          ],
-          "blockers": [
-            {
-              "id": "t201",
-              "title": "네이버 SA 상시 운영 결정",
-              "blocker": "대표님 결정 대기",
-              "impact": "네이버SA 확대 여부에 직결"
-            }
-          ],
-          "next_week_focus": [
-            "3/9 미팅: 프리오더 전략 + 스포엑스 큰 그림 + B2B 타임라인 확정",
-            "Meta 신규 소재 투입 (t102) — 현재 소재 피로도 상승 중",
-            "네이버 SA 상시 운영 결정 (t201) — 데이터상 확대 근거 충분"
-          ]
-        }
-      },
-      {
-        "title": "💡 인사이트 & 액션",
-        "type": "insights",
-        "content": [
-          {
-            "finding": "Organic Social 10.8배 폭증 (37→435세션)",
-            "cause": "인스타 릴스 '홈짐계의 테슬라' 업로드 (t401, 3/5)",
-            "action": "숏폼 콘텐츠 주기적 발행 → 오가닉 유입 안정화",
-            "tag": "fact"
-          },
-          {
-            "finding": "Meta 광고비 +13% 증가했으나 노출·클릭 모두 감소",
-            "cause": "킬러 소재 '벤치프레스' 피로도 상승 + 오디언스 포화",
-            "action": "신규 소재 투입 시급 (t102). 기존 소재 사본보다 완전 신규 크리에이티브 필요",
-            "tag": "warning"
-          },
-          {
-            "finding": "view_item→purchase 전환율 0.26% (전주 0.10%의 2.6배)",
-            "cause": "구매 5건 발생 (전주 2건), /buy 페이지 개선 효과 가능성",
-            "action": "샘플 수 적어 추세 판단 보류. 다음 주 데이터로 확인",
-            "tag": "fact"
-          },
-          {
-            "finding": "Unassigned 트래픽 12→214세션 (16.8배), 이탈률 96.7%",
-            "cause": "UTM 미설정 또는 리퍼러 누락 트래픽",
-            "action": "GA4 디버그뷰로 소스 확인 필요",
-            "tag": "warning"
-          },
-          {
-            "finding": "재방문자 체류 273초 (+27% WoW), 이탈률 32.6%",
-            "cause": "콘텐츠(커뮤니티·리뷰) 소비 증가, 릴스 → 사이트 탐색 패턴",
-            "action": "재방문 유도 장치(알림 신청, 리타겟팅) 구축 — 프리오더와 연계",
-            "tag": "opportunity"
           }
         ]
       }
