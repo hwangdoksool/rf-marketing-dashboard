@@ -3,6 +3,204 @@
     "id": "w12-2026",
     "title": "W12 · 3월 3주차",
     "period": "2026-03-16 ~ 03-22",
+    "publishedAt": "2026-03-28",
+    "kpi": {
+      "sessions": {
+        "value": 12473,
+        "prev": 12473
+      },
+      "users": {
+        "value": 11317,
+        "prev": 11317
+      },
+      "newUsers": {
+        "value": 10591,
+        "prev": 10591
+      },
+      "adSpend": {
+        "value": 1375424,
+        "prev": 1375409,
+        "unit": "₩"
+      },
+      "adSpend_meta": {
+        "value": 1345735,
+        "prev": 1345720,
+        "unit": "₩",
+        "note": "Meta"
+      },
+      "adSpend_naver": {
+        "value": 29689,
+        "prev": 29689,
+        "unit": "₩",
+        "note": "네이버"
+      },
+      "impressions": {
+        "value": 155106,
+        "prev": 155104,
+        "note": "Meta 153,037 + 네이버 2,069"
+      },
+      "clicks": {
+        "value": 10733,
+        "prev": 10733,
+        "note": "Meta 10,394 + 네이버 339"
+      },
+      "purchases_ga4": {
+        "value": 9,
+        "prev": 9
+      },
+      "bounceRate": {
+        "value": 55.0,
+        "prev": 55.0
+      },
+      "avgDuration": {
+        "value": 67,
+        "prev": 67
+      }
+    },
+    "abstract": "W12(03-16~03-22) 세션 12,473, 유저 11,317명. 총 광고비 ₩137.5만 (Meta ₩134.6만 + 네이버 ₩3.0만). GA4 구매 9건.",
+    "sections": [
+      {
+        "title": "📊 채널별 트래픽",
+        "type": "metrics",
+        "content": [
+          {
+            "metric": "Display",
+            "w12": 8967,
+            "w11": null,
+            "note": "유저 8318명, 이탈 54%"
+          },
+          {
+            "metric": "Direct",
+            "w12": 1984,
+            "w11": null,
+            "note": "유저 1932명, 이탈 74%"
+          },
+          {
+            "metric": "Organic Social",
+            "w12": 547,
+            "w11": null,
+            "note": "유저 512명, 이탈 34%"
+          },
+          {
+            "metric": "Paid Search",
+            "w12": 372,
+            "w11": null,
+            "note": "유저 307명, 이탈 38%"
+          },
+          {
+            "metric": "Organic Search",
+            "w12": 295,
+            "w11": null,
+            "note": "유저 232명, 이탈 25%"
+          },
+          {
+            "metric": "Paid Social",
+            "w12": 93,
+            "w11": null,
+            "note": "유저 57명, 이탈 57%"
+          },
+          {
+            "metric": "Referral",
+            "w12": 76,
+            "w11": null,
+            "note": "유저 38명, 이탈 42%"
+          },
+          {
+            "metric": "Unassigned",
+            "w12": 27,
+            "w11": null,
+            "note": "유저 18명, 이탈 63%"
+          }
+        ]
+      },
+      {
+        "title": "🎯 전환 퍼널 (GA4)",
+        "type": "funnel",
+        "content": {
+          "view_item": 10037,
+          "begin_checkout": 83,
+          "add_payment_info": 15,
+          "purchase": 9
+        }
+      },
+      {
+        "title": "💰 Meta 소재 TOP 5",
+        "type": "metrics",
+        "content": [
+          {
+            "metric": "10_영상_해외에서 난리난",
+            "w12": "₩301,519",
+            "w11": "imp 50,547",
+            "note": "clicks 4,048, CTR 8.0%"
+          },
+          {
+            "metric": "04_이미지_이사 걱정 없는",
+            "w12": "₩241,973",
+            "w11": "imp 24,010",
+            "note": "clicks 1,359, CTR 5.7%"
+          },
+          {
+            "metric": "13_영상_홈짐계의 테슬라",
+            "w12": "₩140,659",
+            "w11": "imp 13,473",
+            "note": "clicks 798, CTR 5.9%"
+          },
+          {
+            "metric": "10_영상_해외에서 난리난",
+            "w12": "₩140,214",
+            "w11": "imp 18,513",
+            "note": "clicks 1,209, CTR 6.5%"
+          },
+          {
+            "metric": "03_영상_벤치프레스 편하게",
+            "w12": "₩122,949",
+            "w11": "imp 15,745",
+            "note": "clicks 1,202, CTR 7.6%"
+          }
+        ]
+      },
+      {
+        "title": "📄 인기 페이지",
+        "type": "metrics",
+        "content": [
+          {
+            "metric": "/",
+            "w12": "11,171뷰",
+            "w11": null,
+            "note": "체류 35초, 유저 8796"
+          },
+          {
+            "metric": "/funding/",
+            "w12": "5,523뷰",
+            "w11": null,
+            "note": "체류 52초, 유저 4925"
+          },
+          {
+            "metric": "/community/",
+            "w12": "933뷰",
+            "w11": null,
+            "note": "체류 55초, 유저 575"
+          },
+          {
+            "metric": "/feel",
+            "w12": "730뷰",
+            "w11": null,
+            "note": "체류 71초, 유저 599"
+          },
+          {
+            "metric": "/links",
+            "w12": "495뷰",
+            "w11": null,
+            "note": "체류 92초, 유저 243"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "w12-2026",
+    "title": "W12 · 3월 3주차",
+    "period": "2026-03-16 ~ 03-22",
     "publishedAt": "2026-03-23",
     "kpi": {
       "sessions": {
