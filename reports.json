@@ -55,6 +55,63 @@
       "avgDuration": {
         "value": 197,
         "prev": 80
+      },
+      "ga4_revenue": {
+        "value": 0,
+        "unit": "₩",
+        "note": "GA4 참고치",
+        "prev": 0
+      },
+      "roas": {
+        "value": 0,
+        "unit": "%",
+        "note": "GA4 매출 기준",
+        "prev": 0
+      },
+      "cpc": {
+        "value": 179,
+        "unit": "₩",
+        "prev": 128
+      },
+      "cpm": {
+        "value": 10824,
+        "unit": "₩",
+        "prev": 8868
+      },
+      "ctr": {
+        "value": 6.04,
+        "unit": "%",
+        "prev": 6.92
+      },
+      "cpa": {
+        "value": 176416,
+        "unit": "₩",
+        "note": "광고비/구매건수",
+        "prev": 152825
+      },
+      "convRate": {
+        "value": 0.092,
+        "unit": "%",
+        "note": "구매/세션",
+        "prev": 0.072
+      },
+      "meta_cpc": {
+        "value": 183,
+        "unit": "₩",
+        "note": "Meta",
+        "prev": 129
+      },
+      "meta_ctr": {
+        "value": 5.9,
+        "unit": "%",
+        "note": "Meta",
+        "prev": 6.79
+      },
+      "meta_cpm": {
+        "value": 10802,
+        "unit": "₩",
+        "note": "Meta",
+        "prev": 8794
       }
     },
     "abstract": "W13(03-23~03-29) 세션 6,523, 유저 5,908명. 총 광고비 ₩105.8만 (Meta ₩103.8만 + 네이버 ₩2.1만). GA4 구매 6건.",
@@ -198,202 +255,6 @@
     ]
   },
   {
-    "id": "w13-2026",
-    "title": "W13 · 3월 4주차 (스포엑스 주간)",
-    "period": "2026-03-23 ~ 2026-03-27",
-    "publishedAt": "2026-03-28",
-    "kpi": {
-      "sessions": {
-        "value": 5195,
-        "prev": 12473
-      },
-      "users": {
-        "value": 4803,
-        "prev": 11317
-      },
-      "newUsers": {
-        "value": 4208,
-        "prev": 10591
-      },
-      "adSpend": {
-        "value": 831582,
-        "prev": 1375409,
-        "unit": "₩"
-      },
-      "adSpend_meta": {
-        "value": 816314,
-        "prev": 1345720,
-        "unit": "₩",
-        "note": "Meta"
-      },
-      "adSpend_naver": {
-        "value": 15268,
-        "prev": 29689,
-        "unit": "₩",
-        "note": "네이버"
-      },
-      "impressions": {
-        "value": 79034,
-        "prev": 155104
-      },
-      "clicks": {
-        "value": 4692,
-        "prev": 10733
-      },
-      "purchases_ga4": {
-        "value": 2,
-        "prev": 9
-      },
-      "bounceRate": {
-        "value": 56.0,
-        "prev": 55.0
-      },
-      "avgDuration": {
-        "value": 80,
-        "prev": 67
-      }
-    },
-    "abstract": "W13(03-23~03-27) 스포엑스 주간 — 세션 5,195, 유저 4,803명. 총 광고비 ₩83.2만 (Meta ₩81.6만 + 네이버 ₩1.5만). GA4 구매 2건.",
-    "sections": [
-      {
-        "title": "📊 채널별 트래픽",
-        "type": "metrics",
-        "content": [
-          {
-            "metric": "Display",
-            "w13": 3122,
-            "w12": null,
-            "note": "유저 2912명, 이탈 54%"
-          },
-          {
-            "metric": "Direct",
-            "w13": 851,
-            "w12": null,
-            "note": "유저 818명, 이탈 75%"
-          },
-          {
-            "metric": "Paid Social",
-            "w13": 518,
-            "w12": null,
-            "note": "유저 479명, 이탈 62%"
-          },
-          {
-            "metric": "Organic Social",
-            "w13": 340,
-            "w12": null,
-            "note": "유저 299명, 이탈 41%"
-          },
-          {
-            "metric": "Unassigned",
-            "w13": 263,
-            "w12": null,
-            "note": "유저 241명, 이탈 96%"
-          },
-          {
-            "metric": "Paid Search",
-            "w13": 185,
-            "w12": null,
-            "note": "유저 158명, 이탈 42%"
-          },
-          {
-            "metric": "Organic Search",
-            "w13": 149,
-            "w12": null,
-            "note": "유저 122명, 이탈 41%"
-          },
-          {
-            "metric": "Referral",
-            "w13": 54,
-            "w12": null,
-            "note": "유저 37명, 이탈 41%"
-          }
-        ]
-      },
-      {
-        "title": "🎯 전환 퍼널 (GA4)",
-        "type": "funnel",
-        "content": {
-          "view_item": 4270,
-          "begin_checkout": 82,
-          "add_payment_info": 14,
-          "purchase": 2
-        }
-      },
-      {
-        "title": "💰 Meta 소재 TOP 5",
-        "type": "metrics",
-        "content": [
-          {
-            "metric": "05_리드_센터_영상",
-            "w13": "₩88,476",
-            "w12": null,
-            "note": "clicks 121, CTR 2.7%"
-          },
-          {
-            "metric": "10_영상_해외에서 난리난",
-            "w13": "₩80,846",
-            "w12": null,
-            "note": "clicks 827, CTR 7.0%"
-          },
-          {
-            "metric": "04_이미지_이사 걱정 없는",
-            "w13": "₩74,057",
-            "w12": null,
-            "note": "clicks 419, CTR 4.8%"
-          },
-          {
-            "metric": "10_영상_해외에서 난리난",
-            "w13": "₩66,246",
-            "w12": null,
-            "note": "clicks 777, CTR 6.6%"
-          },
-          {
-            "metric": "03_영상_벤치프레스 편하게",
-            "w13": "₩65,199",
-            "w12": null,
-            "note": "clicks 679, CTR 7.5%"
-          }
-        ]
-      },
-      {
-        "title": "📄 인기 페이지",
-        "type": "metrics",
-        "content": [
-          {
-            "metric": "/",
-            "w13": "4,740뷰",
-            "w12": null,
-            "note": "체류 51초, 유저 3601"
-          },
-          {
-            "metric": "/funding/",
-            "w13": "2,346뷰",
-            "w12": null,
-            "note": "체류 45초, 유저 2092"
-          },
-          {
-            "metric": "/community/",
-            "w13": "478뷰",
-            "w12": null,
-            "note": "체류 55초, 유저 321"
-          },
-          {
-            "metric": "/feel",
-            "w13": "273뷰",
-            "w12": null,
-            "note": "체류 35초, 유저 244"
-          },
-          {
-            "metric": "/links",
-            "w13": "273뷰",
-            "w12": null,
-            "note": "체류 268초, 유저 132"
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": "w12-2026",
     "title": "W12 · 3월 3주차",
     "period": "2026-03-16 ~ 03-22",
@@ -449,6 +310,63 @@
       "avgDuration": {
         "value": 67,
         "prev": 73
+      },
+      "ga4_revenue": {
+        "value": 0,
+        "unit": "₩",
+        "note": "GA4 참고치",
+        "prev": 0
+      },
+      "roas": {
+        "value": 0,
+        "unit": "%",
+        "note": "GA4 매출 기준",
+        "prev": 0
+      },
+      "cpc": {
+        "value": 128,
+        "unit": "₩",
+        "prev": 159
+      },
+      "cpm": {
+        "value": 8868,
+        "unit": "₩",
+        "prev": 8365
+      },
+      "ctr": {
+        "value": 6.92,
+        "unit": "%",
+        "prev": 5.27
+      },
+      "cpa": {
+        "value": 152825,
+        "unit": "₩",
+        "note": "광고비/구매건수",
+        "prev": 0
+      },
+      "convRate": {
+        "value": 0.072,
+        "unit": "%",
+        "note": "구매/세션",
+        "prev": 0.0
+      },
+      "meta_cpc": {
+        "value": 129,
+        "unit": "₩",
+        "note": "Meta",
+        "prev": 162
+      },
+      "meta_ctr": {
+        "value": 6.79,
+        "unit": "%",
+        "note": "Meta",
+        "prev": 5.14
+      },
+      "meta_cpm": {
+        "value": 8794,
+        "unit": "₩",
+        "note": "Meta",
+        "prev": 8333
       }
     },
     "abstract": "W12(03-16~03-22) 세션 12,473, 유저 11,317명. 총 광고비 ₩137.5만 (Meta ₩134.6만 + 네이버 ₩3.0만). GA4 구매 9건.",
@@ -647,6 +565,62 @@
       "avgDuration": {
         "value": 73,
         "prev": 94
+      },
+      "ga4_revenue": {
+        "value": 0,
+        "unit": "₩",
+        "note": "GA4 참고치",
+        "prev": 0
+      },
+      "roas": {
+        "value": 0,
+        "unit": "%",
+        "prev": 0
+      },
+      "cpc": {
+        "value": 159,
+        "unit": "₩",
+        "prev": 150
+      },
+      "cpm": {
+        "value": 8365,
+        "unit": "₩",
+        "prev": 8379
+      },
+      "ctr": {
+        "value": 5.27,
+        "unit": "%",
+        "prev": 5.57
+      },
+      "cpa": {
+        "value": 0,
+        "unit": "₩",
+        "note": "광고비/구매건수",
+        "prev": 113874
+      },
+      "convRate": {
+        "value": 0.0,
+        "unit": "%",
+        "note": "구매/세션",
+        "prev": 0.101
+      },
+      "meta_cpc": {
+        "value": 162,
+        "unit": "₩",
+        "note": "Meta",
+        "prev": 154
+      },
+      "meta_ctr": {
+        "value": 5.14,
+        "unit": "%",
+        "note": "Meta",
+        "prev": 5.44
+      },
+      "meta_cpm": {
+        "value": 8333,
+        "unit": "₩",
+        "note": "Meta",
+        "prev": 8384
       }
     },
     "abstract": "W12(3/9~15) 세션 7,154(▲24.2%), 유저 6,556(▲27.5%). Meta 광고비 ₩89.3만, 네이버 ₩2.2만. GA4 구매 10건(결제입력 22건). Display 채널 4,985 세션(70%)으로 주력.",
@@ -1056,6 +1030,53 @@
         "value": 133560,
         "unit": "₩",
         "note": "총 광고비/GA4 구매 5건"
+      },
+      "ga4_revenue": {
+        "value": 0,
+        "unit": "₩",
+        "note": "GA4 참고치"
+      },
+      "roas": {
+        "value": 0,
+        "unit": "%",
+        "note": "GA4 매출 기준"
+      },
+      "cpc": {
+        "value": 150,
+        "unit": "₩"
+      },
+      "cpm": {
+        "value": 8379,
+        "unit": "₩"
+      },
+      "ctr": {
+        "value": 5.57,
+        "unit": "%"
+      },
+      "cpa": {
+        "value": 113874,
+        "unit": "₩",
+        "note": "광고비/구매건수"
+      },
+      "convRate": {
+        "value": 0.101,
+        "unit": "%",
+        "note": "구매/세션"
+      },
+      "meta_cpc": {
+        "value": 154,
+        "unit": "₩",
+        "note": "Meta"
+      },
+      "meta_ctr": {
+        "value": 5.44,
+        "unit": "%",
+        "note": "Meta"
+      },
+      "meta_cpm": {
+        "value": 8384,
+        "unit": "₩",
+        "note": "Meta"
       }
     },
     "abstract": "트래픽 5,758세션(▲8.1%)으로 전주 대비 회복. 광고비 66.8만원(▲25.6%) 집행, 총 노출 79,430(▲3.7%)·클릭 4,451(▼1.7%)으로 비용 대비 효율은 둔화. Meta CPC ₩154(전주 ₩119 대비 +29%). GA4 구매 5건(전주 3건). 이탈률 54.3%(▼1.9%p), 체류시간 94초(▲30%). Organic Social 465세션(전주 40, +10.6x), 네이버SA CTR 10.4%(▲1.1%p). Display 여전히 전체 세션 64% 차지. 상품 조회 → 결제 시작 전환율 1.4%로 여전히 퍼널 병목 존재.",

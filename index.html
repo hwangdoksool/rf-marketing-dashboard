@@ -728,6 +728,12 @@ function renderReport(id){
     {key:'users', label:'유저', fmt:v=>v.toLocaleString()},
     {key:'adSpend', label:'총 광고비', fmt:v=>'₩'+Math.round(v/10000)+'만'},
     {key:'purchases_ga4', label:'구매 (GA4)', fmt:v=>v+'건'},
+    {key:'roas', label:'ROAS', fmt:v=>v>0?v+'%':'-', inv:true},
+    {key:'cpc', label:'CPC', fmt:v=>'₩'+v.toLocaleString()},
+    {key:'cpm', label:'CPM', fmt:v=>'₩'+v.toLocaleString()},
+    {key:'ctr', label:'CTR', fmt:v=>v+'%', inv:true},
+    {key:'cpa', label:'CPA', fmt:v=>v>0?'₩'+Math.round(v/10000)+'만':'-'},
+    {key:'convRate', label:'전환율', fmt:v=>v+'%', inv:true},
     {key:'bounceRate', label:'이탈률', fmt:v=>v+'%'},
     {key:'avgDuration', label:'평균 체류', fmt:v=>v+'초'},
   ];
@@ -744,7 +750,9 @@ function renderReport(id){
         cls=diff>0?'down':'up';
       } else {
         delta=pct>0?`▲${pct.toFixed(1)}%`:`▼${Math.abs(pct).toFixed(1)}%`;
-        cls=def.key==='adSpend'?(pct>0?'down':'up'):(pct>0?'up':'down');
+        const costKeys=['adSpend','cpc','cpm','cpa'];
+        const invKeys=costKeys;
+        cls=costKeys.includes(def.key)?(pct>0?'down':'up'):def.inv?(pct>0?'up':'down'):(pct>0?'up':'down');
       }
     }
     kpiHtml+=`<div class="rpt-kpi-card"><div class="kv">${def.fmt(v)}</div><div class="kl">${def.label}</div>${delta?`<div class="kd ${cls}">${delta} WoW</div>`:''}</div>`;
