@@ -992,6 +992,34 @@ function renderReport(id){
       });
     }
     
+    else if(s.type==='page_insights'){
+      if(s.content&&s.content.length){
+        s.content.forEach(txt=>{
+          sectionsHtml+=`<div class="rpt-insight" style="margin-bottom:6px;">📌 ${txt}</div>`;
+        });
+      } else {
+        sectionsHtml+=`<div style="color:var(--t2);font-size:0.8rem;">데이터 없음</div>`;
+      }
+    }
+
+    else if(s.type==='buyers'){
+      if(s.content&&s.content.length){
+        sectionsHtml+=`<table class="rpt-table"><thead><tr><th>날짜</th><th>구매 세션 소스</th><th>첫 유입 소스</th><th>기기</th><th>신규/재방문</th><th class="num">금액</th></tr></thead><tbody>`;
+        s.content.forEach(b=>{
+          const multi=b.first_source&&b.first_source!==b.source&&b.first_source!=='?';
+          const crossBadge=multi?'<span style="background:var(--bl);color:#fff;padding:1px 5px;border-radius:3px;font-size:0.65rem;margin-left:4px;">크로스채널</span>':'';
+          sectionsHtml+=`<tr><td>${b.date||''}</td><td>${b.source||'?'}${crossBadge}</td><td>${b.first_source||'-'}</td><td>${b.device||''}</td><td>${b.new_ret||''}</td><td class="num">₩${(b.revenue/10000).toFixed(0)}만</td></tr>`;
+        });
+        sectionsHtml+='</tbody></table>';
+        const crossCount=s.content.filter(b=>b.first_source&&b.first_source!==b.source&&b.first_source!=='?').length;
+        if(crossCount){
+          sectionsHtml+=`<div class="rpt-insight" style="margin-top:6px;">📌 크로스채널 구매: ${crossCount}/${s.content.length}건 (${Math.round(crossCount/s.content.length*100)}%) — 첫 유입과 구매 시 채널이 다른 사용자</div>`;
+        }
+      } else {
+        sectionsHtml+=`<div style="color:var(--t2);font-size:0.8rem;">해당 주차 구매자 경로 데이터 없음</div>`;
+      }
+    }
+
     else if(s.type==='embed'){
       const e=s.content||{};
       sectionsHtml+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">`;
