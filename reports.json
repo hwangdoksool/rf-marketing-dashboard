@@ -1,6 +1,204 @@
 [
   {
     "id": "w13-2026",
+    "title": "W13 · 3월 4주차",
+    "period": "2026-03-23 ~ 03-29",
+    "publishedAt": "2026-03-30",
+    "kpi": {
+      "sessions": {
+        "value": 6523,
+        "prev": 5195
+      },
+      "users": {
+        "value": 5908,
+        "prev": 4803
+      },
+      "newUsers": {
+        "value": 5074,
+        "prev": 4208
+      },
+      "adSpend": {
+        "value": 1058495,
+        "prev": 831582,
+        "unit": "₩"
+      },
+      "adSpend_meta": {
+        "value": 1037947,
+        "prev": 816314,
+        "unit": "₩",
+        "note": "Meta"
+      },
+      "adSpend_naver": {
+        "value": 20548,
+        "prev": 15268,
+        "unit": "₩",
+        "note": "네이버"
+      },
+      "impressions": {
+        "value": 97795,
+        "prev": 79034,
+        "note": "Meta 96,088 + 네이버 1,707"
+      },
+      "clicks": {
+        "value": 5911,
+        "prev": 4692,
+        "note": "Meta 5,669 + 네이버 242"
+      },
+      "purchases_ga4": {
+        "value": 6,
+        "prev": 2
+      },
+      "bounceRate": {
+        "value": 57.0,
+        "prev": 56.0
+      },
+      "avgDuration": {
+        "value": 197,
+        "prev": 80
+      }
+    },
+    "abstract": "W13(03-23~03-29) 세션 6,523, 유저 5,908명. 총 광고비 ₩105.8만 (Meta ₩103.8만 + 네이버 ₩2.1만). GA4 구매 6건.",
+    "sections": [
+      {
+        "title": "📊 채널별 트래픽",
+        "type": "metrics",
+        "content": [
+          {
+            "metric": "Display",
+            "w12": 3174,
+            "w11": null,
+            "note": "유저 2923명, 이탈 54%"
+          },
+          {
+            "metric": "Paid Social",
+            "w12": 1330,
+            "w11": null,
+            "note": "유저 1231명, 이탈 62%"
+          },
+          {
+            "metric": "Direct",
+            "w12": 1054,
+            "w11": null,
+            "note": "유저 1015명, 이탈 75%"
+          },
+          {
+            "metric": "Unassigned",
+            "w12": 523,
+            "w11": null,
+            "note": "유저 476명, 이탈 96%"
+          },
+          {
+            "metric": "Organic Social",
+            "w12": 443,
+            "w11": null,
+            "note": "유저 382명, 이탈 43%"
+          },
+          {
+            "metric": "Paid Search",
+            "w12": 256,
+            "w11": null,
+            "note": "유저 208명, 이탈 41%"
+          },
+          {
+            "metric": "Organic Search",
+            "w12": 191,
+            "w11": null,
+            "note": "유저 157명, 이탈 41%"
+          },
+          {
+            "metric": "Referral",
+            "w12": 81,
+            "w11": null,
+            "note": "유저 51명, 이탈 46%"
+          }
+        ]
+      },
+      {
+        "title": "🎯 전환 퍼널 (GA4)",
+        "type": "funnel",
+        "content": {
+          "view_item": 5581,
+          "begin_checkout": 135,
+          "add_payment_info": 23,
+          "purchase": 6
+        }
+      },
+      {
+        "title": "💰 Meta 소재 TOP 5",
+        "type": "metrics",
+        "content": [
+          {
+            "metric": "05_리드_센터_영상",
+            "w12": "₩175,114",
+            "w11": "imp 8,647",
+            "note": "clicks 256, CTR 3.0%"
+          },
+          {
+            "metric": "20_영상_층간소음걱정없는",
+            "w12": "₩94,692",
+            "w11": "imp 10,640",
+            "note": "clicks 818, CTR 7.7%"
+          },
+          {
+            "metric": "10_영상_해외에서 난리난",
+            "w12": "₩80,846",
+            "w11": "imp 11,893",
+            "note": "clicks 827, CTR 7.0%"
+          },
+          {
+            "metric": "04_이미지_이사 걱정 없는",
+            "w12": "₩74,057",
+            "w11": "imp 8,662",
+            "note": "clicks 419, CTR 4.8%"
+          },
+          {
+            "metric": "10_영상_해외에서 난리난",
+            "w12": "₩66,246",
+            "w11": "imp 11,702",
+            "note": "clicks 777, CTR 6.6%"
+          }
+        ]
+      },
+      {
+        "title": "📄 인기 페이지",
+        "type": "metrics",
+        "content": [
+          {
+            "metric": "/",
+            "w12": "5,960뷰",
+            "w11": null,
+            "note": "체류 199초, 유저 4415"
+          },
+          {
+            "metric": "/funding/",
+            "w12": "3,033뷰",
+            "w11": null,
+            "note": "체류 56초, 유저 2634"
+          },
+          {
+            "metric": "/community/",
+            "w12": "754뷰",
+            "w11": null,
+            "note": "체류 87초, 유저 464"
+          },
+          {
+            "metric": "/feel",
+            "w12": "378뷰",
+            "w11": null,
+            "note": "체류 43초, 유저 335"
+          },
+          {
+            "metric": "/links",
+            "w12": "354뷰",
+            "w11": null,
+            "note": "체류 229초, 유저 168"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "w13-2026",
     "title": "W13 · 3월 4주차 (스포엑스 주간)",
     "period": "2026-03-23 ~ 2026-03-27",
     "publishedAt": "2026-03-28",
