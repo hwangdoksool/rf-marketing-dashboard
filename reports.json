@@ -7,6 +7,360 @@
     "kpi": {
       "sessions": {
         "value": 6532,
+        "prev": 6532
+      },
+      "users": {
+        "value": 5909,
+        "prev": 5909
+      },
+      "newUsers": {
+        "value": 5094,
+        "prev": 5094
+      },
+      "adSpend": {
+        "value": 1058507,
+        "prev": 1058507,
+        "unit": "₩"
+      },
+      "adSpend_meta": {
+        "value": 1037959,
+        "prev": 1037959,
+        "unit": "₩",
+        "note": "Meta"
+      },
+      "adSpend_naver": {
+        "value": 20548,
+        "prev": 20548,
+        "unit": "₩",
+        "note": "네이버"
+      },
+      "impressions": {
+        "value": 97799,
+        "prev": 97799,
+        "note": "Meta 96,092 + 네이버 1,707"
+      },
+      "clicks": {
+        "value": 5912,
+        "prev": 5912,
+        "note": "Meta 5,670 + 네이버 242"
+      },
+      "purchases_ga4": {
+        "value": 6,
+        "prev": 6,
+        "note": "본체 3대+액세서리 1건"
+      },
+      "units_sold": {
+        "value": 3,
+        "prev": 3,
+        "note": "본체 3대+액세서리 1건"
+      },
+      "imweb_revenue": {
+        "value": 10790000,
+        "prev": 10790000,
+        "unit": "₩",
+        "note": "아임웹 실매출"
+      },
+      "ga4_revenue": {
+        "value": 10790000,
+        "prev": 10790000,
+        "unit": "₩",
+        "note": "GA4 참고치"
+      },
+      "roas": {
+        "value": 1019.4,
+        "prev": 1019.4,
+        "unit": "%",
+        "note": "아임웹 매출 기준"
+      },
+      "cpc": {
+        "value": 179,
+        "prev": 179,
+        "unit": "₩"
+      },
+      "cpm": {
+        "value": 10823,
+        "prev": 10823,
+        "unit": "₩"
+      },
+      "ctr": {
+        "value": 6.05,
+        "prev": 6.05,
+        "unit": "%"
+      },
+      "cpa": {
+        "value": 176418,
+        "prev": 176418,
+        "unit": "₩",
+        "note": "광고비/구매건수"
+      },
+      "convRate": {
+        "value": 0.092,
+        "prev": 0.092,
+        "unit": "%",
+        "note": "구매/세션"
+      },
+      "meta_cpc": {
+        "value": 183,
+        "prev": 183,
+        "unit": "₩",
+        "note": "Meta"
+      },
+      "meta_ctr": {
+        "value": 5.9,
+        "prev": 5.9,
+        "unit": "%",
+        "note": "Meta"
+      },
+      "meta_cpm": {
+        "value": 10802,
+        "prev": 10802,
+        "unit": "₩",
+        "note": "Meta"
+      },
+      "bounceRate": {
+        "value": 51.3,
+        "prev": 51.3
+      },
+      "avgDuration": {
+        "value": 78,
+        "prev": 78
+      }
+    },
+    "abstract": "W13(03-23~03-29) 세션 6,532, 유저 5,909명. 총 광고비 ₩105.9만. 본체 3대 판매+액세서리 1건 (₩1079만). CPC ₩179 | CTR 6.05% | CPA ₩17.6만 | ROAS 1019.4% | 전환율 0.092%.",
+    "sections": [
+      {
+        "title": "📊 채널별 트래픽",
+        "type": "metrics",
+        "content": [
+          {
+            "metric": "Display",
+            "w12": 3175,
+            "w11": null,
+            "note": "유저 2923명, 이탈 54%"
+          },
+          {
+            "metric": "Paid Social",
+            "w12": 1351,
+            "w11": null,
+            "note": "유저 1246명, 이탈 43%"
+          },
+          {
+            "metric": "Direct",
+            "w12": 1061,
+            "w11": null,
+            "note": "유저 1021명, 이탈 73%"
+          },
+          {
+            "metric": "Organic Social",
+            "w12": 444,
+            "w11": null,
+            "note": "유저 383명, 이탈 37%"
+          },
+          {
+            "metric": "Paid Search",
+            "w12": 257,
+            "w11": null,
+            "note": "유저 210명, 이탈 30%"
+          },
+          {
+            "metric": "Organic Search",
+            "w12": 192,
+            "w11": null,
+            "note": "유저 158명, 이탈 35%"
+          },
+          {
+            "metric": "Referral",
+            "w12": 81,
+            "w11": null,
+            "note": "유저 51명, 이탈 41%"
+          },
+          {
+            "metric": "Unassigned",
+            "w12": 53,
+            "w11": null,
+            "note": "유저 33명, 이탈 64%"
+          }
+        ]
+      },
+      {
+        "title": "🎯 전환 퍼널 (GA4)",
+        "type": "funnel",
+        "content": {
+          "view_item": 5606,
+          "begin_checkout": 137,
+          "add_payment_info": 24,
+          "purchase": 6
+        }
+      },
+      {
+        "title": "💰 Meta 소재 TOP 5",
+        "type": "metrics",
+        "content": [
+          {
+            "metric": "05_리드_센터_영상",
+            "w12": "₩175,114",
+            "w11": "imp 8,647",
+            "note": "clicks 256, CTR 3.0%"
+          },
+          {
+            "metric": "20_영상_층간소음걱정없는",
+            "w12": "₩94,702",
+            "w11": "imp 10,643",
+            "note": "clicks 819, CTR 7.7%"
+          },
+          {
+            "metric": "10_영상_해외에서 난리난",
+            "w12": "₩80,846",
+            "w11": "imp 11,893",
+            "note": "clicks 827, CTR 7.0%"
+          },
+          {
+            "metric": "04_이미지_이사 걱정 없는",
+            "w12": "₩74,057",
+            "w11": "imp 8,662",
+            "note": "clicks 419, CTR 4.8%"
+          },
+          {
+            "metric": "10_영상_해외에서 난리난",
+            "w12": "₩66,246",
+            "w11": "imp 11,702",
+            "note": "clicks 777, CTR 6.6%"
+          }
+        ]
+      },
+      {
+        "title": "📄 페이지별 트래픽",
+        "type": "metrics",
+        "content": [
+          {
+            "metric": "/",
+            "w12": "5,983뷰 (50.9%)",
+            "w11": null,
+            "note": "체류 49초, 유저 4415"
+          },
+          {
+            "metric": "/funding/",
+            "w12": "3,048뷰 (25.9%)",
+            "w11": null,
+            "note": "체류 51초, 유저 2634"
+          },
+          {
+            "metric": "/community/",
+            "w12": "761뷰 (6.5%)",
+            "w11": null,
+            "note": "체류 59초, 유저 465"
+          },
+          {
+            "metric": "/feel",
+            "w12": "378뷰 (3.2%)",
+            "w11": null,
+            "note": "체류 38초, 유저 335"
+          },
+          {
+            "metric": "/links",
+            "w12": "354뷰 (3.0%)",
+            "w11": null,
+            "note": "체류 226초, 유저 168"
+          },
+          {
+            "metric": "/community",
+            "w12": "340뷰 (2.9%)",
+            "w11": null,
+            "note": "체류 56초, 유저 81"
+          },
+          {
+            "metric": "/reviews/",
+            "w12": "214뷰 (1.8%)",
+            "w11": null,
+            "note": "체류 105초, 유저 93"
+          },
+          {
+            "metric": "/login",
+            "w12": "135뷰 (1.1%)",
+            "w11": null,
+            "note": "체류 5초, 유저 106"
+          }
+        ]
+      },
+      {
+        "title": "🔍 페이지 퍼널 인사이트",
+        "type": "page_insights",
+        "content": [
+          "구매 페이지(/buy) 도달률 0.3% (17뷰/6,532세션)",
+          "체험 페이지(/feel) 378뷰, 체류 38초",
+          "/buy → 구매 전환율 35.29% (6건/17뷰)"
+        ]
+      },
+      {
+        "title": "🩺 자동 진단",
+        "type": "page_insights",
+        "content": [
+          "🔴 상품조회→결제시작 2.4% (극히 저조) — 가격/상품 설명 허들 의심",
+          "📊 결제시작→구매완료 4.4% (6/137건)",
+          "📦 이번 주 본체 판매: 3대 + 액세서리 1건 | 매출 ₩1079만 (아임웹 기준)"
+        ]
+      },
+      {
+        "title": "🛒 구매자 유입 경로",
+        "type": "buyers",
+        "content": [
+          {
+            "date": "2026-03-25",
+            "source": "m.search.naver.com/referral",
+            "first_source": "m.search.naver.com/referral",
+            "device": "mobile",
+            "new_ret": "new",
+            "revenue": 3580000,
+            "count": 1
+          },
+          {
+            "date": "2026-03-28",
+            "source": "accounts.google.com/referral",
+            "first_source": "(direct)/(none)",
+            "device": "mobile",
+            "new_ret": "new",
+            "revenue": 3480000,
+            "count": 1
+          },
+          {
+            "date": "2026-03-29",
+            "source": "(direct)/(none)",
+            "first_source": "(direct)/(none)",
+            "device": "mobile",
+            "new_ret": "new",
+            "revenue": 3230000,
+            "count": 2
+          },
+          {
+            "date": "2026-03-25",
+            "source": "(direct)/(none)",
+            "first_source": "(direct)/(none)",
+            "device": "mobile",
+            "new_ret": "returning",
+            "revenue": 500000,
+            "count": 1
+          },
+          {
+            "date": "2026-03-28",
+            "source": "accounts.google.com/referral",
+            "first_source": "(direct)/(none)",
+            "device": "mobile",
+            "new_ret": "returning",
+            "revenue": 0,
+            "count": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "w13-2026",
+    "title": "W13 · 3월 4주차",
+    "period": "2026-03-23 ~ 03-29",
+    "publishedAt": "2026-03-30",
+    "kpi": {
+      "sessions": {
+        "value": 6532,
         "prev": 6523
       },
       "users": {
