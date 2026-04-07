@@ -152,6 +152,32 @@
   .rpt-abstract{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:16px 18px;margin-bottom:16px;font-size:0.88rem;line-height:1.8;}
   .rpt-section{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
   .rpt-section h3{font-size:0.92rem;font-weight:700;margin-bottom:10px;color:var(--ac2);}
+
+  /* Gantt chart */
+  .gantt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .gantt{min-width:700px;position:relative;}
+  .gantt-header{display:flex;border-bottom:1px solid var(--b);padding-left:160px;}
+  .gantt-header .gh-cell{flex:1;text-align:center;font-size:0.62rem;color:var(--t2);padding:4px 0;border-left:1px solid rgba(255,255,255,0.04);}
+  .gantt-row{display:flex;align-items:stretch;border-bottom:1px solid rgba(255,255,255,0.04);min-height:32px;cursor:pointer;transition:background .1s;}
+  .gantt-row:hover{background:var(--s2);}
+  .gantt-row.sub{cursor:default;min-height:28px;}
+  .gantt-row.sub:hover{background:rgba(255,255,255,0.02);}
+  .gantt-label{width:160px;min-width:160px;padding:6px 8px;font-size:0.75rem;color:var(--t);display:flex;align-items:center;gap:4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+  .gantt-label .arrow{font-size:0.6rem;color:var(--t2);transition:transform .15s;flex-shrink:0;}
+  .gantt-label .arrow.open{transform:rotate(90deg);}
+  .gantt-label.sub-label{padding-left:24px;font-size:0.7rem;color:var(--t2);}
+  .gantt-track{flex:1;display:flex;position:relative;}
+  .gantt-cell{flex:1;position:relative;border-left:1px solid rgba(255,255,255,0.04);}
+  .gantt-bar{position:absolute;top:6px;bottom:6px;border-radius:4px;background:var(--ac);opacity:0.85;z-index:1;min-width:3px;}
+  .gantt-bar.sub-bar{background:var(--bl);opacity:0.7;top:5px;bottom:5px;}
+  .gantt-bar:hover{opacity:1;}
+  .gantt-tooltip{position:fixed;background:var(--s);border:1px solid var(--b);border-radius:8px;padding:10px 14px;font-size:0.75rem;color:var(--t);z-index:999;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,0.4);max-width:280px;line-height:1.6;display:none;}
+  .gantt-sub-rows{display:none;background:rgba(0,0,0,0.15);}
+  .gantt-sub-rows.open{display:block;}
+  .gantt-sparkline{display:inline-block;vertical-align:middle;margin-left:4px;}
+  .gantt-summary{display:flex;gap:12px;padding:4px 8px 4px 24px;font-size:0.68rem;color:var(--t2);flex-wrap:wrap;}
+  .gantt-summary span{white-space:nowrap;}
+
   .rpt-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
   .rpt-table th{text-align:left;padding:6px 8px;color:var(--t2);font-size:0.7rem;border-bottom:1px solid var(--b);font-weight:600;}
   .rpt-table td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.04);}
@@ -1974,8 +2000,12 @@ let dailyChartInstances = [];
 
 function loadDailyMetrics(){
   if(dailyChartsLoaded) return;
-  fetch('daily_metrics.json').then(r=>r.json()).then(data=>{
+  Promise.all([
+    fetch('daily_metrics.json').then(r=>r.json()),
+    fetch('campaigns_daily.json').then(r=>r.json()).catch(()=>null)
+  ]).then(([data, campData])=>{
     renderDailyView(data.daily);
+    if(campData && campData.campaigns) renderCampaignGantt(data.daily, campData);
     dailyChartsLoaded = true;
   }).catch(()=>{
     document.getElementById('daily-view').innerHTML='<p style="color:var(--t2);padding:40px;text-align:center;">일별 데이터를 불러올 수 없습니다.</p>';
@@ -2052,6 +2082,131 @@ function renderDailyView(daily){
     ]},
     options:{...baseOpts,scales:{x:scaleX,y:{type:'linear',position:'left',ticks:{color:'#e17055',callback:v=>v+'%'},grid:{color:gridColor},title:{display:true,text:'이탈률(%)',color:'#e17055',font:{size:10}}},y1:{type:'linear',position:'right',ticks:{color:'#00b894',callback:v=>v+'초'},grid:{drawOnChartArea:false},title:{display:true,text:'세션시간(초)',color:'#00b894',font:{size:10}}}}}
   }));
+}
+
+// ===== Campaign Gantt Chart =====
+function renderCampaignGantt(daily, campData){
+  const container = document.getElementById('daily-view');
+  const dates = daily.map(d=>d.date);
+  const dateSet = new Set(dates);
+  const campaigns = campData.campaigns;
+  const fmtNum = n=>n.toLocaleString('ko-KR');
+  const fmtWon = n=>'₩'+n.toLocaleString('ko-KR');
+  const truncate = (s,n=20)=>s.length>n?s.slice(0,n)+'…':s;
+
+  // Build date index
+  const dateIdx = {};
+  dates.forEach((d,i)=>dateIdx[d]=i);
+  const totalDays = dates.length;
+
+  // Header cells
+  const headerCells = dates.map(d=>{
+    const dt = d.slice(5); // MM-DD
+    return `<div class="gh-cell">${dt}</div>`;
+  }).join('');
+
+  // Build campaign rows
+  let rowsHtml = '';
+  const colors = ['#6c5ce7','#00b894','#e17055','#fdcb6e','#74b9ff','#a29bfe'];
+
+  campaigns.forEach((camp, ci)=>{
+    const cColor = colors[ci % colors.length];
+    // Aggregate totals
+    let totalSpend=0, totalClicks=0, totalImpressions=0;
+    Object.values(camp.daily).forEach(d=>{totalSpend+=d.spend;totalClicks+=d.clicks;totalImpressions+=d.impressions;});
+    const campDates = Object.keys(camp.daily).filter(d=>dateSet.has(d)).sort();
+    const startIdx = campDates.length?dateIdx[campDates[0]]:0;
+    const endIdx = campDates.length?dateIdx[campDates[campDates.length-1]]:0;
+    const barLeft = (startIdx/totalDays*100).toFixed(2);
+    const barWidth = ((endIdx-startIdx+1)/totalDays*100).toFixed(2);
+
+    const campId = 'gantt-camp-'+ci;
+    rowsHtml += `<div class="gantt-row" data-camp="${campId}" data-tooltip="${truncate(camp.name,30)}\nSpend: ${fmtWon(Math.round(totalSpend))}\nClicks: ${fmtNum(totalClicks)}\nImpressions: ${fmtNum(totalImpressions)}">
+      <div class="gantt-label"><span class="arrow" id="arrow-${campId}">▶</span>${truncate(camp.name)}</div>
+      <div class="gantt-track">${dates.map(()=>'<div class="gantt-cell"></div>').join('')}
+        <div class="gantt-bar" style="left:${barLeft}%;width:${barWidth}%;background:${cColor};"></div>
+      </div>
+    </div>`;
+
+    // Sub rows (ads)
+    const ads = Object.values(camp.ads||{});
+    rowsHtml += `<div class="gantt-sub-rows" id="${campId}">`;
+    ads.forEach(ad=>{
+      let aSpend=0,aClicks=0,aImpressions=0;
+      const adDaily = Object.entries(ad.daily).filter(([d])=>dateSet.has(d)).sort((a,b)=>a[0].localeCompare(b[0]));
+      adDaily.forEach(([,v])=>{aSpend+=v.spend;aClicks+=v.clicks;aImpressions+=v.impressions;});
+      const adDates = adDaily.map(([d])=>d);
+      const aStartIdx = adDates.length?dateIdx[adDates[0]]:0;
+      const aEndIdx = adDates.length?dateIdx[adDates[adDates.length-1]]:0;
+      const aBarLeft = (aStartIdx/totalDays*100).toFixed(2);
+      const aBarWidth = ((aEndIdx-aStartIdx+1)/totalDays*100).toFixed(2);
+      const ctr = aImpressions>0?(aClicks/aImpressions*100).toFixed(1):'0.0';
+      const cpc = aClicks>0?Math.round(aSpend/aClicks):0;
+
+      // Sparkline SVG for daily spend
+      const sparkVals = adDaily.map(([,v])=>v.spend);
+      let sparkSvg = '';
+      if(sparkVals.length>1){
+        const mx = Math.max(...sparkVals)||1;
+        const pts = sparkVals.map((v,i)=>`${i/(sparkVals.length-1)*50},${18-v/mx*14}`).join(' ');
+        sparkSvg = `<svg class="gantt-sparkline" width="52" height="20" viewBox="0 0 50 20"><polyline points="${pts}" fill="none" stroke="${cColor}" stroke-width="1.2" opacity="0.7"/></svg>`;
+      }
+
+      rowsHtml += `<div class="gantt-row sub" data-tooltip="${truncate(ad.name,30)}\nSpend: ${fmtWon(Math.round(aSpend))}\nClicks: ${fmtNum(aClicks)} | CTR: ${ctr}%\nCPC: ${fmtWon(cpc)}">
+        <div class="gantt-label sub-label">${truncate(ad.name,18)}${sparkSvg}</div>
+        <div class="gantt-track">${dates.map(()=>'<div class="gantt-cell"></div>').join('')}
+          <div class="gantt-bar sub-bar" style="left:${aBarLeft}%;width:${aBarWidth}%;"></div>
+        </div>
+      </div>`;
+      rowsHtml += `<div class="gantt-summary"><span>Spend: ${fmtWon(Math.round(aSpend))}</span><span>Clicks: ${fmtNum(aClicks)}</span><span>CTR: ${ctr}%</span><span>CPC: ${fmtWon(cpc)}</span></div>`;
+    });
+    rowsHtml += '</div>';
+  });
+
+  const section = document.createElement('div');
+  section.className = 'rpt-section';
+  section.style.marginTop = '16px';
+  section.innerHTML = `<h3>캠페인 간트차트 (Meta Ads)</h3>
+    <div class="gantt-wrap"><div class="gantt">
+      <div class="gantt-header">${headerCells}</div>
+      ${rowsHtml}
+    </div></div>`;
+  container.appendChild(section);
+
+  // Tooltip
+  const tooltip = document.createElement('div');
+  tooltip.className = 'gantt-tooltip';
+  document.body.appendChild(tooltip);
+
+  section.addEventListener('mousemove', e=>{
+    const row = e.target.closest('.gantt-row[data-tooltip]');
+    if(row){
+      tooltip.textContent = '';
+      row.dataset.tooltip.split('\n').forEach((line,i)=>{
+        if(i>0) tooltip.appendChild(document.createElement('br'));
+        tooltip.appendChild(document.createTextNode(line));
+      });
+      tooltip.style.display = 'block';
+      tooltip.style.left = Math.min(e.clientX+12, window.innerWidth-290)+'px';
+      tooltip.style.top = (e.clientY+12)+'px';
+    } else {
+      tooltip.style.display = 'none';
+    }
+  });
+  section.addEventListener('mouseleave', ()=>{tooltip.style.display='none';});
+
+  // Accordion click
+  section.querySelectorAll('.gantt-row[data-camp]').forEach(row=>{
+    row.addEventListener('click', ()=>{
+      const id = row.dataset.camp;
+      const sub = document.getElementById(id);
+      const arrow = document.getElementById('arrow-'+id);
+      if(sub){
+        sub.classList.toggle('open');
+        arrow.classList.toggle('open');
+      }
+    });
+  });
 }
 
 // Handle hash on load
