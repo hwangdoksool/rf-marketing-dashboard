@@ -362,6 +362,7 @@
     <button class="main-tab" id="tab-report" onclick="switchMainTab('report')">📊 주간리포트</button>
     <button class="main-tab" id="tab-feel" onclick="switchMainTab('feel')">🏋️ 체험신청</button>
     <button class="main-tab" id="tab-leads" onclick="switchMainTab('leads')">🤝 B2B 리드 <span id="leads-badge" class="badge" style="display:none;margin-left:4px;">0</span></button>
+    <button class="main-tab" id="tab-daily" onclick="switchMainTab('daily')">📅 일별 추이</button>
   </div>
 
   <!-- Filters -->
@@ -398,6 +399,9 @@
 
   <!-- Leads View (hidden by default) -->
   <div id="leads-view" style="display:none;"></div>
+
+  <!-- Daily View (hidden by default) -->
+  <div id="daily-view" style="display:none;"></div>
 
   <!-- Lead Modal -->
   <div class="modal-bg" id="lead-modal-bg" onclick="if(event.target===this)closeLeadModal()">
@@ -668,8 +672,8 @@ function switchMainTab(tab){
   currentMainTab = tab;
   const boardEls = ['board','summary'];
   const filterEl = document.querySelector('.filters');
-  const allTabs = ['tab-board','tab-report','tab-feel','tab-leads'];
-  const allViews = ['report-view','feel-view','leads-view'];
+  const allTabs = ['tab-board','tab-report','tab-feel','tab-leads','tab-daily'];
+  const allViews = ['report-view','feel-view','leads-view','daily-view'];
 
   // Hide all
   boardEls.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
@@ -698,6 +702,10 @@ function switchMainTab(tab){
     document.getElementById('leads-view').style.display='block';
     history.replaceState(null,null,'#leads');
     loadLeads();
+  } else if(tab==='daily'){
+    document.getElementById('daily-view').style.display='block';
+    history.replaceState(null,null,'#daily');
+    loadDailyMetrics();
   }
 }
 
@@ -1960,9 +1968,95 @@ function resetSttUpload(bookingId) {
   if(spinEl) spinEl.style.display = 'block';
 }
 
+// ===== Daily Metrics =====
+let dailyChartsLoaded = false;
+let dailyChartInstances = [];
+
+function loadDailyMetrics(){
+  if(dailyChartsLoaded) return;
+  fetch('daily_metrics.json').then(r=>r.json()).then(data=>{
+    renderDailyView(data.daily);
+    dailyChartsLoaded = true;
+  }).catch(()=>{
+    document.getElementById('daily-view').innerHTML='<p style="color:var(--t2);padding:40px;text-align:center;">일별 데이터를 불러올 수 없습니다.</p>';
+  });
+}
+
+function renderDailyView(daily){
+  const container = document.getElementById('daily-view');
+  const totalSessions = daily.reduce((s,d)=>s+d.sessions,0);
+  const totalUsers = daily.reduce((s,d)=>s+d.users,0);
+  const totalOrders = daily.reduce((s,d)=>s+d.orders,0);
+  const totalRevenue = daily.reduce((s,d)=>s+d.revenue,0);
+  const avgBounce = (daily.reduce((s,d)=>s+d.bounce_rate,0)/daily.length*100).toFixed(1);
+  const fmtNum = n=>n.toLocaleString('ko-KR');
+  const fmtWon = n=>'₩'+n.toLocaleString('ko-KR');
+
+  container.innerHTML = `
+    <div class="rpt-kpi" style="margin-bottom:20px;">
+      <div class="rpt-kpi-card"><div class="kv">${fmtNum(totalSessions)}</div><div class="kl">총 세션</div></div>
+      <div class="rpt-kpi-card"><div class="kv">${fmtNum(totalUsers)}</div><div class="kl">총 유저</div></div>
+      <div class="rpt-kpi-card"><div class="kv">${fmtNum(totalOrders)}</div><div class="kl">총 주문</div></div>
+      <div class="rpt-kpi-card"><div class="kv">${fmtWon(totalRevenue)}</div><div class="kl">총 매출</div></div>
+      <div class="rpt-kpi-card"><div class="kv">${avgBounce}%</div><div class="kl">평균 이탈률</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr;gap:16px;">
+      <div class="rpt-section"><h3>세션 & 유저</h3><canvas id="daily-chart-sessions"></canvas></div>
+      <div class="rpt-section"><h3>전환 (주문 & 본체판매)</h3><canvas id="daily-chart-conversion"></canvas></div>
+      <div class="rpt-section"><h3>일별 매출</h3><canvas id="daily-chart-revenue"></canvas></div>
+      <div class="rpt-section"><h3>이탈률 & 평균 세션시간</h3><canvas id="daily-chart-behavior"></canvas></div>
+    </div>
+  `;
+
+  const labels = daily.map(d=>d.date.slice(5));
+  const gridColor = 'rgba(255,255,255,0.06)';
+  const tickColor = getComputedStyle(document.documentElement).getPropertyValue('--t2').trim();
+  const baseOpts = {responsive:true,maintainAspectRatio:true,aspectRatio:2.5,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:tickColor,font:{size:11}}},tooltip:{mode:'index',intersect:false}}};
+  const scaleX = {ticks:{color:tickColor,font:{size:10},maxRotation:45},grid:{color:gridColor}};
+
+  // 1) Sessions & Users
+  dailyChartInstances.push(new Chart(document.getElementById('daily-chart-sessions'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'세션',data:daily.map(d=>d.sessions),borderColor:'#74b9ff',backgroundColor:'rgba(116,185,255,0.1)',fill:true,tension:0.3,pointRadius:2},
+      {label:'유저',data:daily.map(d=>d.users),borderColor:'#a29bfe',backgroundColor:'rgba(162,155,254,0.1)',fill:true,tension:0.3,pointRadius:2}
+    ]},
+    options:{...baseOpts,scales:{x:scaleX,y:{ticks:{color:tickColor},grid:{color:gridColor}}}}
+  }));
+
+  // 2) Conversion bar
+  dailyChartInstances.push(new Chart(document.getElementById('daily-chart-conversion'),{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'주문건수',data:daily.map(d=>d.orders),backgroundColor:'rgba(0,184,148,0.7)',borderRadius:3},
+      {label:'본체판매대수',data:daily.map(d=>d.body_units),backgroundColor:'rgba(253,203,110,0.7)',borderRadius:3}
+    ]},
+    options:{...baseOpts,scales:{x:scaleX,y:{ticks:{color:tickColor,stepSize:1},grid:{color:gridColor}}}}
+  }));
+
+  // 3) Revenue bar
+  dailyChartInstances.push(new Chart(document.getElementById('daily-chart-revenue'),{
+    type:'bar',
+    data:{labels,datasets:[
+      {label:'매출',data:daily.map(d=>d.revenue),backgroundColor:'rgba(108,92,231,0.7)',borderRadius:3}
+    ]},
+    options:{...baseOpts,scales:{x:scaleX,y:{ticks:{color:tickColor,callback:v=>'₩'+(v/10000).toLocaleString('ko-KR')+'만'},grid:{color:gridColor}}},plugins:{...baseOpts.plugins,tooltip:{callbacks:{label:ctx=>'매출: ₩'+ctx.raw.toLocaleString('ko-KR')}}}}
+  }));
+
+  // 4) Bounce rate + Avg session duration (dual Y)
+  dailyChartInstances.push(new Chart(document.getElementById('daily-chart-behavior'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'이탈률(%)',data:daily.map(d=>+(d.bounce_rate*100).toFixed(1)),borderColor:'#e17055',backgroundColor:'rgba(225,112,85,0.1)',fill:false,tension:0.3,pointRadius:2,yAxisID:'y'},
+      {label:'평균세션시간(초)',data:daily.map(d=>d.avg_session_duration),borderColor:'#00b894',backgroundColor:'rgba(0,184,148,0.1)',fill:false,tension:0.3,pointRadius:2,yAxisID:'y1'}
+    ]},
+    options:{...baseOpts,scales:{x:scaleX,y:{type:'linear',position:'left',ticks:{color:'#e17055',callback:v=>v+'%'},grid:{color:gridColor},title:{display:true,text:'이탈률(%)',color:'#e17055',font:{size:10}}},y1:{type:'linear',position:'right',ticks:{color:'#00b894',callback:v=>v+'초'},grid:{drawOnChartArea:false},title:{display:true,text:'세션시간(초)',color:'#00b894',font:{size:10}}}}}
+  }));
+}
+
 // Handle hash on load
 const initHash = window.location.hash.replace('#','');
-if(['report','feel','leads'].includes(initHash)) setTimeout(()=>switchMainTab(initHash),100);
+if(['report','feel','leads','daily'].includes(initHash)) setTimeout(()=>switchMainTab(initHash),100);
 // Auto-load leads badge on page load (Supabase)
 fetch(`${SB_URL}/rest/v1/business_leads?select=*&order=created_at.desc`,{
   headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
