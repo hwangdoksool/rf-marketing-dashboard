@@ -227,6 +227,29 @@
     .summary{font-size:0.75rem;gap:8px;}
   }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Gantt chart */
+  .gantt-wrap{background:var(--s);border:1px solid var(--b);border-radius:12px;overflow-x:auto;margin-top:16px;}
+  .gantt-header{display:flex;position:sticky;top:0;background:var(--s);z-index:2;border-bottom:1px solid var(--b);font-size:.65rem;color:var(--t2);}
+  .gantt-label{min-width:180px;max-width:180px;padding:6px 8px;font-weight:700;font-size:.75rem;border-right:1px solid var(--b);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0;}
+  .gantt-track{display:flex;flex:1;min-width:0;}
+  .gantt-cell{flex:1;min-width:28px;text-align:center;padding:4px 0;border-right:1px solid var(--b);font-size:.6rem;color:var(--t2);}
+  .gantt-cell:last-child{border-right:none;}
+  .gantt-row{display:flex;border-bottom:1px solid var(--b);cursor:pointer;transition:background .1s;}
+  .gantt-row:hover{background:var(--s2);}
+  .gantt-row .gantt-label{display:flex;align-items:center;}
+  .gantt-row .gantt-track{position:relative;}
+  .gantt-bar{position:absolute;top:25%;height:50%;border-radius:4px;opacity:.85;min-width:4px;}
+  .gantt-bar:hover{opacity:1;}
+  .gantt-tooltip{position:absolute;background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:8px 12px;font-size:.72rem;color:var(--t);z-index:10;pointer-events:none;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.3);}
+  .gantt-sub-rows{display:none;background:var(--s2);}
+  .gantt-sub-rows.open{display:block;}
+  .gantt-sub-rows .gantt-row{background:var(--s2);border-bottom:1px solid var(--b);}
+  .gantt-sub-rows .gantt-row:hover{background:var(--b);}
+  .gantt-sub-rows .gantt-label{font-size:.68rem;font-weight:400;padding-left:20px;color:var(--t2);}
+  .gantt-sparkline{display:inline-block;vertical-align:middle;margin-left:6px;}
+  .gantt-summary{padding:8px 12px;font-size:.72rem;color:var(--t2);border-top:1px solid var(--b);display:flex;gap:16px;flex-wrap:wrap;}
+  .gantt-summary span{color:var(--t);font-weight:600;}
 </style>
 </head>
 <body>
@@ -362,6 +385,7 @@
     <button class="main-tab" id="tab-report" onclick="switchMainTab('report')">📊 주간리포트</button>
     <button class="main-tab" id="tab-feel" onclick="switchMainTab('feel')">🏋️ 체험신청</button>
     <button class="main-tab" id="tab-leads" onclick="switchMainTab('leads')">🤝 B2B 리드 <span id="leads-badge" class="badge" style="display:none;margin-left:4px;">0</span></button>
+    <button class="main-tab" id="tab-daily" onclick="switchMainTab('daily')">📅 일별 추이</button>
   </div>
 
   <!-- Filters -->
@@ -398,6 +422,9 @@
 
   <!-- Leads View (hidden by default) -->
   <div id="leads-view" style="display:none;"></div>
+
+  <!-- Daily View -->
+  <div id="daily-view" style="display:none;"></div>
 
   <!-- Lead Modal -->
   <div class="modal-bg" id="lead-modal-bg" onclick="if(event.target===this)closeLeadModal()">
@@ -668,8 +695,8 @@ function switchMainTab(tab){
   currentMainTab = tab;
   const boardEls = ['board','summary'];
   const filterEl = document.querySelector('.filters');
-  const allTabs = ['tab-board','tab-report','tab-feel','tab-leads'];
-  const allViews = ['report-view','feel-view','leads-view'];
+  const allTabs = ['tab-board','tab-report','tab-feel','tab-leads','tab-daily'];
+  const allViews = ['report-view','feel-view','leads-view','daily-view'];
 
   // Hide all
   boardEls.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
@@ -698,6 +725,10 @@ function switchMainTab(tab){
     document.getElementById('leads-view').style.display='block';
     history.replaceState(null,null,'#leads');
     loadLeads();
+  } else if(tab==='daily'){
+    document.getElementById('daily-view').style.display='block';
+    history.replaceState(null,null,'#daily');
+    loadDailyMetrics();
   }
 }
 
@@ -1976,9 +2007,218 @@ function resetSttUpload(bookingId) {
   if(spinEl) spinEl.style.display = 'block';
 }
 
+// ===== DAILY VIEW =====
+let dailyChartsLoaded = false;
+function loadDailyMetrics(){
+  if(dailyChartsLoaded) return;
+  const dv = document.getElementById('daily-view');
+  dv.innerHTML='<div style="padding:40px;text-align:center;color:var(--t2);">로딩 중...</div>';
+  Promise.all([
+    fetch('daily_metrics.json').then(r=>r.json()),
+    fetch('campaigns_daily.json').then(r=>r.json())
+  ]).then(([dm, cd])=>{
+    dailyChartsLoaded = true;
+    renderDailyView(dm.daily);
+    const dailyDates = dm.daily.map(d=>d.date);
+    renderCampaignGantt(dailyDates, cd.campaigns);
+  }).catch(e=>{
+    dv.innerHTML='<div style="padding:40px;text-align:center;color:var(--r);">데이터 로드 실패</div>';
+  });
+}
+
+function renderDailyView(data){
+  const dv = document.getElementById('daily-view');
+  const totalSessions = data.reduce((s,d)=>s+d.sessions,0);
+  const totalUsers = data.reduce((s,d)=>s+d.users,0);
+  const totalOrders = data.reduce((s,d)=>s+d.orders,0);
+  const totalRevenue = data.reduce((s,d)=>s+d.revenue,0);
+  const avgBounce = (data.reduce((s,d)=>s+d.bounce_rate,0)/data.length*100).toFixed(1);
+
+  const fmt = n => n>=10000 ? (n/10000).toFixed(1)+'만' : n.toLocaleString();
+
+  dv.innerHTML = `
+    <div class="rpt" style="margin-top:8px;">
+      <h2 style="font-size:1rem;margin-bottom:12px;">📅 일별 추이 (${data[0].date} ~ ${data[data.length-1].date})</h2>
+      <div class="card-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;">
+        <div style="background:var(--s);border:1px solid var(--b);border-radius:10px;padding:12px;text-align:center;">
+          <div style="font-size:.7rem;color:var(--t2);">총 세션</div>
+          <div style="font-size:1.3rem;font-weight:700;color:var(--bl);">${totalSessions.toLocaleString()}</div>
+        </div>
+        <div style="background:var(--s);border:1px solid var(--b);border-radius:10px;padding:12px;text-align:center;">
+          <div style="font-size:.7rem;color:var(--t2);">총 유저</div>
+          <div style="font-size:1.3rem;font-weight:700;color:var(--ac2);">${totalUsers.toLocaleString()}</div>
+        </div>
+        <div style="background:var(--s);border:1px solid var(--b);border-radius:10px;padding:12px;text-align:center;">
+          <div style="font-size:.7rem;color:var(--t2);">총 주문</div>
+          <div style="font-size:1.3rem;font-weight:700;color:var(--g);">${totalOrders}</div>
+        </div>
+        <div style="background:var(--s);border:1px solid var(--b);border-radius:10px;padding:12px;text-align:center;">
+          <div style="font-size:.7rem;color:var(--t2);">총 매출</div>
+          <div style="font-size:1.3rem;font-weight:700;color:var(--y);">${fmt(totalRevenue)}원</div>
+        </div>
+        <div style="background:var(--s);border:1px solid var(--b);border-radius:10px;padding:12px;text-align:center;">
+          <div style="font-size:.7rem;color:var(--t2);">평균 이탈률</div>
+          <div style="font-size:1.3rem;font-weight:700;color:var(--r);">${avgBounce}%</div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div style="background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px;">
+          <h3 style="font-size:.82rem;margin-bottom:8px;">세션 & 유저</h3>
+          <canvas id="daily-chart-sessions"></canvas>
+        </div>
+        <div style="background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px;">
+          <h3 style="font-size:.82rem;margin-bottom:8px;">전환 (주문건수 + 본체판매)</h3>
+          <canvas id="daily-chart-conv"></canvas>
+        </div>
+        <div style="background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px;">
+          <h3 style="font-size:.82rem;margin-bottom:8px;">매출</h3>
+          <canvas id="daily-chart-revenue"></canvas>
+        </div>
+        <div style="background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px;">
+          <h3 style="font-size:.82rem;margin-bottom:8px;">이탈률 & 세션시간</h3>
+          <canvas id="daily-chart-bounce"></canvas>
+        </div>
+      </div>
+      <div id="gantt-container"></div>
+    </div>
+  `;
+
+  const labels = data.map(d=>d.date.slice(5));
+  const cOpt = {responsive:true,plugins:{legend:{labels:{color:'#8b90a0',font:{size:10}}}},scales:{x:{ticks:{color:'#8b90a0',font:{size:9}},grid:{color:'rgba(255,255,255,.05)'}},y:{ticks:{color:'#8b90a0',font:{size:9}},grid:{color:'rgba(255,255,255,.05)'}}}};
+
+  // 1. Sessions & Users
+  new Chart(document.getElementById('daily-chart-sessions'),{type:'line',data:{labels,datasets:[
+    {label:'세션',data:data.map(d=>d.sessions),borderColor:'#74b9ff',backgroundColor:'rgba(116,185,255,.1)',tension:.3,fill:true,pointRadius:1},
+    {label:'유저',data:data.map(d=>d.users),borderColor:'#a29bfe',backgroundColor:'rgba(162,155,254,.1)',tension:.3,fill:true,pointRadius:1}
+  ]},options:cOpt});
+
+  // 2. Conversion
+  new Chart(document.getElementById('daily-chart-conv'),{type:'bar',data:{labels,datasets:[
+    {label:'주문건수',data:data.map(d=>d.orders),backgroundColor:'rgba(0,184,148,.6)',borderRadius:3},
+    {label:'본체판매',data:data.map(d=>d.body_units),backgroundColor:'rgba(162,155,254,.6)',borderRadius:3}
+  ]},options:cOpt});
+
+  // 3. Revenue
+  new Chart(document.getElementById('daily-chart-revenue'),{type:'bar',data:{labels,datasets:[
+    {label:'매출(만원)',data:data.map(d=>Math.round(d.revenue/10000)),backgroundColor:'rgba(253,203,110,.6)',borderRadius:3}
+  ]},options:{...cOpt,plugins:{...cOpt.plugins,tooltip:{callbacks:{label:ctx=>ctx.parsed.y.toLocaleString()+'만원'}}}}});
+
+  // 4. Bounce & Duration (dual Y)
+  new Chart(document.getElementById('daily-chart-bounce'),{type:'line',data:{labels,datasets:[
+    {label:'이탈률(%)',data:data.map(d=>(d.bounce_rate*100).toFixed(1)),borderColor:'#e17055',tension:.3,pointRadius:1,yAxisID:'y'},
+    {label:'세션시간(초)',data:data.map(d=>d.avg_session_duration),borderColor:'#00b894',tension:.3,pointRadius:1,yAxisID:'y1'}
+  ]},options:{responsive:true,plugins:{legend:{labels:{color:'#8b90a0',font:{size:10}}}},scales:{
+    x:{ticks:{color:'#8b90a0',font:{size:9}},grid:{color:'rgba(255,255,255,.05)'}},
+    y:{type:'linear',position:'left',ticks:{color:'#e17055',font:{size:9}},grid:{color:'rgba(255,255,255,.05)'},title:{display:true,text:'이탈률(%)',color:'#e17055',font:{size:9}}},
+    y1:{type:'linear',position:'right',ticks:{color:'#00b894',font:{size:9}},grid:{drawOnChartArea:false},title:{display:true,text:'세션시간(초)',color:'#00b894',font:{size:9}}}
+  }}});
+}
+
+function renderCampaignGantt(dailyDates, campData){
+  const container = document.getElementById('gantt-container');
+  if(!container) return;
+
+  const colors = ['#6c5ce7','#74b9ff','#00b894','#fdcb6e','#e17055','#a29bfe','#55efc4','#fab1a0','#81ecec','#fd79a8'];
+
+  // Build date index
+  const allDates = [...dailyDates].sort();
+  const dateIdx = {};
+  allDates.forEach((d,i)=>dateIdx[d]=i);
+  const totalDays = allDates.length;
+
+  let html = `<h3 style="font-size:.95rem;margin:20px 0 10px;">캠페인 가동 현황</h3>`;
+  html += `<div class="gantt-wrap">`;
+  // Header
+  html += `<div class="gantt-header"><div class="gantt-label" style="font-size:.65rem;">캠페인</div><div class="gantt-track">`;
+  allDates.forEach(d=>{
+    const short = d.slice(5);
+    html += `<div class="gantt-cell">${short}</div>`;
+  });
+  html += `</div></div>`;
+
+  campData.forEach((camp, ci)=>{
+    const color = colors[ci % colors.length];
+    const campDates = Object.keys(camp.daily).sort();
+    if(!campDates.length) return;
+    const startIdx = dateIdx[campDates[0]] ?? 0;
+    const endIdx = dateIdx[campDates[campDates.length-1]] ?? totalDays-1;
+    const leftPct = (startIdx/totalDays*100).toFixed(2);
+    const widthPct = ((endIdx-startIdx+1)/totalDays*100).toFixed(2);
+
+    const totalSpend = Object.values(camp.daily).reduce((s,d)=>s+d.spend,0);
+    const totalClicks = Object.values(camp.daily).reduce((s,d)=>s+d.clicks,0);
+    const totalImpressions = Object.values(camp.daily).reduce((s,d)=>s+d.impressions,0);
+
+    const campId = 'gantt-camp-'+ci;
+    html += `<div class="gantt-row" onclick="document.getElementById('${campId}').classList.toggle('open')"
+      onmouseenter="this.querySelector('.gantt-tooltip').style.display='block'"
+      onmouseleave="this.querySelector('.gantt-tooltip').style.display='none'">`;
+    html += `<div class="gantt-label" title="${camp.name}">${camp.name}</div>`;
+    html += `<div class="gantt-track">`;
+    html += `<div class="gantt-bar" style="left:${leftPct}%;width:${widthPct}%;background:${color};"></div>`;
+    html += `<div class="gantt-tooltip" style="display:none;top:-60px;left:${leftPct}%;">
+      💰 ${Math.round(totalSpend).toLocaleString()}원<br>
+      👆 ${totalClicks.toLocaleString()} clicks<br>
+      👁 ${totalImpressions.toLocaleString()} imp
+    </div>`;
+    html += `</div></div>`;
+
+    // Sub-rows (ads)
+    const ads = camp.ads ? Object.values(camp.ads) : [];
+    if(ads.length){
+      html += `<div class="gantt-sub-rows" id="${campId}">`;
+      ads.forEach(ad=>{
+        const adDates = Object.keys(ad.daily||{}).sort();
+        if(!adDates.length) return;
+        const aStartIdx = dateIdx[adDates[0]] ?? 0;
+        const aEndIdx = dateIdx[adDates[adDates.length-1]] ?? totalDays-1;
+        const aLeft = (aStartIdx/totalDays*100).toFixed(2);
+        const aWidth = ((aEndIdx-aStartIdx+1)/totalDays*100).toFixed(2);
+
+        const adSpendArr = adDates.map(dt=>(ad.daily[dt]||{}).spend||0);
+        const adTotalSpend = adSpendArr.reduce((s,v)=>s+v,0);
+        const adTotalClicks = adDates.reduce((s,dt)=>s+((ad.daily[dt]||{}).clicks||0),0);
+        const adTotalImp = adDates.reduce((s,dt)=>s+((ad.daily[dt]||{}).impressions||0),0);
+        const adCTR = adTotalImp>0 ? (adTotalClicks/adTotalImp*100).toFixed(2) : '0';
+        const adCPC = adTotalClicks>0 ? Math.round(adTotalSpend/adTotalClicks) : 0;
+
+        // SVG sparkline
+        const maxSpend = Math.max(...adSpendArr,1);
+        const sparkW = 60, sparkH = 16;
+        const sparkPts = adSpendArr.map((v,i)=>{
+          const x = adSpendArr.length>1 ? (i/(adSpendArr.length-1))*sparkW : sparkW/2;
+          const y = sparkH - (v/maxSpend)*sparkH;
+          return `${x.toFixed(1)},${y.toFixed(1)}`;
+        }).join(' ');
+
+        html += `<div class="gantt-row">`;
+        html += `<div class="gantt-label" title="${ad.name}">
+          ${ad.name}
+          <svg class="gantt-sparkline" width="${sparkW}" height="${sparkH}" viewBox="0 0 ${sparkW} ${sparkH}">
+            <polyline fill="none" stroke="${color}" stroke-width="1.5" points="${sparkPts}"/>
+          </svg>
+        </div>`;
+        html += `<div class="gantt-track">`;
+        html += `<div class="gantt-bar" style="left:${aLeft}%;width:${aWidth}%;background:${color};opacity:.5;"></div>`;
+        html += `</div></div>`;
+        html += `<div class="gantt-summary">
+          💰 총 비용: <span>${Math.round(adTotalSpend).toLocaleString()}원</span>
+          👆 클릭: <span>${adTotalClicks.toLocaleString()}</span>
+          📊 CTR: <span>${adCTR}%</span>
+          💵 CPC: <span>${adCPC.toLocaleString()}원</span>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+  });
+
+  html += `</div>`;
+  container.innerHTML = html;
+}
+
 // Handle hash on load
 const initHash = window.location.hash.replace('#','');
-if(['report','feel','leads'].includes(initHash)) setTimeout(()=>switchMainTab(initHash),100);
+if(['report','feel','leads','daily'].includes(initHash)) setTimeout(()=>switchMainTab(initHash),100);
 // Auto-load leads badge on page load (Supabase)
 fetch(`${SB_URL}/rest/v1/business_leads?select=*&order=created_at.desc`,{
   headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
