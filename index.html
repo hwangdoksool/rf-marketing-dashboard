@@ -152,32 +152,6 @@
   .rpt-abstract{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:16px 18px;margin-bottom:16px;font-size:0.88rem;line-height:1.8;}
   .rpt-section{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:14px 16px;margin-bottom:12px;}
   .rpt-section h3{font-size:0.92rem;font-weight:700;margin-bottom:10px;color:var(--ac2);}
-
-  /* Gantt chart */
-  .gantt-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-  .gantt{min-width:700px;position:relative;}
-  .gantt-header{display:flex;border-bottom:1px solid var(--b);padding-left:160px;}
-  .gantt-header .gh-cell{flex:1;text-align:center;font-size:0.62rem;color:var(--t2);padding:4px 0;border-left:1px solid rgba(255,255,255,0.04);}
-  .gantt-row{display:flex;align-items:stretch;border-bottom:1px solid rgba(255,255,255,0.04);min-height:32px;cursor:pointer;transition:background .1s;}
-  .gantt-row:hover{background:var(--s2);}
-  .gantt-row.sub{cursor:default;min-height:28px;}
-  .gantt-row.sub:hover{background:rgba(255,255,255,0.02);}
-  .gantt-label{width:160px;min-width:160px;padding:6px 8px;font-size:0.75rem;color:var(--t);display:flex;align-items:center;gap:4px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
-  .gantt-label .arrow{font-size:0.6rem;color:var(--t2);transition:transform .15s;flex-shrink:0;}
-  .gantt-label .arrow.open{transform:rotate(90deg);}
-  .gantt-label.sub-label{padding-left:24px;font-size:0.7rem;color:var(--t2);}
-  .gantt-track{flex:1;display:flex;position:relative;}
-  .gantt-cell{flex:1;position:relative;border-left:1px solid rgba(255,255,255,0.04);}
-  .gantt-bar{position:absolute;top:6px;bottom:6px;border-radius:4px;background:var(--ac);opacity:0.85;z-index:1;min-width:3px;}
-  .gantt-bar.sub-bar{background:var(--bl);opacity:0.7;top:5px;bottom:5px;}
-  .gantt-bar:hover{opacity:1;}
-  .gantt-tooltip{position:fixed;background:var(--s);border:1px solid var(--b);border-radius:8px;padding:10px 14px;font-size:0.75rem;color:var(--t);z-index:999;pointer-events:none;box-shadow:0 4px 16px rgba(0,0,0,0.4);max-width:280px;line-height:1.6;display:none;}
-  .gantt-sub-rows{display:none;background:rgba(0,0,0,0.15);}
-  .gantt-sub-rows.open{display:block;}
-  .gantt-sparkline{display:inline-block;vertical-align:middle;margin-left:4px;}
-  .gantt-summary{display:flex;gap:12px;padding:4px 8px 4px 24px;font-size:0.68rem;color:var(--t2);flex-wrap:wrap;}
-  .gantt-summary span{white-space:nowrap;}
-
   .rpt-table{width:100%;border-collapse:collapse;font-size:0.8rem;}
   .rpt-table th{text-align:left;padding:6px 8px;color:var(--t2);font-size:0.7rem;border-bottom:1px solid var(--b);font-weight:600;}
   .rpt-table td{padding:6px 8px;border-bottom:1px solid rgba(255,255,255,0.04);}
@@ -388,7 +362,6 @@
     <button class="main-tab" id="tab-report" onclick="switchMainTab('report')">📊 주간리포트</button>
     <button class="main-tab" id="tab-feel" onclick="switchMainTab('feel')">🏋️ 체험신청</button>
     <button class="main-tab" id="tab-leads" onclick="switchMainTab('leads')">🤝 B2B 리드 <span id="leads-badge" class="badge" style="display:none;margin-left:4px;">0</span></button>
-    <button class="main-tab" id="tab-daily" onclick="switchMainTab('daily')">📅 일별 추이</button>
   </div>
 
   <!-- Filters -->
@@ -425,9 +398,6 @@
 
   <!-- Leads View (hidden by default) -->
   <div id="leads-view" style="display:none;"></div>
-
-  <!-- Daily View (hidden by default) -->
-  <div id="daily-view" style="display:none;"></div>
 
   <!-- Lead Modal -->
   <div class="modal-bg" id="lead-modal-bg" onclick="if(event.target===this)closeLeadModal()">
@@ -698,8 +668,8 @@ function switchMainTab(tab){
   currentMainTab = tab;
   const boardEls = ['board','summary'];
   const filterEl = document.querySelector('.filters');
-  const allTabs = ['tab-board','tab-report','tab-feel','tab-leads','tab-daily'];
-  const allViews = ['report-view','feel-view','leads-view','daily-view'];
+  const allTabs = ['tab-board','tab-report','tab-feel','tab-leads'];
+  const allViews = ['report-view','feel-view','leads-view'];
 
   // Hide all
   boardEls.forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
@@ -728,10 +698,6 @@ function switchMainTab(tab){
     document.getElementById('leads-view').style.display='block';
     history.replaceState(null,null,'#leads');
     loadLeads();
-  } else if(tab==='daily'){
-    document.getElementById('daily-view').style.display='block';
-    history.replaceState(null,null,'#daily');
-    loadDailyMetrics();
   }
 }
 
@@ -1684,7 +1650,8 @@ function openLeadModal(leadId){
   html += '<div class="field-label" style="margin-bottom:6px;">제안서 발송</div>';
   html += '<div style="display:flex;gap:6px;flex-wrap:wrap;">';
   html += `<button onclick="copyEmailDraft(${lead.id})" style="padding:6px 14px;border-radius:6px;background:var(--ac);color:#fff;border:none;cursor:pointer;font-size:0.78rem;font-weight:600;">📋 메일 초안 복사</button>`;
-  html += `<a href="https://roomfit-b2b-proposal.pages.dev/roomfit-b2b-proposal.pdf" target="_blank" style="padding:6px 14px;border-radius:6px;background:var(--s2);color:var(--t);border:1px solid var(--b);cursor:pointer;font-size:0.78rem;font-weight:600;text-decoration:none;display:inline-block;">📄 제안서 PDF</a>`;
+  html += `<button onclick="openGmailDraft(${lead.id})" style="padding:6px 14px;border-radius:6px;background:#EA4335;color:#fff;border:none;cursor:pointer;font-size:0.78rem;font-weight:600;">✉️ Gmail 초안 열기</button>`;
+  html += `<a href="https://drive.google.com/file/d/1I3pIpRv-IQr-YNZFXAqVCTG864PiViQl/view?usp=sharing" target="_blank" style="padding:6px 14px;border-radius:6px;background:var(--s2);color:var(--t);border:1px solid var(--b);cursor:pointer;font-size:0.78rem;font-weight:600;text-decoration:none;display:inline-block;">📄 제안서 PDF</a>`;
   html += '</div></div>';
 
   // Notes
@@ -1704,8 +1671,10 @@ function copyEmailDraft(leadId){
   if(!lead) return;
   const name = lead.full_name || '담당자';
   const company = lead.company_name || '센터';
+  const email = lead.email || '';
   const subject = `[룸핏] ${company} 센터 도입 안내 드립니다`;
-  const body = `제목: ${subject}\n\n───\n\n안녕하세요, ${name} 님.\n스마트 웨이트 머신 룸핏(Roomfit) 입니다.\n\n센터 도입에 관심 가져주셔서 감사합니다.\n\n룸핏은 실제 웨이트 운동 중 속도·파워·ROM을 실시간 측정하는 스마트 웨이트 머신입니다. 운동 데이터가 자동으로 쌓여 회원에게 PT 효과를 숫자로 보여줄 수 있습니다.\n\n📎 첨부된 PDF에서 상세 내용을 확인하실 수 있습니다.\n\n센터 도입 시 혜택:\n• B2B 전용 센터 앱 무료 제공\n• 대량 도입 할인 협의\n• A/S 우선 접수\n\n도입 규모에 맞춘 견적을 안내드리겠습니다.\n편하신 시간에 회신 주시거나 카카오톡(룸핏 검색)으로 연락 주시면 됩니다.`;
+  const pdfLink = 'https://drive.google.com/open?id=1I3pIpRv-IQr-YNZFXAqVCTG864PiViQl';
+  const body = `받는사람: ${email}\n제목: ${subject}\n\n───\n\n안녕하세요, ${name} 님.\n스마트 웨이트 머신 룸핏(Roomfit) 입니다.\n\n센터 도입에 관심 가져주셔서 감사합니다.\n\n룸핏은 실제 웨이트 운동 중 속도·파워·ROM을 실시간 측정하는 스마트 웨이트 머신입니다. 운동 데이터가 자동으로 쌓여 회원에게 PT 효과를 숫자로 보여줄 수 있습니다.\n\n📎 첨부된 PDF에서 상세 내용을 확인하실 수 있습니다.\n\n roomfit-business-proposal.pdf\n${pdfLink}\n\n센터 도입 시 혜택:\n• B2B 전용 센터 앱 무료 제공\n• 대량 도입 할인 협의\n• A/S 우선 접수\n\n도입 규모에 맞춘 견적을 안내드리겠습니다.\n편하신 시간에 회신 주시거나 카카오톡(룸핏 검색)으로 연락 주시면 됩니다.\n감사합니다!`;
   navigator.clipboard.writeText(body).then(()=>{
     const btn = event.target;
     const orig = btn.textContent;
@@ -1713,6 +1682,19 @@ function copyEmailDraft(leadId){
     btn.style.background = 'var(--g)';
     setTimeout(()=>{ btn.textContent = orig; btn.style.background = 'var(--ac)'; }, 1500);
   }).catch(()=>alert('클립보드 복사 실패'));
+}
+
+function openGmailDraft(leadId){
+  const lead = leadsData.find(l=>l.id===leadId);
+  if(!lead) return;
+  const name = lead.full_name || '담당자';
+  const company = lead.company_name || '센터';
+  const email = lead.email || '';
+  const subject = `[룸핏] ${company} 센터 도입 안내 드립니다`;
+  const pdfLink = 'https://drive.google.com/open?id=1I3pIpRv-IQr-YNZFXAqVCTG864PiViQl';
+  const body = `안녕하세요, ${name} 님.\n스마트 웨이트 머신 룸핏(Roomfit) 입니다.\n\n센터 도입에 관심 가져주셔서 감사합니다.\n\n룸핏은 실제 웨이트 운동 중 속도·파워·ROM을 실시간 측정하는 스마트 웨이트 머신입니다. 운동 데이터가 자동으로 쌓여 회원에게 PT 효과를 숫자로 보여줄 수 있습니다.\n\n📎 첨부된 PDF에서 상세 내용을 확인하실 수 있습니다.\n\n roomfit-business-proposal.pdf\n${pdfLink}\n\n센터 도입 시 혜택:\n• B2B 전용 센터 앱 무료 제공\n• 대량 도입 할인 협의\n• A/S 우선 접수\n\n도입 규모에 맞춘 견적을 안내드리겠습니다.\n편하신 시간에 회신 주시거나 카카오톡(룸핏 검색)으로 연락 주시면 됩니다.\n감사합니다!`;
+  const gmailUrl = `https://mail.google.com/mail/?authuser=admin@wespion.com#inbox?compose=new&to=${encodeURIComponent(email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.open(gmailUrl, '_blank');
 }
 
 async function updateLeadStatus(leadId, status){
@@ -1994,224 +1976,9 @@ function resetSttUpload(bookingId) {
   if(spinEl) spinEl.style.display = 'block';
 }
 
-// ===== Daily Metrics =====
-let dailyChartsLoaded = false;
-let dailyChartInstances = [];
-
-function loadDailyMetrics(){
-  if(dailyChartsLoaded) return;
-  Promise.all([
-    fetch('daily_metrics.json').then(r=>r.json()),
-    fetch('campaigns_daily.json').then(r=>r.json()).catch(()=>null)
-  ]).then(([data, campData])=>{
-    renderDailyView(data.daily);
-    if(campData && campData.campaigns) renderCampaignGantt(data.daily, campData);
-    dailyChartsLoaded = true;
-  }).catch(()=>{
-    document.getElementById('daily-view').innerHTML='<p style="color:var(--t2);padding:40px;text-align:center;">일별 데이터를 불러올 수 없습니다.</p>';
-  });
-}
-
-function renderDailyView(daily){
-  const container = document.getElementById('daily-view');
-  const totalSessions = daily.reduce((s,d)=>s+d.sessions,0);
-  const totalUsers = daily.reduce((s,d)=>s+d.users,0);
-  const totalOrders = daily.reduce((s,d)=>s+d.orders,0);
-  const totalRevenue = daily.reduce((s,d)=>s+d.revenue,0);
-  const avgBounce = (daily.reduce((s,d)=>s+d.bounce_rate,0)/daily.length*100).toFixed(1);
-  const fmtNum = n=>n.toLocaleString('ko-KR');
-  const fmtWon = n=>'₩'+n.toLocaleString('ko-KR');
-
-  container.innerHTML = `
-    <div class="rpt-kpi" style="margin-bottom:20px;">
-      <div class="rpt-kpi-card"><div class="kv">${fmtNum(totalSessions)}</div><div class="kl">총 세션</div></div>
-      <div class="rpt-kpi-card"><div class="kv">${fmtNum(totalUsers)}</div><div class="kl">총 유저</div></div>
-      <div class="rpt-kpi-card"><div class="kv">${fmtNum(totalOrders)}</div><div class="kl">총 주문</div></div>
-      <div class="rpt-kpi-card"><div class="kv">${fmtWon(totalRevenue)}</div><div class="kl">총 매출</div></div>
-      <div class="rpt-kpi-card"><div class="kv">${avgBounce}%</div><div class="kl">평균 이탈률</div></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr;gap:16px;">
-      <div class="rpt-section"><h3>세션 & 유저</h3><canvas id="daily-chart-sessions"></canvas></div>
-      <div class="rpt-section"><h3>전환 (주문 & 본체판매)</h3><canvas id="daily-chart-conversion"></canvas></div>
-      <div class="rpt-section"><h3>일별 매출</h3><canvas id="daily-chart-revenue"></canvas></div>
-      <div class="rpt-section"><h3>이탈률 & 평균 세션시간</h3><canvas id="daily-chart-behavior"></canvas></div>
-    </div>
-  `;
-
-  const labels = daily.map(d=>d.date.slice(5));
-  const gridColor = 'rgba(255,255,255,0.06)';
-  const tickColor = getComputedStyle(document.documentElement).getPropertyValue('--t2').trim();
-  const baseOpts = {responsive:true,maintainAspectRatio:true,aspectRatio:2.5,interaction:{mode:'index',intersect:false},plugins:{legend:{labels:{color:tickColor,font:{size:11}}},tooltip:{mode:'index',intersect:false}}};
-  const scaleX = {ticks:{color:tickColor,font:{size:10},maxRotation:45},grid:{color:gridColor}};
-
-  // 1) Sessions & Users
-  dailyChartInstances.push(new Chart(document.getElementById('daily-chart-sessions'),{
-    type:'line',
-    data:{labels,datasets:[
-      {label:'세션',data:daily.map(d=>d.sessions),borderColor:'#74b9ff',backgroundColor:'rgba(116,185,255,0.1)',fill:true,tension:0.3,pointRadius:2},
-      {label:'유저',data:daily.map(d=>d.users),borderColor:'#a29bfe',backgroundColor:'rgba(162,155,254,0.1)',fill:true,tension:0.3,pointRadius:2}
-    ]},
-    options:{...baseOpts,scales:{x:scaleX,y:{ticks:{color:tickColor},grid:{color:gridColor}}}}
-  }));
-
-  // 2) Conversion bar
-  dailyChartInstances.push(new Chart(document.getElementById('daily-chart-conversion'),{
-    type:'bar',
-    data:{labels,datasets:[
-      {label:'주문건수',data:daily.map(d=>d.orders),backgroundColor:'rgba(0,184,148,0.7)',borderRadius:3},
-      {label:'본체판매대수',data:daily.map(d=>d.body_units),backgroundColor:'rgba(253,203,110,0.7)',borderRadius:3}
-    ]},
-    options:{...baseOpts,scales:{x:scaleX,y:{ticks:{color:tickColor,stepSize:1},grid:{color:gridColor}}}}
-  }));
-
-  // 3) Revenue bar
-  dailyChartInstances.push(new Chart(document.getElementById('daily-chart-revenue'),{
-    type:'bar',
-    data:{labels,datasets:[
-      {label:'매출',data:daily.map(d=>d.revenue),backgroundColor:'rgba(108,92,231,0.7)',borderRadius:3}
-    ]},
-    options:{...baseOpts,scales:{x:scaleX,y:{ticks:{color:tickColor,callback:v=>'₩'+(v/10000).toLocaleString('ko-KR')+'만'},grid:{color:gridColor}}},plugins:{...baseOpts.plugins,tooltip:{callbacks:{label:ctx=>'매출: ₩'+ctx.raw.toLocaleString('ko-KR')}}}}
-  }));
-
-  // 4) Bounce rate + Avg session duration (dual Y)
-  dailyChartInstances.push(new Chart(document.getElementById('daily-chart-behavior'),{
-    type:'line',
-    data:{labels,datasets:[
-      {label:'이탈률(%)',data:daily.map(d=>+(d.bounce_rate*100).toFixed(1)),borderColor:'#e17055',backgroundColor:'rgba(225,112,85,0.1)',fill:false,tension:0.3,pointRadius:2,yAxisID:'y'},
-      {label:'평균세션시간(초)',data:daily.map(d=>d.avg_session_duration),borderColor:'#00b894',backgroundColor:'rgba(0,184,148,0.1)',fill:false,tension:0.3,pointRadius:2,yAxisID:'y1'}
-    ]},
-    options:{...baseOpts,scales:{x:scaleX,y:{type:'linear',position:'left',ticks:{color:'#e17055',callback:v=>v+'%'},grid:{color:gridColor},title:{display:true,text:'이탈률(%)',color:'#e17055',font:{size:10}}},y1:{type:'linear',position:'right',ticks:{color:'#00b894',callback:v=>v+'초'},grid:{drawOnChartArea:false},title:{display:true,text:'세션시간(초)',color:'#00b894',font:{size:10}}}}}
-  }));
-}
-
-// ===== Campaign Gantt Chart =====
-function renderCampaignGantt(daily, campData){
-  const container = document.getElementById('daily-view');
-  const dates = daily.map(d=>d.date);
-  const dateSet = new Set(dates);
-  const campaigns = campData.campaigns;
-  const fmtNum = n=>n.toLocaleString('ko-KR');
-  const fmtWon = n=>'₩'+n.toLocaleString('ko-KR');
-  const truncate = (s,n=20)=>s.length>n?s.slice(0,n)+'…':s;
-
-  // Build date index
-  const dateIdx = {};
-  dates.forEach((d,i)=>dateIdx[d]=i);
-  const totalDays = dates.length;
-
-  // Header cells
-  const headerCells = dates.map(d=>{
-    const dt = d.slice(5); // MM-DD
-    return `<div class="gh-cell">${dt}</div>`;
-  }).join('');
-
-  // Build campaign rows
-  let rowsHtml = '';
-  const colors = ['#6c5ce7','#00b894','#e17055','#fdcb6e','#74b9ff','#a29bfe'];
-
-  campaigns.forEach((camp, ci)=>{
-    const cColor = colors[ci % colors.length];
-    // Aggregate totals
-    let totalSpend=0, totalClicks=0, totalImpressions=0;
-    Object.values(camp.daily).forEach(d=>{totalSpend+=d.spend;totalClicks+=d.clicks;totalImpressions+=d.impressions;});
-    const campDates = Object.keys(camp.daily).filter(d=>dateSet.has(d)).sort();
-    const startIdx = campDates.length?dateIdx[campDates[0]]:0;
-    const endIdx = campDates.length?dateIdx[campDates[campDates.length-1]]:0;
-    const barLeft = (startIdx/totalDays*100).toFixed(2);
-    const barWidth = ((endIdx-startIdx+1)/totalDays*100).toFixed(2);
-
-    const campId = 'gantt-camp-'+ci;
-    rowsHtml += `<div class="gantt-row" data-camp="${campId}" data-tooltip="${truncate(camp.name,30)}\nSpend: ${fmtWon(Math.round(totalSpend))}\nClicks: ${fmtNum(totalClicks)}\nImpressions: ${fmtNum(totalImpressions)}">
-      <div class="gantt-label"><span class="arrow" id="arrow-${campId}">▶</span>${truncate(camp.name)}</div>
-      <div class="gantt-track">${dates.map(()=>'<div class="gantt-cell"></div>').join('')}
-        <div class="gantt-bar" style="left:${barLeft}%;width:${barWidth}%;background:${cColor};"></div>
-      </div>
-    </div>`;
-
-    // Sub rows (ads)
-    const ads = Object.values(camp.ads||{});
-    rowsHtml += `<div class="gantt-sub-rows" id="${campId}">`;
-    ads.forEach(ad=>{
-      let aSpend=0,aClicks=0,aImpressions=0;
-      const adDaily = Object.entries(ad.daily).filter(([d])=>dateSet.has(d)).sort((a,b)=>a[0].localeCompare(b[0]));
-      adDaily.forEach(([,v])=>{aSpend+=v.spend;aClicks+=v.clicks;aImpressions+=v.impressions;});
-      const adDates = adDaily.map(([d])=>d);
-      const aStartIdx = adDates.length?dateIdx[adDates[0]]:0;
-      const aEndIdx = adDates.length?dateIdx[adDates[adDates.length-1]]:0;
-      const aBarLeft = (aStartIdx/totalDays*100).toFixed(2);
-      const aBarWidth = ((aEndIdx-aStartIdx+1)/totalDays*100).toFixed(2);
-      const ctr = aImpressions>0?(aClicks/aImpressions*100).toFixed(1):'0.0';
-      const cpc = aClicks>0?Math.round(aSpend/aClicks):0;
-
-      // Sparkline SVG for daily spend
-      const sparkVals = adDaily.map(([,v])=>v.spend);
-      let sparkSvg = '';
-      if(sparkVals.length>1){
-        const mx = Math.max(...sparkVals)||1;
-        const pts = sparkVals.map((v,i)=>`${i/(sparkVals.length-1)*50},${18-v/mx*14}`).join(' ');
-        sparkSvg = `<svg class="gantt-sparkline" width="52" height="20" viewBox="0 0 50 20"><polyline points="${pts}" fill="none" stroke="${cColor}" stroke-width="1.2" opacity="0.7"/></svg>`;
-      }
-
-      rowsHtml += `<div class="gantt-row sub" data-tooltip="${truncate(ad.name,30)}\nSpend: ${fmtWon(Math.round(aSpend))}\nClicks: ${fmtNum(aClicks)} | CTR: ${ctr}%\nCPC: ${fmtWon(cpc)}">
-        <div class="gantt-label sub-label">${truncate(ad.name,18)}${sparkSvg}</div>
-        <div class="gantt-track">${dates.map(()=>'<div class="gantt-cell"></div>').join('')}
-          <div class="gantt-bar sub-bar" style="left:${aBarLeft}%;width:${aBarWidth}%;"></div>
-        </div>
-      </div>`;
-      rowsHtml += `<div class="gantt-summary"><span>Spend: ${fmtWon(Math.round(aSpend))}</span><span>Clicks: ${fmtNum(aClicks)}</span><span>CTR: ${ctr}%</span><span>CPC: ${fmtWon(cpc)}</span></div>`;
-    });
-    rowsHtml += '</div>';
-  });
-
-  const section = document.createElement('div');
-  section.className = 'rpt-section';
-  section.style.marginTop = '16px';
-  section.innerHTML = `<h3>캠페인 간트차트 (Meta Ads)</h3>
-    <div class="gantt-wrap"><div class="gantt">
-      <div class="gantt-header">${headerCells}</div>
-      ${rowsHtml}
-    </div></div>`;
-  container.appendChild(section);
-
-  // Tooltip
-  const tooltip = document.createElement('div');
-  tooltip.className = 'gantt-tooltip';
-  document.body.appendChild(tooltip);
-
-  section.addEventListener('mousemove', e=>{
-    const row = e.target.closest('.gantt-row[data-tooltip]');
-    if(row){
-      tooltip.textContent = '';
-      row.dataset.tooltip.split('\n').forEach((line,i)=>{
-        if(i>0) tooltip.appendChild(document.createElement('br'));
-        tooltip.appendChild(document.createTextNode(line));
-      });
-      tooltip.style.display = 'block';
-      tooltip.style.left = Math.min(e.clientX+12, window.innerWidth-290)+'px';
-      tooltip.style.top = (e.clientY+12)+'px';
-    } else {
-      tooltip.style.display = 'none';
-    }
-  });
-  section.addEventListener('mouseleave', ()=>{tooltip.style.display='none';});
-
-  // Accordion click
-  section.querySelectorAll('.gantt-row[data-camp]').forEach(row=>{
-    row.addEventListener('click', ()=>{
-      const id = row.dataset.camp;
-      const sub = document.getElementById(id);
-      const arrow = document.getElementById('arrow-'+id);
-      if(sub){
-        sub.classList.toggle('open');
-        arrow.classList.toggle('open');
-      }
-    });
-  });
-}
-
 // Handle hash on load
 const initHash = window.location.hash.replace('#','');
-if(['report','feel','leads','daily'].includes(initHash)) setTimeout(()=>switchMainTab(initHash),100);
+if(['report','feel','leads'].includes(initHash)) setTimeout(()=>switchMainTab(initHash),100);
 // Auto-load leads badge on page load (Supabase)
 fetch(`${SB_URL}/rest/v1/business_leads?select=*&order=created_at.desc`,{
   headers:{'apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`}
