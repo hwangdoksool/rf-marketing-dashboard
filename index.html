@@ -1374,15 +1374,6 @@ function openBookingModal(bookingId){
     oninput="autoSaveBooking(${b.id})">${esc(b.interview_notes||'')}</textarea>`;
   html += '</div>';
 
-  // ── Follow-up ──
-  html += '<div style="padding:10px 0;border-top:1px solid var(--b);">';
-  html += '<div class="field-label" style="margin-bottom:6px;">후속 조치</div>';
-  html += `<label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;cursor:pointer;margin-bottom:4px;">
-    <input type="checkbox" ${b.review_requested?'checked':''} onchange="updateBookingField(${b.id},'review_requested',this.checked)"> 후기 작성 요청됨</label>`;
-  html += `<label style="display:flex;align-items:center;gap:6px;font-size:0.78rem;cursor:pointer;">
-    <input type="checkbox" ${b.coupon_sent?'checked':''} onchange="updateBookingField(${b.id},'coupon_sent',this.checked)"> 쿠폰 발송됨</label>`;
-  if(b.review_url) html += `<div style="margin-top:4px;"><a href="${esc(b.review_url)}" target="_blank" style="color:var(--bl);font-size:0.78rem;">후기 링크 →</a></div>`;
-  html += '</div>';
 
   // ── Audio STT Upload ──
   html += '<div style="padding:10px 0;border-top:1px solid var(--b);">';
